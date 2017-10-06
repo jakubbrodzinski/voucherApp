@@ -5,13 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <java.version>1.8.0</java.version>
-        <thymeleaf.version>3.0.7.RC1</thymeleaf.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <thymeleaf.spring.version>3.0.7.RC1</thymeleaf.spring.version>
+        <thymeleaf.version>3.0.7.RELEASE</thymeleaf.version>
         <hibernate.validation.version>6.0.2.Final</hibernate.validation.version>
         <hibernate.version>5.2.11.Final</hibernate.version>
         <hibernate.validation.annonations.version>3.5.6-Final</hibernate.validation.annonations.version>
         <bean.validation.api.version>2.0.0.Final</bean.validation.api.version>
         <mysql.connector.java.version>6.0.6</mysql.connector.java.version>
+        <spring.orm.version>5.0.0.RELEASE</spring.orm.version>
     </properties>
 
     <groupId>pwr.groupproject.vouchers</groupId>
@@ -33,7 +36,7 @@
         <dependency>
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring5</artifactId>
-            <version>${thymeleaf.version}</version>
+            <version>${thymeleaf.spring.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
         <dependency>
@@ -65,9 +68,17 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.connector.java.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf -->
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>${thymeleaf.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.orm.version}</version>
+        </dependency>
     </dependencies>
-
-
-
-
 </project>

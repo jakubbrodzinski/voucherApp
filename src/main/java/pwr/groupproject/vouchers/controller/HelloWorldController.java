@@ -1,6 +1,7 @@
 package pwr.groupproject.vouchers.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -10,5 +11,10 @@ public class HelloWorldController {
     @ResponseBody
     public String helloWolrd(){
         return "Hello world!!!";
+    }
+
+    @RequestMapping("thyme")
+    public String helloWorld2(){
+        return "test.html";
     }
 }

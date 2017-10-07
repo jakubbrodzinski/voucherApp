@@ -5,10 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-//@EnableAutoConfiguration
 @SpringBootApplication
 @Configuration
-@ComponentScan(basePackages = {"pwr.groupproject.vouchers.controller"})
+@ComponentScan(basePackages = {"pwr.groupproject.vouchers.controller","pwr.groupproject.vouchers.configuration"})
 public class SpringBootConfiguration {
 
     public static void main(String[] args){

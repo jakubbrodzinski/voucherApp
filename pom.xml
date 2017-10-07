@@ -11,10 +11,10 @@
         <thymeleaf.version>3.0.7.RELEASE</thymeleaf.version>
         <hibernate.validation.version>6.0.2.Final</hibernate.validation.version>
         <hibernate.version>5.2.11.Final</hibernate.version>
-        <hibernate.validation.annonations.version>3.5.6-Final</hibernate.validation.annonations.version>
+        <hibernate.commons.version>5.0.1.Final</hibernate.commons.version>
         <bean.validation.api.version>2.0.0.Final</bean.validation.api.version>
         <mysql.connector.java.version>6.0.6</mysql.connector.java.version>
-        <spring.orm.version>5.0.0.RELEASE</spring.orm.version>
+        <spring.version>5.0.0.RELEASE</spring.version>
     </properties>
 
     <groupId>pwr.groupproject.vouchers</groupId>
@@ -31,6 +31,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5 -->
         <dependency>
@@ -49,12 +53,6 @@
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>${bean.validation.api.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-annotations -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-annotations</artifactId>
-            <version>${hibernate.validation.annonations.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>
@@ -78,7 +76,27 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <version>${spring.orm.version}</version>
+            <version>${spring.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.hibernate.common/hibernate-commons-annotations -->
+        <dependency>
+            <groupId>org.hibernate.common</groupId>
+            <artifactId>hibernate-commons-annotations</artifactId>
+            <version>${hibernate.commons.version}</version>
+        </dependency>
+
+
     </dependencies>
 </project>

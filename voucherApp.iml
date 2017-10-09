@@ -8,8 +8,9 @@
       <configuration>
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
-        <datasource-mapping />
-        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/java/META-INF/persistence.xml" />
+        <datasource-mapping>
+          <factory-entry name="entityManagerFactory" value="d8bca552-ab9b-488e-a531-0c2698631453" />
+        </datasource-mapping>
       </configuration>
     </facet>
     <facet type="web" name="Web">

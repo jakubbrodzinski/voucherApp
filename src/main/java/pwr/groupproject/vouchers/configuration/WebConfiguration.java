@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.Nullable;
 import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -19,23 +20,16 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
-import javax.validation.ValidatorFactory;
 
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAware{
 
     private static final String UTF8 = "UTF-8";
-    private ApplicationContext applicationContext;
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/favicon.ico").addResourceLocations("/").setCachePeriod(86400);
-        registry.addResourceHandler("/css/**").addResourceLocations("/css/").setCachePeriod(86400);
-        registry.addResourceHandler("/images/**").addResourceLocations("/images/").setCachePeriod(86400);
-        registry.addResourceHandler("/js/**").addResourceLocations("/js/").setCachePeriod(86400);
-        registry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/").setCachePeriod(86400);
-        registry.addResourceHandler("/pdf/**").addResourceLocations("/pdf/").setCachePeriod(86400);
-    }
+    @Autowired
+    private LocalValidatorFactoryBean localValidatorFactoryBean;
+
+    private ApplicationContext applicationContext;
 
     @Bean
     public ViewResolver ViewResolver() {
@@ -59,11 +53,22 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         resolver.setPrefix("/WEB-INF/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode(TemplateMode.HTML);
-        resolver.setCharacterEncoding("UTF-8");
+        resolver.setCharacterEncoding(UTF8);
         resolver.setCacheable(false);
         return resolver;
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/favicon.ico").addResourceLocations("/").setCachePeriod(86400);
+        registry.addResourceHandler("/css/**").addResourceLocations("/css/").setCachePeriod(86400);
+        registry.addResourceHandler("/images/**").addResourceLocations("/images/").setCachePeriod(86400);
+        registry.addResourceHandler("/js/**").addResourceLocations("/js/").setCachePeriod(86400);
+        registry.addResourceHandler("/fonts/**").addResourceLocations("/fonts/").setCachePeriod(86400);
+        registry.addResourceHandler("/pdf/**").addResourceLocations("/pdf/").setCachePeriod(86400);
+    }
+
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext=applicationContext;
     }
@@ -71,7 +76,7 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     @Nullable
     @Override
     public Validator getValidator() {
-        return null;
+        return localValidatorFactoryBean;
     }
 
     @Override
@@ -84,4 +89,5 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
     }
+
 }

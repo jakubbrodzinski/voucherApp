@@ -28,7 +28,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableCaching
 public class HibernateConfiguration {
-    @Autowired
+     @Autowired
     private Environment environment;
 
     @Bean
@@ -52,7 +52,6 @@ public class HibernateConfiguration {
         dataSource.setUrl(environment.getProperty("jdbc.url"));
         dataSource.setUsername(environment.getProperty("jdbc.user"));
         dataSource.setPassword(environment.getProperty("jdbc.password"));
-
         return dataSource;
     }
 

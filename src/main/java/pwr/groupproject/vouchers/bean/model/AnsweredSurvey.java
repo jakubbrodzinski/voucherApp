@@ -12,6 +12,7 @@ public class AnsweredSurvey {
     @GeneratedValue
     private int Id;
     @ManyToOne
+    @JoinColumn(name="surveyId")
     private Survey survey;
     @Embedded
     private User user;

@@ -1,5 +1,11 @@
 package pwr.groupproject.vouchers.bean.model;
 
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +26,7 @@ public class Company {
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "company")
     private Collection<Survey> companysSurveys = new ArrayList<>();
     @OneToMany(cascade = {CascadeType.ALL},mappedBy = "company")
+
     private Set<Voucher> voucherSet = new HashSet<>();
 
     public int getId() {
@@ -53,5 +60,4 @@ public class Company {
     public void setCompanysSurveys(Collection<Survey> companysSurveys) {
         this.companysSurveys = companysSurveys;
     }
-
 }

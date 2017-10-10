@@ -6,13 +6,12 @@ import pwr.groupproject.vouchers.bean.model.Voucher;
 import java.util.Collection;
 
 public interface VoucherDao {
-    Collection<Voucher> getAllActiveVouchers();
-    Collection<Voucher> getAllActiveVouchersByCompany(Company company);
+    Collection<Voucher> getAllVouchers();
+    Collection<Voucher> getAllVouchersByCompany(Company company);
 
     Voucher getVoucherById(int Id);
 
     void addVoucher(Voucher voucher);
-    void deployVoucher(Voucher voucher);
     void updateVoucher(Voucher voucher);
     void deleteVoucher(Voucher voucher);
 }

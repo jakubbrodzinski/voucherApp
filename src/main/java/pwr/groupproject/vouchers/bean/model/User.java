@@ -1,13 +1,16 @@
 package pwr.groupproject.vouchers.bean.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class User {
-
+    @Column(length = 50)
     private String firstName;
+    @Column(length = 50)
     private String lastName;
     private int age;
+    @Column(length = 50)
     private String eMail;
 
     public String getFirstName() {

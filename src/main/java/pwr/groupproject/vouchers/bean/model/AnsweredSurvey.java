@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
+@Table(name = "ANSWEREDSURVEYS")
 public class AnsweredSurvey {
     @javax.persistence.Id
     @GeneratedValue
@@ -14,7 +15,7 @@ public class AnsweredSurvey {
     private Survey survey;
     @Embedded
     private User user;
-    @OneToMany(mappedBy = "question" )
+    @OneToMany(mappedBy = "answeredSurvey",cascade = CascadeType.ALL)
     private Collection<Answer> answersList=new ArrayList<>();
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;

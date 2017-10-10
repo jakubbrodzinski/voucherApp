@@ -3,13 +3,16 @@ package pwr.groupproject.vouchers.bean.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "ANSWERS")
 public class Answer {
     @Id
     @GeneratedValue
     private int Id;
-    @OneToOne
-    private AnsweredSurvey answeredSurvey;
     @ManyToOne
+    @JoinColumn(name="answeredSurveyId")
+    private AnsweredSurvey answeredSurvey;
+    @OneToOne
+    @JoinColumn(name="questionId")
     private Question question;
 
     private String answer;

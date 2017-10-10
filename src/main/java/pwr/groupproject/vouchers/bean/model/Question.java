@@ -5,17 +5,26 @@ import pwr.groupproject.vouchers.bean.enums.QuestionType;
 import javax.persistence.*;
 
 @Entity
+@SecondaryTable(name = "QUESTION_POSSIBLEANSWER", pkJoinColumns = @PrimaryKeyJoinColumn(name = "QuestionId"))
+@Table(name = "QUESTIONS")
 public class Question {
     @Id
     @GeneratedValue
     private int Id;
+    @Column(length = 400)
     private String questionBody;
     @Enumerated(value = EnumType.ORDINAL)
     private QuestionType questionType;
     @ManyToOne
+    @JoinColumn(name = "surveyId")
     private Survey survey;
     @Embedded
-    //!!!!!
+    @AttributeOverrides({
+            @AttributeOverride(name = "possibleAnswerA", column = @Column(table = "QUESTION_POSSIBLEANSWER")),
+            @AttributeOverride(name = "possibleAnswerB", column = @Column(table = "QUESTION_POSSIBLEANSWER")),
+            @AttributeOverride(name = "possibleAnswerC", column = @Column(table = "QUESTION_POSSIBLEANSWER")),
+            @AttributeOverride(name = "possibleAnswerD", column = @Column(table = "QUESTION_POSSIBLEANSWER"))
+    })
     private PossibleAnswers possibleAnswers;
 
     public int getId() {

@@ -1,11 +1,16 @@
 package pwr.groupproject.vouchers.bean.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Table;
 
 @Embeddable
 public class Address {
+    @Column(length = 10)
     private String postalCode;
+    @Column(length = 30)
     private String city;
+    @Column(length = 80)
     private String addressDetails;
 
     public String getPostalCode() {

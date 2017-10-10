@@ -3,17 +3,23 @@ package pwr.groupproject.vouchers.bean.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 @Entity
+@Table(name="SURVEY")
 public class Survey {
     @javax.persistence.Id
     @GeneratedValue
     private int Id;
+    @Column(length = 50)
     private String surveyName;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "survey")
     private Collection<Question> questions=new ArrayList<>();
     @ManyToOne
+    @JoinColumn(name = "companyId")
     private Company company;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
 
     public int getId() {
         return Id;

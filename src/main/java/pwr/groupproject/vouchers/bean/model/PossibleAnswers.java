@@ -5,9 +5,9 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class PossibleAnswers {
     private String possibleAnswerA;
-    private String getPossibleAnswerB;
-    private String getPossibleAnswerC;
-    private String getPossibleAnswerD;
+    private String possibleAnswerB;
+    private String possibleAnswerC;
+    private String possibleAnswerD;
 
     public String getPossibleAnswerA() {
         return possibleAnswerA;
@@ -17,27 +17,27 @@ public class PossibleAnswers {
         this.possibleAnswerA = possibleAnswerA;
     }
 
-    public String getGetPossibleAnswerB() {
-        return getPossibleAnswerB;
+    public String getPossibleAnswerB() {
+        return possibleAnswerB;
     }
 
-    public void setGetPossibleAnswerB(String getPossibleAnswerB) {
-        this.getPossibleAnswerB = getPossibleAnswerB;
+    public void setPossibleAnswerB(String possibleAnswerB) {
+        this.possibleAnswerB = possibleAnswerB;
     }
 
-    public String getGetPossibleAnswerC() {
-        return getPossibleAnswerC;
+    public String getPossibleAnswerC() {
+        return possibleAnswerC;
     }
 
-    public void setGetPossibleAnswerC(String getPossibleAnswerC) {
-        this.getPossibleAnswerC = getPossibleAnswerC;
+    public void setPossibleAnswerC(String possibleAnswerC) {
+        this.possibleAnswerC = possibleAnswerC;
     }
 
-    public String getGetPossibleAnswerD() {
-        return getPossibleAnswerD;
+    public String getPossibleAnswerD() {
+        return possibleAnswerD;
     }
 
-    public void setGetPossibleAnswerD(String getPossibleAnswerD) {
-        this.getPossibleAnswerD = getPossibleAnswerD;
+    public void setPossibleAnswerD(String possibleAnswerD) {
+        this.possibleAnswerD = possibleAnswerD;
     }
 }

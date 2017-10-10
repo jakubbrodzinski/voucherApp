@@ -1,10 +1,9 @@
 package pwr.groupproject.vouchers.bean.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 @Entity
+@Table(name = "VOUCHER")
 public class Voucher {
     @Id
     @GeneratedValue
@@ -12,6 +11,9 @@ public class Voucher {
     private Date startDate;
     private Date endDate;
     private String code;
+    @ManyToOne
+    @JoinColumn(name="companyId")
+    private Company company;
 
     public int getId() {
         return Id;

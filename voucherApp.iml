@@ -9,7 +9,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="entityManagerFactory" value="d8bca552-ab9b-488e-a531-0c2698631453" />
+          <factory-entry name="Entities" />
         </datasource-mapping>
       </configuration>
     </facet>

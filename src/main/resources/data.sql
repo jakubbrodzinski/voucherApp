@@ -27,7 +27,7 @@ INSERT INTO QUESTION_POSSIBLEANSWER(possibleAnswerA, possibleAnswerB, possibleAn
     ("A", "B", "C", "D", 9), ("A", "B", "C", "D", 10), ("A", "B", "C", "D", 11), ("A", "B", "C", "D", 12),
     ("A", "B", "C", "D", 13), ("A", "B", "C", "D", 14), ("A", "B", "C", "D", 15), ("A", "B", "C", "D", 16);
 
-INSERT INTO ANSWEREDSURVEYS(Id, date, age, eMail, firstName, lastName, survey_Id)
+INSERT INTO ANSWEREDSURVEYS(Id, date, age, eMail, firstName, lastName, surveyId)
     VALUES
       (1, curdate(), 1, "mail1", "firstName1", "lastName1", 1),
       (2, curdate(), 1, "mail1", "firstName1", "lastName1", 2),

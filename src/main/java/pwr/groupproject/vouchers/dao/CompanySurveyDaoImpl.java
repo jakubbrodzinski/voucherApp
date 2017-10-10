@@ -1,18 +1,21 @@
 package pwr.groupproject.vouchers.dao;
 
 import org.hibernate.Hibernate;
-import org.hibernate.query.Query;
+import org.springframework.stereotype.Component;
 import pwr.groupproject.vouchers.bean.model.AnsweredSurvey;
 import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.Survey;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.Collection;
 
+@Component
 public class CompanySurveyDaoImpl implements CompanySurveyDao {
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     public Company getCompanyById(int id) {
@@ -51,20 +54,20 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
         Hibernate.initialize(answeredSurvey.getSurvey().getQuestions());
         return answeredSurvey;
     }
-    //TO-DO
+
     @Override
     public Collection<AnsweredSurvey> getCompanysAllAnsweredSurveys(int companyId) {
-        return entityManager.createQuery("FROM ANSWEREDSURVEYS a JOIN SURVEY s ON a.surveyId=s.Id WHERE s.companyId='"+companyId+"'",AnsweredSurvey.class).getResultList();
+        return entityManager.createQuery("SELECT ans FROM "+AnsweredSurvey.class.getName()+" ans JOIN "+Survey.class.getName()+" s ON ans.survey=s.Id WHERE s.company='"+companyId+"'",AnsweredSurvey.class).getResultList();
     }
 
     @Override
     public Collection<AnsweredSurvey> getAllResultsOfSurvey(int surveyId) {
-        return entityManager.createQuery("FROM ANSWEREDSURVEYS WHERE surveyId='"+surveyId+"'",AnsweredSurvey.class).getResultList();
+        return entityManager.createQuery("FROM "+AnsweredSurvey.class.getName() + " WHERE survey='"+surveyId+"'",AnsweredSurvey.class).getResultList();
     }
 
     @Override
     public Collection<Survey> getCompanysAllSurveys(int companyId) {
-        return entityManager.createQuery("FROM SURVEY WHERE companyId='"+companyId+"'",Survey.class).getResultList();
+        return entityManager.createQuery("FROM "+Survey.class.getName()+" WHERE company='"+companyId+"'",Survey.class).getResultList();
     }
 
     @Override

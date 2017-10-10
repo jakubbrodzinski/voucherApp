@@ -26,7 +26,6 @@ import java.util.Properties;
 @EnableAspectJAutoProxy
 @PropertySource(value = "classpath:database/jdbc.properties")
 @EnableTransactionManagement
-@EnableCaching
 public class HibernateConfiguration {
     @Autowired
     private Environment environment;

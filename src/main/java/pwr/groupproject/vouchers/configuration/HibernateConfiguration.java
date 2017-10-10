@@ -28,7 +28,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableCaching
 public class HibernateConfiguration {
-     @Autowired
+    @Autowired
     private Environment environment;
 
     @Bean

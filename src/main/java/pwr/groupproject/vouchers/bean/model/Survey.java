@@ -52,4 +52,12 @@ public class Survey {
     public void setCompany(Company company) {
         this.company = company;
     }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 }

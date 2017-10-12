@@ -1,10 +1,3 @@
-#database utilities
-#drop database test;
-#create database test;
-
-
-use test;
-
 INSERT INTO COMPANY(companyId, addressDetails, city, postalCode, companyName)
 	VALUES
     (1, "addressA", "cityA", 11111, "companyA"), (2, "addressB", "cityB", 22222, "companyB");

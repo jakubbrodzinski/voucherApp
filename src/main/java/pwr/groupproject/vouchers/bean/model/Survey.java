@@ -15,6 +15,8 @@ public class Survey {
     private String surveyName;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "survey")
     private Collection<Question> questions=new ArrayList<>();
+    @OneToMany(mappedBy = "survey")
+    private Collection<Voucher> vouchers=new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "companyId")
     private Company company;
@@ -59,5 +61,13 @@ public class Survey {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Collection<Voucher> getVouchers() {
+        return vouchers;
+    }
+
+    public void setVouchers(Collection<Voucher> vouchers) {
+        this.vouchers = vouchers;
     }
 }

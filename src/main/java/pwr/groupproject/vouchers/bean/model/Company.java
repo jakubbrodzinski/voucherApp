@@ -25,9 +25,6 @@ public class Company {
     private String companyName;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "company")
     private Collection<Survey> companysSurveys = new ArrayList<>();
-    @OneToMany(cascade = {CascadeType.ALL},mappedBy = "company")
-
-    private Set<Voucher> voucherSet = new HashSet<>();
 
     public int getId() {
         return Id;

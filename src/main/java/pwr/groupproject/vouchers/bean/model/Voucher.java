@@ -5,6 +5,8 @@ import pwr.groupproject.vouchers.bean.enums.VoucherType;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "VOUCHER")
@@ -13,15 +15,16 @@ public class Voucher {
     @GeneratedValue
     private int Id;
     @ManyToOne
-    @JoinColumn(name = "companyId")
-    private Company company;
-
+    @JoinColumn(name = "surveyId")
+    private Survey survey;
     private Date startDate;
     private Date endDate;
-    private String code;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "VOUCHER_CODE", joinColumns = @JoinColumn(name = "voucherId"))
+    private Set<VoucherCode> codes = new HashSet<>();
     @Enumerated
     private VoucherType voucherType;
-    @Column(name="quant")
+    @Column(name = "quant")
     private int voucherQuantity;
     @Enumerated
     private DiscountType discountType;
@@ -51,22 +54,6 @@ public class Voucher {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public Company getCompany() {
-        return company;
-    }
-
-    public void setCompany(Company company) {
-        this.company = company;
     }
 
     public VoucherType getVoucherType() {
@@ -107,6 +94,22 @@ public class Voucher {
 
     public void setVoucherQuantity(int voucherQuantity) {
         this.voucherQuantity = voucherQuantity;
+    }
+
+    public Survey getSurvey() {
+        return survey;
+    }
+
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
+    }
+
+    public Set<VoucherCode> getCodes() {
+        return codes;
+    }
+
+    public void setCodes(Set<VoucherCode> codes) {
+        this.codes = codes;
     }
 
     @Override

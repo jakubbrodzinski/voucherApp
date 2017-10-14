@@ -14,4 +14,5 @@ public interface VoucherDao {
     void addVoucher(Voucher voucher);
     void updateVoucher(Voucher voucher);
     void deleteVoucher(Voucher voucher);
+
 }

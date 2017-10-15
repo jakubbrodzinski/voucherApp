@@ -3,7 +3,7 @@ package pwr.groupproject.vouchers.dao;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 
-public interface UserDao {
+public interface UserCompanyDao {
     UserCompany getUserByUserName(String userName);
     void createNewUser(UserCompany userCompany);
     void editUser(UserCompany userCompany);

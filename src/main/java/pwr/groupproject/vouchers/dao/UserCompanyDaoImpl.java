@@ -1,7 +1,6 @@
 package pwr.groupproject.vouchers.dao;
 
 import org.springframework.stereotype.Component;
-import pwr.groupproject.vouchers.bean.model.Voucher;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 import javax.persistence.EntityManager;
@@ -9,13 +8,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 @Component
-public class UserDaoImpl implements UserDao{
+public class UserCompanyDaoImpl implements UserCompanyDao {
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
     public UserCompany getUserByUserName(String userName) {
-        TypedQuery<UserCompany> query= entityManager.createQuery("FROM "+UserCompany.class.getName()+" WHERE userName='"+userName+"'",UserCompany.class);
+        TypedQuery<UserCompany> query= entityManager.createQuery("FROM "+ UserCompany.class.getName()+" WHERE userName='"+userName+"'", UserCompany.class);
         return query.getSingleResult();
     }
 
@@ -36,7 +35,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public boolean ifEmailIsUsed(String eMail) {
-        TypedQuery<Integer> query= entityManager.createQuery("SELCT count(*) FROM "+UserCompany.class.getName()+" uc WHERE uc.eMail='"+eMail+"'",Integer.class);
+        TypedQuery<Integer> query= entityManager.createQuery("SELCT count(*) FROM "+ UserCompany.class.getName()+" uc WHERE uc.eMail='"+eMail+"'",Integer.class);
         if(query.getSingleResult()!=0)
             return false;
         else

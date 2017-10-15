@@ -8,8 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pwr.groupproject.vouchers.bean.model.security.UserCompany;
-import pwr.groupproject.vouchers.dao.UserDao;
+import pwr.groupproject.vouchers.dao.UserCompanyDao;
 
 import javax.persistence.NoResultException;
 
@@ -17,13 +16,13 @@ import javax.persistence.NoResultException;
 @Service
 public class CustomUserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    UserDao userDao;
+    UserCompanyDao userCompanyDao;
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try{
-            UserCompany userCompany= userDao.getUserByUserName(username);
+            pwr.groupproject.vouchers.bean.model.security.UserCompany userCompany= this.userCompanyDao.getUserByUserName(username);
             System.out.println(userCompany.toString());
             return new User(userCompany.getUserName(),userCompany.getPassword(),userCompany.isActivated(),true,true,true,userCompany.getUserProfiles());
         }catch(NoResultException ex){

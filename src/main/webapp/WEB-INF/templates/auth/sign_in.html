@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/sign_in}" method="post">
+    <table>
+        <tr>
+            <td><input type="text" id="username" name="username"
+                       th:placeholder="Username"/></td>
+        </tr>
+        <tr>
+            <td><input type="password" th:placeholder="Password"
+                       id="password" name="password"/></td>
+        </tr>
+        <tr>
+            <td>
+                <div align="center" th:if="${param.error}">
+                    <p th:text="Emial or Password invalid,please verify">Email or Password
+                        invalid, please verify</p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Submit"/> <input type="hidden"
+                                                             name="${_csrf.parameterName}"
+                                                             value="${_csrf.token}"/></td>
+            <td><input type="reset" value="Reset"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

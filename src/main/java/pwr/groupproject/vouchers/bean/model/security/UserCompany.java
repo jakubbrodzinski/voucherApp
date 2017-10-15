@@ -13,8 +13,10 @@ public class UserCompany{
     @Id
     @GeneratedValue
     private int Id;
+    @Column(length = 50)
     private String userName;
     private String encodedPassword;
+    @Column(length = 50)
     private String eMail;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "companyId")

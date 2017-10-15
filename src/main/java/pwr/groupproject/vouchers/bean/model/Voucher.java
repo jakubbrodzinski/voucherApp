@@ -19,13 +19,10 @@ public class Voucher {
     private Survey survey;
     private Date startDate;
     private Date endDate;
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "VOUCHER_CODE", joinColumns = @JoinColumn(name = "voucherId"))
+    @OneToMany(mappedBy = "voucher",fetch = FetchType.EAGER)
     private Set<VoucherCode> codes = new HashSet<>();
     @Enumerated
     private VoucherType voucherType;
-    @Column(name = "quant")
-    private int voucherQuantity;
     @Enumerated
     private DiscountType discountType;
     private int discountAmount;
@@ -86,14 +83,6 @@ public class Voucher {
 
     public void setVoucherDescription(String voucherDescription) {
         this.voucherDescription = voucherDescription;
-    }
-
-    public int getVoucherQuantity() {
-        return voucherQuantity;
-    }
-
-    public void setVoucherQuantity(int voucherQuantity) {
-        this.voucherQuantity = voucherQuantity;
     }
 
     public Survey getSurvey() {

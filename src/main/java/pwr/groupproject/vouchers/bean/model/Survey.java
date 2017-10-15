@@ -17,6 +17,8 @@ public class Survey {
     private Collection<Question> questions=new ArrayList<>();
     @OneToMany(mappedBy = "survey")
     private Collection<Voucher> vouchers=new ArrayList<>();
+    @OneToMany(mappedBy = "survey")
+    private Collection<AnsweredSurvey> answeredSurveys=new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "companyId")
     private Company company;
@@ -69,5 +71,13 @@ public class Survey {
 
     public void setVouchers(Collection<Voucher> vouchers) {
         this.vouchers = vouchers;
+    }
+
+    public Collection<AnsweredSurvey> getAnsweredSurveys() {
+        return answeredSurveys;
+    }
+
+    public void setAnsweredSurveys(Collection<AnsweredSurvey> answeredSurveys) {
+        this.answeredSurveys = answeredSurveys;
     }
 }

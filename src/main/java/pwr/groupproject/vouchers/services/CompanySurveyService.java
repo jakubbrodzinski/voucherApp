@@ -8,7 +8,8 @@ import java.util.Collection;
 public interface CompanySurveyService {
     Survey getSurveyById(int surveyId);
     void addAnsweredSurvey(AnsweredSurvey answeredSurvey);
-    VoucherCode getAvaibleVoucherCode(int voucherId) throws NoAvaibleVouchersException;
+    VoucherCode getVoucherCodeForSurvey(int surveyId) throws NoAvaibleVouchersException;
+    void unBlockVoucherCode(int voucherCodeId);
 
     void addSurvey(Survey survey);
     void addVoucher(Voucher voucher);

@@ -14,15 +14,13 @@ public class Voucher {
     @Id
     @GeneratedValue
     private int Id;
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "surveyId")
     private Survey survey;
     private Date startDate;
     private Date endDate;
     @OneToMany(mappedBy = "voucher",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<VoucherCode> codes = new HashSet<>();
-    @Enumerated
-    private VoucherType voucherType;
     @Enumerated
     private DiscountType discountType;
     private int discountAmount;
@@ -51,14 +49,6 @@ public class Voucher {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
-    }
-
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
-
-    public void setVoucherType(VoucherType voucherType) {
-        this.voucherType = voucherType;
     }
 
     public DiscountType getDiscountType() {

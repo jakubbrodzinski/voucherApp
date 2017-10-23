@@ -4,11 +4,15 @@ import org.springframework.stereotype.Component;
 import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.Voucher;
 import pwr.groupproject.vouchers.bean.model.VoucherCode;
+import pwr.groupproject.vouchers.bean.model.VoucherCodeDate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 
 @Component
 public class VoucherDaoImpl implements VoucherDao {
@@ -58,5 +62,20 @@ public class VoucherDaoImpl implements VoucherDao {
     @Override
     public void deleteVoucherCode(VoucherCode voucherCode) {
         entityManager.remove(voucherCode);
+    }
+
+    @Override
+    public void addVoucherCodeDate(VoucherCodeDate voucherCodeDate) {
+        entityManager.persist(voucherCodeDate);
+    }
+
+    @Override
+    public void deleteVoucherCodeDateByCodeId(int voucherCodeId) {
+        entityManager.createQuery("DELETE FROM "+VoucherCodeDate.class.getName()+ " WHERE VoucherCodeDate .voucherCode='"+voucherCodeId+"'");
+    }
+
+    @Override
+    public void deleteVoucherCodeDateOlderThan(int hours, int minutes) {
+        //TO-DO
     }
 }

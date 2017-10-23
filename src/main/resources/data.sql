@@ -35,11 +35,11 @@ INSERT INTO ANSWERS(Id, answer, answeredSurveyId, questionId)
     (13, "A", 1, 13), (14, "B", 1, 14), (15, "C", 1, 15), (16, "D", 1, 16);
 
 
-INSERT INTO VOUCHER(Id, discountAmount, discountType, startDate, endDate, details, voucherType,surveyId)
+INSERT INTO VOUCHER(Id, discountAmount, discountType, startDate, endDate, details,surveyId)
 VALUES
-  (1, 10, 1, curdate(), curdate(), "details1", 1, 1);
+  (1, 10, 1, curdate(), curdate(), "details1", 1);
 
-INSERT INTO VOUCHER_CODE(Id,isAvaible,voucherId,code) VALUES (1,1,1,"code1"),(2,1,1,"code2");
+INSERT INTO VOUCHER_CODE(Id,ammountOfUses,voucherId,voucherCode) VALUES (1,1,1,"code1"),(2,1,1,"code2");
 
 /* to be delted */
 

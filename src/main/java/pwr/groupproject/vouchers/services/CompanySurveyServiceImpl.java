@@ -10,6 +10,8 @@ import pwr.groupproject.vouchers.dao.CompanySurveyDao;
 import pwr.groupproject.vouchers.dao.VoucherDao;
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -31,9 +33,24 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public VoucherCode getAvaibleVoucherCode(int voucherId) throws NoAvaibleVouchersException {
-        Voucher voucher=voucherDao.getVoucherById(voucherId);
-        return voucher.getCodes().stream().filter(VoucherCode::isAvaible).findFirst().orElseThrow(NoAvaibleVouchersException::new);
+    public VoucherCode getVoucherCodeForSurvey(int surveyId) throws NoAvaibleVouchersException {
+        Set<VoucherCode> voucherCodes=companySurveyDao.getSurveyById(surveyId).getVoucher().getCodes();
+        VoucherCode voucherCode=voucherCodes.stream().filter(code -> code.getAmmountOfUses()>0).findFirst().orElseThrow(NoAvaibleVouchersException::new);
+        voucherCode.setAmmountOfUses(voucherCode.getAmmountOfUses()-1);
+
+        VoucherCodeDate voucherCodeDate=new VoucherCodeDate();
+        voucherCodeDate.setUseDate(new Date());
+        voucherCodeDate.setVoucherCode(voucherCode);
+        voucherDao.addVoucherCodeDate(voucherCodeDate);
+
+        return voucherCode;
+    }
+
+    @Override
+    public void unBlockVoucherCode(int voucherCodeId) {
+        VoucherCode voucherCode=voucherDao.getVoucherCode(voucherCodeId);
+        voucherCode.setAmmountOfUses(voucherCode.getAmmountOfUses()+1);
+        voucherDao.deleteVoucherCodeDateByCodeId(voucherCodeId);
     }
 
     @Override
@@ -83,7 +100,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
 
     @Override
     public Collection<Survey> getAllActiveSurveys(int companyId) {
-        return null;
+        return companySurveyDao.getAvaibleSurveys(companyId);
     }
 
 }

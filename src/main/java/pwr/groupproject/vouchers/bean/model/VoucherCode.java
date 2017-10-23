@@ -1,6 +1,10 @@
 package pwr.groupproject.vouchers.bean.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "VOUCHER_CODE")
@@ -8,12 +12,13 @@ public class VoucherCode {
     @GeneratedValue
     @Id
     private int Id;
-    @Column(name = "code")
     private String voucherCode;
     @ManyToOne
     @JoinColumn(name = "voucherId")
     private Voucher voucher;
-    private boolean isAvaible=true;
+    private int ammountOfUses=1;
+    @OneToMany(mappedBy = "voucherCode",cascade = CascadeType.ALL)
+    private Collection<VoucherCodeDate> voucherCodeDates=new ArrayList<>();
 
     public String getVoucherCode() {
         return voucherCode;
@@ -39,12 +44,20 @@ public class VoucherCode {
         this.voucher = voucher;
     }
 
-    public boolean isAvaible() {
-        return isAvaible;
+    public int getAmmountOfUses() {
+        return ammountOfUses;
     }
 
-    public void setAvaible(boolean avaible) {
-        isAvaible = avaible;
+    public void setAmmountOfUses(int ammountOfUses) {
+        this.ammountOfUses = ammountOfUses;
+    }
+
+    public Collection<VoucherCodeDate> getVoucherCodeDates() {
+        return voucherCodeDates;
+    }
+
+    public void setVoucherCodeDates(Collection<VoucherCodeDate> voucherCodeDates) {
+        this.voucherCodeDates = voucherCodeDates;
     }
 
     @Override

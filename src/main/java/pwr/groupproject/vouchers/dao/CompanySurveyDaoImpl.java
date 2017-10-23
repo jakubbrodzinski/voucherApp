@@ -2,9 +2,7 @@ package pwr.groupproject.vouchers.dao;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Component;
-import pwr.groupproject.vouchers.bean.model.AnsweredSurvey;
-import pwr.groupproject.vouchers.bean.model.Company;
-import pwr.groupproject.vouchers.bean.model.Survey;
+import pwr.groupproject.vouchers.bean.model.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -68,6 +66,11 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
     @Override
     public Collection<Survey> getCompanysAllSurveys(int companyId) {
         return entityManager.createQuery("FROM "+Survey.class.getName()+" WHERE company='"+companyId+"'",Survey.class).getResultList();
+    }
+
+    @Override
+    public Collection<Survey> getAvaibleSurveys(int companyId) {
+        return entityManager.createQuery("SELECT s FROM "+ VoucherCode.class.getName()+" vc JOIN "+ Voucher.class.getName()+" v JOIN "+Survey.class.getName()+" s WHERE vc.ammountOfUses>0 AND s.company='"+companyId+"'",Survey.class).getResultList();
     }
 
     @Override

@@ -26,4 +26,9 @@ public class TokenServiceImpl implements TokenService {
             throw new VerificationTokenExpired();
         }
     }
+
+    @Override
+    public void generateNewActicationToken(String username) {
+
+    }
 }

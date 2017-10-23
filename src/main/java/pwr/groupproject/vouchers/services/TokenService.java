@@ -4,4 +4,6 @@ import pwr.groupproject.vouchers.bean.exceptions.VerificationTokenExpired;
 
 public interface TokenService {
     void activateAccount(String activationToken) throws VerificationTokenExpired;
+
+    void generateNewActicationToken(String username);
 }

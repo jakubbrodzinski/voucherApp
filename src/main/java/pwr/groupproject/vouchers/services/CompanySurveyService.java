@@ -1,10 +1,7 @@
 package pwr.groupproject.vouchers.services;
 
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
-import pwr.groupproject.vouchers.bean.model.AnsweredSurvey;
-import pwr.groupproject.vouchers.bean.model.Survey;
-import pwr.groupproject.vouchers.bean.model.Voucher;
-import pwr.groupproject.vouchers.bean.model.VoucherCode;
+import pwr.groupproject.vouchers.bean.model.*;
 
 import java.util.Collection;
 
@@ -17,9 +14,13 @@ public interface CompanySurveyService {
     void addVoucher(Voucher voucher);
     void addVoucherCode(VoucherCode voucherCode,int voucherId);
 
+    void deleteSurvey(int surveyId);
+    void deleteVoucher(int voucherId);
+    void deleteVoucherCode(int voucherCodeId);
+
     Collection<AnsweredSurvey> getAllAnsweredSurveys(int surveyId);
-    Collection<AnsweredSurvey> getAllAnsweredSurveys(Survey survey);
 
     AnsweredSurvey getResultDetails(int answeredSurveyId);
 
+    Collection<Survey> getAllActiveSurveys(int companyId);
 }

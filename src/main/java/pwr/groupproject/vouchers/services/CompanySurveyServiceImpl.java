@@ -5,10 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
-import pwr.groupproject.vouchers.bean.model.AnsweredSurvey;
-import pwr.groupproject.vouchers.bean.model.Survey;
-import pwr.groupproject.vouchers.bean.model.Voucher;
-import pwr.groupproject.vouchers.bean.model.VoucherCode;
+import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.dao.CompanySurveyDao;
 import pwr.groupproject.vouchers.dao.VoucherDao;
 
@@ -57,17 +54,36 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public Collection<AnsweredSurvey> getAllAnsweredSurveys(int surveyId) {
-        return companySurveyDao.getAllResultsOfSurvey(surveyId);
+    public void deleteSurvey(int surveyId) {
+        Survey survey=companySurveyDao.getSurveyById(surveyId);
+        companySurveyDao.deleteSurvey(survey);
     }
 
     @Override
-    public Collection<AnsweredSurvey> getAllAnsweredSurveys(Survey survey) {
-        return companySurveyDao.getAllResultsOfSurvey(survey.getId());
+    public void deleteVoucher(int voucherId) {
+        Voucher voucher=voucherDao.getVoucherById(voucherId);
+        voucherDao.deleteVoucher(voucher);
+    }
+
+    @Override
+    public void deleteVoucherCode(int voucherCodeId) {
+        VoucherCode voucherCode=voucherDao.getVoucherCode(voucherCodeId);
+        voucherDao.deleteVoucherCode(voucherCode);
+    }
+
+    @Override
+    public Collection<AnsweredSurvey> getAllAnsweredSurveys(int surveyId) {
+        return companySurveyDao.getAllResultsOfSurvey(surveyId);
     }
 
     @Override
     public AnsweredSurvey getResultDetails(int answeredSurveyId) {
         return companySurveyDao.getAnsweredSurveyById(answeredSurveyId);
     }
+
+    @Override
+    public Collection<Survey> getAllActiveSurveys(int companyId) {
+        return null;
+    }
+
 }

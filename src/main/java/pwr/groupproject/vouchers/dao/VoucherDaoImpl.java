@@ -3,6 +3,7 @@ package pwr.groupproject.vouchers.dao;
 import org.springframework.stereotype.Component;
 import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.Voucher;
+import pwr.groupproject.vouchers.bean.model.VoucherCode;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -42,5 +43,20 @@ public class VoucherDaoImpl implements VoucherDao {
     @Override
     public void deleteVoucher(Voucher voucher) {
         entityManager.remove(voucher);
+    }
+
+    @Override
+    public VoucherCode getVoucherCode(int voucherCodeId) {
+        return entityManager.find(VoucherCode.class,voucherCodeId);
+    }
+
+    @Override
+    public void updateVoucherCode(VoucherCode voucherCode) {
+        entityManager.merge(voucherCode);
+    }
+
+    @Override
+    public void deleteVoucherCode(VoucherCode voucherCode) {
+        entityManager.remove(voucherCode);
     }
 }

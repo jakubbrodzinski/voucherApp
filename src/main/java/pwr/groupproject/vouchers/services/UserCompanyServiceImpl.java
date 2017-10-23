@@ -16,7 +16,6 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public void addUser(pwr.groupproject.vouchers.bean.model.security.UserCompany userCompany){
         this.userCompanyDao.createNewUser(userCompany);
-        return ;
     }
 
     @Override

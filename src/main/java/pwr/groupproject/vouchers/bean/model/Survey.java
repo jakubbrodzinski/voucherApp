@@ -15,9 +15,9 @@ public class Survey {
     private String surveyName;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "survey")
     private Collection<Question> questions=new ArrayList<>();
-    @OneToMany(mappedBy = "survey")
+    @OneToMany(mappedBy = "survey",cascade = CascadeType.ALL)
     private Collection<Voucher> vouchers=new ArrayList<>();
-    @OneToMany(mappedBy = "survey")
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
     private Collection<AnsweredSurvey> answeredSurveys=new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "companyId")

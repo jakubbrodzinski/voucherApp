@@ -13,7 +13,6 @@ public class VoucherCode {
     @ManyToOne
     @JoinColumn(name = "voucherId")
     private Voucher voucher;
-
     private boolean isAvaible=true;
 
     public String getVoucherCode() {

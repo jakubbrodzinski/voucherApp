@@ -19,6 +19,22 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     }
 
     @Override
+    public UserCompany getUserCompanyById(int userCompanyId) {
+        return userCompanyDao.getUserCompany(userCompanyId);
+    }
+
+    @Override
+    public UserCompany getUserCompanyByCompanyId(int companyId) {
+        return userCompanyDao.getUserCompanyByCompanyId(companyId);
+    }
+
+    @Override
+    public void deleteUserCompany(int userCompanyId) {
+        UserCompany userCompany=userCompanyDao.getUserCompany(userCompanyId);
+        userCompanyDao.deleteUserCompany(userCompany);
+    }
+
+    @Override
     public boolean ifEmailIsUsed(String eMail) {
         return userCompanyDao.ifEmailIsUsed(eMail);
     }

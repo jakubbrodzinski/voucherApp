@@ -7,6 +7,8 @@ public interface UserCompanyDao {
     UserCompany getUserByUserName(String userName);
     void createNewUser(UserCompany userCompany);
     void editUser(UserCompany userCompany);
-    UserCompany getUser(int userId);
+    UserCompany getUserCompany(int userId);
     boolean ifEmailIsUsed(String eMail);
+    void deleteUserCompany(UserCompany userCompanyId);
+    UserCompany getUserCompanyByCompanyId(int companyId);
 }

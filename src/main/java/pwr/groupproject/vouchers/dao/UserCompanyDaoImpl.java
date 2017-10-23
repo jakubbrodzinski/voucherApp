@@ -29,7 +29,7 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
     }
 
     @Override
-    public UserCompany getUser(int userId) {
+    public UserCompany getUserCompany(int userId) {
         return entityManager.find(UserCompany.class,userId);
     }
 
@@ -41,4 +41,16 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
         else
             return true;
     }
+
+    @Override
+    public void deleteUserCompany(UserCompany userCompany) {
+        entityManager.remove(userCompany);
+    }
+
+    @Override
+    public UserCompany getUserCompanyByCompanyId(int companyId) {
+        TypedQuery<UserCompany> query=entityManager.createQuery("FROM "+UserCompany.class.getName()+" uc WHERE uc.company='"+companyId+"'",UserCompany.class);
+        return query.getSingleResult();
+    }
+
 }

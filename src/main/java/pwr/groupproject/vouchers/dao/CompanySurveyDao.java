@@ -20,7 +20,7 @@ public interface CompanySurveyDao {
     Collection<AnsweredSurvey> getAllResultsOfSurvey(int surveyId);
 
     Collection<Survey> getCompanysAllSurveys(int companyId);
-    Collection<Survey> getAvaibleSurveys(int companyId);
+    Collection<Survey> getAvailableSurveys(int companyId);
 
     void addAnsweredSurvey(AnsweredSurvey answeredSurvey);
     void deleteAnsweredSurvey(AnsweredSurvey answeredSurvey);

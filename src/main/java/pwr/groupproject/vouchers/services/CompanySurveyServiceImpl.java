@@ -100,7 +100,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
 
     @Override
     public Collection<Survey> getAllActiveSurveys(int companyId) {
-        return companySurveyDao.getAvaibleSurveys(companyId);
+        return companySurveyDao.getAvailableSurveys(companyId);
     }
 
 }

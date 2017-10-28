@@ -123,7 +123,7 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     @Bean
     public LocalValidatorFactoryBean localValidatorFactoryBean(){
         LocalValidatorFactoryBean localValidatorFactoryBean=new LocalValidatorFactoryBean();
-        //localValidatorFactoryBean.setValidationMessageSource(validationMessages());
+        localValidatorFactoryBean.setValidationMessageSource(validationMessages());
         return localValidatorFactoryBean;
     }
 

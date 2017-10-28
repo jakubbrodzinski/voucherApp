@@ -9,8 +9,17 @@
 <body>
     <form method="post" th:action="${flowExecutionUrl}">
         <table>
+            Kod pocztowy:<br>
+            <input type="text" name="postal_code"><br>
+            Miasto:<br>
+            <input type="text" name="city"><br>
+            Adres:<br>
+            <input type="text" name="address"><br>
             <td>
                 <input type="submit" name="_eventId" value="nextStep"/>
+            </td>
+            <td>
+                <input type="submit" name="_eventId" value="cancel"/>
             </td>
         </table>
     </form>

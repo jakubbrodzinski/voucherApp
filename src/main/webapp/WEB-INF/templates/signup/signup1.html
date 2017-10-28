@@ -7,9 +7,13 @@
     <title>Title</title>
 </head>
 <body>
-Elo
+Pierwszy step
     <form method="post" th:action="${flowExecutionUrl}">
         <table>
+            Company name:<br>
+            <input type="text" name="company_name"><br>
+            E-mail:<br>
+            <input type="text" name="email">
             <td>
                 <input type="submit" name="_eventId" value="nextStep"/>
             </td>

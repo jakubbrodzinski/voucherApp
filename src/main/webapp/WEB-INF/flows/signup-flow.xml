@@ -9,8 +9,11 @@
     </view-state>
 
     <view-state id="step2" view="/signup/signup2.html">
+        <transition on="nextStep" to="success"></transition>
+        <transition on="cancel" to="cancel"></transition>
     </view-state>
 
-    <end-state id="cancel" view="/auth/sign_in.html"></end-state>
+    <end-state id="success" view="externalRedirect:my_account/home_page.html"></end-state>
+    <end-state id="cancel" view="externalRedirect:my_account/home_page.html"></end-state>
 
 </flow>

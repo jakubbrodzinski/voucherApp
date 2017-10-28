@@ -58,8 +58,6 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         return handlerAdapter;
     }
 
-
-
     @Bean
     public ViewResolver ViewResolver() {
         ThymeleafViewResolver resolver=new ThymeleafViewResolver();

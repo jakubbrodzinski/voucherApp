@@ -13,9 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import javax.sql.DataSource;
 
-//@EnableWebSecurity
+@EnableWebSecurity
 @Configuration
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired

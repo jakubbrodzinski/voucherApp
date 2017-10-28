@@ -1,10 +1,11 @@
 package pwr.groupproject.vouchers.bean.form;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import pwr.groupproject.vouchers.bean.form.annotations.PasswordValidationConstraint;
 
-
-import javax.validation.constraints.*;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @PasswordValidationConstraint(filedOne = "password",filedTwo = "repeatedPassword",groups = NewUserCompanyForm.ValidationGroup1.class)
@@ -13,22 +14,20 @@ public class NewUserCompanyForm implements Serializable {
 
     @Email(groups = ValidationGroup1.class)
     @NotBlank(groups = ValidationGroup1.class)
-    @Length(min = 5)
     private String userName;
     @NotBlank(groups = ValidationGroup1.class)
+    @Length(min=6)
     private String password;
     @NotBlank(groups = ValidationGroup1.class)
     private String repeatedPassword;
-    @NotBlank(groups = ValidationGroup2.class)
+    @NotBlank(groups = ValidationGroup1.class)
     private String companyName;
 
     @Pattern(regexp = "\\d\\d-\\d\\d\\d", groups = ValidationGroup2.class)
     private String postalCode;
-    @NotBlank(groups = ValidationGroup2.class)
     @Pattern(regexp = "\\p{L}*", groups = ValidationGroup2.class)
     private String city;
     @Pattern(regexp = "[-A-Za-z0-9 ,.]*", groups = ValidationGroup2.class)
-    @NotBlank(groups = ValidationGroup2.class)
     private String addressDetails;
 
     public static long getSerialVersionUID() {

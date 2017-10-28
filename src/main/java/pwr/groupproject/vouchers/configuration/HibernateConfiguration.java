@@ -3,7 +3,6 @@ package pwr.groupproject.vouchers.configuration;
 
 import org.hibernate.cfg.beanvalidation.BeanValidationIntegrator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

@@ -1,12 +1,10 @@
 package pwr.groupproject.vouchers.bean.form;
 
+import org.hibernate.validator.constraints.Length;
 import pwr.groupproject.vouchers.bean.form.annotations.PasswordValidationConstraint;
 
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 @PasswordValidationConstraint(filedOne = "password",filedTwo = "repeatedPassword",groups = NewUserCompanyForm.ValidationGroup1.class)
@@ -15,13 +13,12 @@ public class NewUserCompanyForm implements Serializable {
 
     @Email(groups = ValidationGroup1.class)
     @NotBlank(groups = ValidationGroup1.class)
+    @Length(min = 5)
     private String userName;
     @NotBlank(groups = ValidationGroup1.class)
-    @Size(min=5)
     private String password;
     @NotBlank(groups = ValidationGroup1.class)
     private String repeatedPassword;
-
     @NotBlank(groups = ValidationGroup2.class)
     private String companyName;
 

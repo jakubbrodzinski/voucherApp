@@ -8,7 +8,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.lang.Nullable;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
@@ -33,10 +32,6 @@ import java.util.Locale;
 public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAware{
 
     private static final String UTF8 = "UTF-8";
-
-    @Autowired
-    private LocalValidatorFactoryBean localValidatorFactoryBean;
-
     @Autowired
     private SpringWebFlowConfiguration webFlowConfig;
 
@@ -84,10 +79,9 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         this.applicationContext=applicationContext;
     }
 
-    @Nullable
     @Override
     public Validator getValidator() {
-        return localValidatorFactoryBean;
+        return localValidatorFactoryBean();
     }
 
     @Override
@@ -129,7 +123,7 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     @Bean
     public LocalValidatorFactoryBean localValidatorFactoryBean(){
         LocalValidatorFactoryBean localValidatorFactoryBean=new LocalValidatorFactoryBean();
-        localValidatorFactoryBean.setValidationMessageSource(validationMessages());
+        //localValidatorFactoryBean.setValidationMessageSource(validationMessages());
         return localValidatorFactoryBean;
     }
 

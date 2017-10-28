@@ -3,4 +3,11 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
 
+    <view-state id="step1" view="/WEB-INF/templates/signup/signup.jsp">
+        <transition on="nextStep" to="step2"></transition>
+    </view-state>
+
+    <view-state id="step2" view="/WEB-INF/templates/signup/signup2.html">
+    </view-state>
+
 </flow>

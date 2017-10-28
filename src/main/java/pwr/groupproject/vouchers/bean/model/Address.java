@@ -2,7 +2,6 @@ package pwr.groupproject.vouchers.bean.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Table;
 
 @Embeddable
 public class Address {

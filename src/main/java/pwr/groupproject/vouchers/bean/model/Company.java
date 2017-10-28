@@ -1,21 +1,14 @@
 package pwr.groupproject.vouchers.bean.model;
 
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "COMPANY")
 public class Company {
-    @javax.persistence.Id
+
+    @Id
     @GeneratedValue
     @Column(name = "companyId")
     private int Id;

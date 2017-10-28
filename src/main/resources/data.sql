@@ -47,4 +47,4 @@ delete from hibernate_sequence;
 
 insert into hibernate_sequence(next_val) VALUES (10),(10),(10),(10),(10),(10),(10),(10),(10),(10);
 
-insert into USER_COMPANY (Id, eMail, encodedPassword, isActivated, userName, companyId) VALUES (1,'xyz@xyz.com','66b27417d37e024c46526c2f6d358a754fc552f3',1,'xyz',1);
+insert into USER_COMPANY (Id, encodedPassword, isActivated, userName, companyId) VALUES (1,'66b27417d37e024c46526c2f6d358a754fc552f3',1,'xyz@xyz.com',1);

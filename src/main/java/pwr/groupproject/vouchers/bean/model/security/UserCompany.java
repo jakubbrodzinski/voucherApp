@@ -1,10 +1,9 @@
 package pwr.groupproject.vouchers.bean.model.security;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import pwr.groupproject.vouchers.bean.model.Company;
 
 import javax.persistence.*;
+
 import java.util.*;
 
 @Entity
@@ -16,8 +15,6 @@ public class UserCompany{
     @Column(length = 50)
     private String userName;
     private String encodedPassword;
-    @Column(length = 50)
-    private String eMail;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "companyId")
     private Company company;
@@ -52,14 +49,6 @@ public class UserCompany{
         this.encodedPassword = encodedPassword;
     }
 
-    public String geteMail() {
-        return eMail;
-    }
-
-    public void seteMail(String eMail) {
-        this.eMail = eMail;
-    }
-
     public Company getCompany() {
         return company;
     }
@@ -86,7 +75,6 @@ public class UserCompany{
                 "Id=" + Id +
                 ", userName='" + userName + '\'' +
                 ", encodedPassword='" + encodedPassword + '\'' +
-                ", eMail='" + eMail + '\'' +
                 ", company=" + company +
                 ", userProfiles=" + userProfiles +
                 ", isActivated=" + isActivated +

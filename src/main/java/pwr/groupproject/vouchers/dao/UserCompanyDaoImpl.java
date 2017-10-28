@@ -1,6 +1,7 @@
 package pwr.groupproject.vouchers.dao;
 
 import org.springframework.stereotype.Component;
+import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 import javax.persistence.EntityManager;
@@ -35,7 +36,16 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
 
     @Override
     public boolean ifEmailIsUsed(String eMail) {
-        TypedQuery<Integer> query= entityManager.createQuery("SELCT count(*) FROM "+ UserCompany.class.getName()+" uc WHERE uc.eMail='"+eMail+"'",Integer.class);
+        TypedQuery<Integer> query= entityManager.createQuery("SELCT count(*) FROM "+ UserCompany.class.getName()+" uc WHERE uc.userName='"+eMail+"'",Integer.class);
+        if(query.getSingleResult()!=0)
+            return false;
+        else
+            return true;
+    }
+
+    @Override
+    public boolean ifCompanyNameIsUsed(String companyName) {
+        TypedQuery<Integer> query= entityManager.createQuery("SELCT count(*) FROM "+ Company.class.getName()+"c WHERE c.companyName='"+companyName+"'",Integer.class);
         if(query.getSingleResult()!=0)
             return false;
         else

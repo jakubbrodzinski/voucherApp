@@ -1,7 +1,6 @@
 package pwr.groupproject.vouchers.dao;
 
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
-import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 
 public interface UserCompanyDao {
     UserCompany getUserByUserName(String userName);
@@ -9,6 +8,7 @@ public interface UserCompanyDao {
     void editUser(UserCompany userCompany);
     UserCompany getUserCompany(int userId);
     boolean ifEmailIsUsed(String eMail);
+    boolean ifCompanyNameIsUsed(String companyName);
     void deleteUserCompany(UserCompany userCompanyId);
     UserCompany getUserCompanyByCompanyId(int companyId);
 }

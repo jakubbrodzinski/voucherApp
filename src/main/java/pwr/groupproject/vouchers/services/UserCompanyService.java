@@ -1,14 +1,18 @@
 package pwr.groupproject.vouchers.services;
 
+import org.springframework.binding.message.MessageContext;
+import org.springframework.webflow.execution.Event;
+import pwr.groupproject.vouchers.bean.form.NewUserCompanyForm;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
+
 public interface UserCompanyService {
-    void addUser(UserCompany userCompany);
+    void addUser(NewUserCompanyForm newUserCompanyForm);
     UserCompany getUserCompanyById(int userCompanyId);
     UserCompany getUserCompanyByCompanyId(int companyId);
     void deleteUserCompany(int userCompanyId);
 
-    boolean ifEmailIsUsed(String eMail);
-    void changeEmail(String userName,String newEmail);
     void changePassword(String userName,String newHashedPassword);
+
+    Event validateUserCompany(NewUserCompanyForm userCompanyForm, MessageContext messageContext);
 }

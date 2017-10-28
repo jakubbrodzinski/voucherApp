@@ -1,9 +1,19 @@
 package pwr.groupproject.vouchers.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.binding.message.MessageBuilder;
+import org.springframework.binding.message.MessageContext;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.webflow.action.EventFactorySupport;
+import org.springframework.webflow.execution.Event;
+import pwr.groupproject.vouchers.bean.form.NewUserCompanyForm;
+import pwr.groupproject.vouchers.bean.model.Address;
+import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.dao.UserCompanyDao;
 
@@ -12,9 +22,26 @@ import pwr.groupproject.vouchers.dao.UserCompanyDao;
 public class UserCompanyServiceImpl implements UserCompanyService {
     @Autowired
     private UserCompanyDao userCompanyDao;
+    @Autowired
+    private MessageSource messageSource;
+    @Autowired
+    private ShaPasswordEncoder shaPasswordEncoder;
 
     @Override
-    public void addUser(pwr.groupproject.vouchers.bean.model.security.UserCompany userCompany){
+    public void addUser(NewUserCompanyForm newUserCompanyForm){
+        Address address=new Address();
+        address.setAddressDetails(newUserCompanyForm.getAddressDetails());
+        address.setCity(newUserCompanyForm.getCity());
+        address.setPostalCode(newUserCompanyForm.getPostalCode());
+
+        Company company=new Company();
+        company.setCompanyAddress(address);
+        company.setCompanyName(newUserCompanyForm.getCompanyName());
+
+        UserCompany userCompany=new UserCompany();
+        userCompany.setUserName(newUserCompanyForm.getUserName());
+        userCompany.setPassword(shaPasswordEncoder.encodePassword(newUserCompanyForm.getPassword(),null));
+        userCompany.setCompany(company);
         this.userCompanyDao.createNewUser(userCompany);
     }
 
@@ -34,18 +61,6 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         userCompanyDao.deleteUserCompany(userCompany);
     }
 
-    @Override
-    public boolean ifEmailIsUsed(String eMail) {
-        return userCompanyDao.ifEmailIsUsed(eMail);
-    }
-
-    @Override
-    @PreAuthorize("hasRole('USER')")
-    public void changeEmail(String userName, String newEmail) {
-        UserCompany userCompany=userCompanyDao.getUserByUserName(userName);
-        userCompany.seteMail(newEmail);
-        userCompanyDao.editUser(userCompany);
-    }
 
     @Override
     @PreAuthorize("hasRole('USER')")
@@ -53,5 +68,25 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         UserCompany userCompany=userCompanyDao.getUserByUserName(userName);
         userCompany.setPassword(newHashedPassword);
         userCompanyDao.editUser(userCompany);
+    }
+
+    @Override
+    public Event validateUserCompany(NewUserCompanyForm userCompanyForm,MessageContext messageContext) {
+        MessageBuilder error = new MessageBuilder().error();
+        boolean eMailIsUsed=userCompanyDao.ifEmailIsUsed(userCompanyForm.getUserName());
+        boolean companyNameIsUsed=userCompanyDao.ifCompanyNameIsUsed(userCompanyForm.getCompanyName());
+        if(!eMailIsUsed && !companyNameIsUsed){
+            return new EventFactorySupport().success(this);
+        }else if(eMailIsUsed){
+            error.source("userName");
+            error.defaultText(messageSource.getMessage("message.userName.isUsed",null, LocaleContextHolder.getLocale()));
+            messageContext.addMessage(error.build());
+        }else if(companyNameIsUsed){
+            error.source("companyName");
+            error.defaultText(messageSource.getMessage("message.companyName.isUsed",null, LocaleContextHolder.getLocale()));
+            messageContext.addMessage(error.build());
+        }
+        return new EventFactorySupport().error(this);
+        //should be this or userComapnyForm ?
     }
 }

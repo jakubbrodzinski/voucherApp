@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.sql.DataSource;
 
-@EnableWebSecurity
+//@EnableWebSecurity
 @Configuration
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -24,6 +24,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin().loginPage("/sign_in").usernameParameter("username").passwordParameter("password").failureForwardUrl("/sign_in").successForwardUrl("/my_account/home");
+        /*http.requiresChannel().antMatchers("/sign_in").requiresSecure();
+        http.authorizeRequests().antMatchers("/*").permitAll().antMatchers("/my_account/*").hasRole("USER").and().formLogin().loginPage("/sign_in").usernameParameter("username").passwordParameter("password").failureForwardUrl("/").successForwardUrl("/my_account_home");*/
     }
 
     @Autowired

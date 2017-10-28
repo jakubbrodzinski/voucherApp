@@ -43,23 +43,7 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     private ApplicationContext applicationContext;
 
     @Bean
-    public FlowHandlerMapping flowHandlerMapping() {
-        FlowHandlerMapping handlerMapping = new FlowHandlerMapping();
-        handlerMapping.setOrder(-1);
-        handlerMapping.setFlowRegistry(this.webFlowConfig.flowRegistry());
-        return handlerMapping;
-    }
-
-    @Bean
-    public FlowHandlerAdapter flowHandlerAdapter() {
-        FlowHandlerAdapter handlerAdapter = new FlowHandlerAdapter();
-        handlerAdapter.setFlowExecutor(this.webFlowConfig.flowExecutor());
-        handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
-        return handlerAdapter;
-    }
-
-    @Bean
-    public ViewResolver ViewResolver() {
+    public ViewResolver viewResolver() {
         ThymeleafViewResolver resolver=new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
         resolver.setCharacterEncoding(UTF8);
@@ -149,4 +133,19 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         return localValidatorFactoryBean;
     }
 
+    @Bean
+    public FlowHandlerMapping flowHandlerMapping() {
+        FlowHandlerMapping handlerMapping = new FlowHandlerMapping();
+        handlerMapping.setOrder(-1);
+        handlerMapping.setFlowRegistry(this.webFlowConfig.flowRegistry());
+        return handlerMapping;
+    }
+
+    @Bean
+    public FlowHandlerAdapter flowHandlerAdapter() {
+        FlowHandlerAdapter handlerAdapter = new FlowHandlerAdapter();
+        handlerAdapter.setFlowExecutor(this.webFlowConfig.flowExecutor());
+        handlerAdapter.setSaveOutputToFlashScopeOnRedirect(true);
+        return handlerAdapter;
+    }
 }

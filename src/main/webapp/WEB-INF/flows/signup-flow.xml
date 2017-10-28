@@ -3,14 +3,23 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
 
-    <view-state id="step1" view="/signup/signup1.html">
-        <transition on="nextStep" to="step2"></transition>
-        <transition on="cancel" to="cancel"></transition>
+    <var name="company" class="pwr.groupproject.vouchers.bean.form.NewUserCompanyForm"/>
+
+    <view-state id="step1" view="/signup/signup1.html" model="company"
+                validation-hints="'validationGroup1'">
+        <transition on="nextStep" to="step2">
+            <evaluate expression="userCompanyServiceImpl.validateUserCompany(company,messageContext)" />
+        </transition>
+        <transition on="cancel" to="cancel" validate="false" bind="false"></transition>
     </view-state>
 
-    <view-state id="step2" view="/signup/signup2.html">
-        <transition on="nextStep" to="success"></transition>
-        <transition on="cancel" to="cancel"></transition>
+    <view-state id="step2" view="/signup/signup2.html" model="company"
+                validation-hints="'validationGroup2'">
+        <transition on="nextStep" to="success">
+            <evaluate expression="userCompanyServiceImpl.addUser(company)" />
+        </transition>
+        <transition on="cancel" to="cancel" validate="false"></transition>
+        <transition on="previousStep" to="step1" validate="false"></transition>
     </view-state>
 
     <end-state id="success" view="externalRedirect:my_account/home_page.html"></end-state>

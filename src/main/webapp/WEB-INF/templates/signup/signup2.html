@@ -7,21 +7,26 @@
     <title>Title</title>
 </head>
 <body>
-    <form method="post" th:action="${flowExecutionUrl}">
-        <table>
-            Kod pocztowy:<br>
-            <input type="text" name="postal_code"><br>
-            Miasto:<br>
-            <input type="text" name="city"><br>
-            Adres:<br>
-            <input type="text" name="address"><br>
-            <td>
-                <input type="submit" name="_eventId" value="nextStep"/>
-            </td>
-            <td>
-                <input type="submit" name="_eventId" value="cancel"/>
-            </td>
-        </table>
-    </form>
+<form method="post" th:action="${flowExecutionUrl}" th:object="${company}">
+    <table>
+        Nazwa firmy:<br>
+        <input type="text" name="company_name" th:field="*{companyName}"><br>
+        Kod pocztowy:<br>
+        <input type="text" name="postal_code" th:field="*{postalCode}"><br>
+        Miasto:<br>
+        <input type="text" name="city" th:field="*{city}"><br>
+        Adres:<br>
+        <input type="text" name="address" th:field="*{addressDetails}"><br>
+        <td>
+            <input type="submit" name="_eventId" value="nextStep"/>
+        </td>
+        <td>
+            <input type="submit" name="_eventId" value="previousStep"/>
+        </td>
+        <td>
+            <input type="submit" name="_eventId" value="cancel"/>
+        </td>
+    </table>
+</form>
 </body>
 </html>

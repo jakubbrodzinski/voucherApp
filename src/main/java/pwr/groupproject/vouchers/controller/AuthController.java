@@ -7,6 +7,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import pwr.groupproject.vouchers.dao.UserCompanyDao;
+import pwr.groupproject.vouchers.services.UserCompanyService;
 
 import javax.annotation.security.PermitAll;
 
@@ -24,6 +27,14 @@ public class AuthController {
             return "auth/sign_in.html";
         else
             return "redirect:"+"/my_account/home";
+    }
+
+    @Autowired
+    private UserCompanyDao userCompanyDao;
+    @RequestMapping("/home")
+    @ResponseBody
+    public String xyz(){
+        return userCompanyDao.ifCompanyNameIsUsed("xyz") + " " + userCompanyDao.ifCompanyNameIsUsed("companyA") + "\n"+userCompanyDao.ifEmailIsUsed("xyz@xyz.com2")+' '+userCompanyDao.ifEmailIsUsed("xyz@xyz.com");
     }
 
     private String getPrincipal() {

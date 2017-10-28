@@ -36,7 +36,7 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
 
     @Override
     public boolean ifEmailIsUsed(String eMail) {
-        TypedQuery<Integer> query= entityManager.createQuery("SELCT count(*) FROM "+ UserCompany.class.getName()+" uc WHERE uc.userName='"+eMail+"'",Integer.class);
+        TypedQuery<Long> query= entityManager.createQuery("SELECT count(*) FROM "+ UserCompany.class.getName()+" uc WHERE uc.userName='"+eMail+"'",Long.class);
         if(query.getSingleResult()!=0)
             return false;
         else
@@ -45,7 +45,7 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
 
     @Override
     public boolean ifCompanyNameIsUsed(String companyName) {
-        TypedQuery<Integer> query= entityManager.createQuery("SELCT count(*) FROM "+ Company.class.getName()+"c WHERE c.companyName='"+companyName+"'",Integer.class);
+        TypedQuery<Long> query= entityManager.createQuery("SELECT count(*) FROM "+ Company.class.getName()+" c WHERE c.companyName='"+companyName+"'",Long.class);
         if(query.getSingleResult()!=0)
             return false;
         else

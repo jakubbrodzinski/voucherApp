@@ -10,12 +10,14 @@
 Pierwszy step
 <form method="post" th:action="${flowExecutionUrl}" th:object="${company}">
     <table>
+        Nazwa firmy:<br>
+        <input type="text" name="company_name" th:field="*{companyName}"><br>
         E-mail:<br>
         <input type="text" name="email" th:field="*{userName}"><br>
         Password:<br>
         <input type="password" name="password" th:field="*{password}"><br>
         Confirm password:<br>
-        <input type="password" name="password" th:field="*{repeatedPassword}"><br>
+        <input type="password" name="repeatedPassword" th:field="*{repeatedPassword}"><br>
         <td>
             <input type="submit" name="_eventId" value="nextStep"/>
         </td>

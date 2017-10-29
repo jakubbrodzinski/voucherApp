@@ -6,7 +6,7 @@
     <var name="company" class="pwr.groupproject.vouchers.bean.form.NewUserCompanyForm"/>
 
     <view-state id="step1" view="/signup/signup1.html" model="company"
-                validation-hints="'validationGroup1'">
+                validation-hints="'validationGroup1'" >
         <transition on="nextStep" to="step2">
             <evaluate expression="userCompanyServiceImpl.validateUserCompany(company,messageContext)" />
         </transition>

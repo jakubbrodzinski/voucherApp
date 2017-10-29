@@ -9,8 +9,6 @@
 <body>
 <form method="post" th:action="${flowExecutionUrl}" th:object="${company}">
     <table>
-        Nazwa firmy:<br>
-        <input type="text" name="company_name" th:field="*{companyName}"><br>
         Kod pocztowy:<br>
         <input type="text" name="postal_code" th:field="*{postalCode}"><br>
         Miasto:<br>

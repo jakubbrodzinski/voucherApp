@@ -3,8 +3,6 @@ package pwr.groupproject.vouchers.bean.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "VOUCHER_CODE")

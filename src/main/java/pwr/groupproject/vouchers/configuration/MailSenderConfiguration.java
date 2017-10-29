@@ -23,7 +23,6 @@ import java.util.Properties;
 public class MailSenderConfiguration {
 
     public static final String EMAIL_TEMPLATE_ENCODING = "UTF-8";
-
     @Autowired
     private Environment env;
 
@@ -62,9 +61,8 @@ public class MailSenderConfiguration {
 
     private ITemplateResolver textTemplateResolver() {
         final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setOrder(Integer.valueOf(1));
-        templateResolver.setResolvablePatterns(Collections.singleton("text/*"));
-        templateResolver.setPrefix("/mail/");
+        templateResolver.setOrder(Integer.valueOf(2));
+        templateResolver.setPrefix("/WEB-INF/eMail/");
         templateResolver.setSuffix(".txt");
         templateResolver.setTemplateMode(TemplateMode.TEXT);
         templateResolver.setCharacterEncoding(EMAIL_TEMPLATE_ENCODING);
@@ -74,9 +72,8 @@ public class MailSenderConfiguration {
 
     private ITemplateResolver htmlTemplateResolver() {
         final ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setOrder(Integer.valueOf(2));
-        templateResolver.setResolvablePatterns(Collections.singleton("html/*"));
-        templateResolver.setPrefix("/mail/");
+        templateResolver.setOrder(Integer.valueOf(1));
+        templateResolver.setPrefix("/WEB-INF/eMail/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding(EMAIL_TEMPLATE_ENCODING);

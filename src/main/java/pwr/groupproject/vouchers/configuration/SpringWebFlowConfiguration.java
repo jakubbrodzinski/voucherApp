@@ -12,6 +12,7 @@ import org.springframework.webflow.mvc.builder.MvcViewFactoryCreator;
 import org.springframework.webflow.security.SecurityFlowExecutionListener;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 public class SpringWebFlowConfiguration extends AbstractFlowConfiguration{
@@ -41,8 +42,8 @@ public class SpringWebFlowConfiguration extends AbstractFlowConfiguration{
 
     @Bean
     public MvcViewFactoryCreator mvcViewFactoryCreator() {
-        MvcViewFactoryCreator factoryCreator=new MvcViewFactoryCreator();
-        factoryCreator.setViewResolvers(Arrays.<ViewResolver>asList(this.webMvcConfig.viewResolver()));
+        MvcViewFactoryCreator factoryCreator = new MvcViewFactoryCreator();
+        factoryCreator.setViewResolvers(Collections.singletonList(this.webMvcConfig.viewResolver()));
         factoryCreator.setUseSpringBeanBinding(true);
         return factoryCreator;
     }

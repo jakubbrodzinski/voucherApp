@@ -23,7 +23,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableAspectJAutoProxy
-@PropertySource(value = "classpath:database/jdbc.properties")
+@PropertySource(value = "classpath:properties/jdbc.properties")
 @EnableTransactionManagement
 public class HibernateConfiguration {
     @Autowired

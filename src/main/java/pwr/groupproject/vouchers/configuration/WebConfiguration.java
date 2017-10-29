@@ -28,8 +28,6 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.Locale;
-import java.util.Properties;
-
 
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAware{
@@ -146,20 +144,4 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         return handlerAdapter;
     }
 
-    @Bean
-    public JavaMailSender mailSender() {
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-
-        mailSender.setUsername("pwrvoucher.email1@gmail.com");
-        mailSender.setPassword("zaq1@WSX3");
-
-        Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
-        return mailSender;
-    }
 }

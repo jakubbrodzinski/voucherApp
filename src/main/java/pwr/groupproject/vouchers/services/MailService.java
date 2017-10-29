@@ -8,7 +8,9 @@ import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 import javax.mail.MessagingException;
 
 public interface MailService {
-    void sendToken(VerificationToken activationToken, UserCompany company) throws MessagingException;
+    void sendToken(String activationLink, UserCompany company) throws MessagingException;
 
     void sendVoucher(Voucher voucher, User user) throws MessagingException;
+
+    void sendTest(String email, String testLink, String testText) throws MessagingException;
 }

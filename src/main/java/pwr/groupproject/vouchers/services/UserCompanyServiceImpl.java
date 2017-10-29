@@ -42,7 +42,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         userCompany.setUserName(newUserCompanyForm.getUserName());
         userCompany.setPassword(shaPasswordEncoder.encodePassword(newUserCompanyForm.getPassword(),null));
         userCompany.setCompany(company);
-        this.userCompanyDao.createNewUser(userCompany);
+        this.userCompanyDao.addUserCompany(userCompany);
     }
 
     @Override

@@ -4,7 +4,7 @@ import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 public interface UserCompanyDao {
     UserCompany getUserByUserName(String userName);
-    void createNewUser(UserCompany userCompany);
+    void addUserCompany(UserCompany userCompany);
     void editUser(UserCompany userCompany);
     UserCompany getUserCompany(int userId);
     boolean ifEmailIsUsed(String eMail);

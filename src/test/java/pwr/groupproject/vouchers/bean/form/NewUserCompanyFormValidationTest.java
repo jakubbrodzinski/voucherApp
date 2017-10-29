@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import pwr.groupproject.vouchers.bean.model.Company;
+import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.configuration.*;
 import pwr.groupproject.vouchers.dao.UserCompanyDao;
 import pwr.groupproject.vouchers.dao.UserCompanyDaoImpl;
@@ -20,6 +22,8 @@ import pwr.groupproject.vouchers.services.CustomUserDetailsServiceImpl;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 import pwr.groupproject.vouchers.services.UserCompanyServiceImpl;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolation;
 
 import java.util.Locale;
@@ -35,6 +39,8 @@ public class NewUserCompanyFormValidationTest {
     private MessageSource messageSource;
     @Autowired
     private UserCompanyService userCompanyService;
+    @Autowired
+    private UserCompanyDao userCompanyDao;
 
     @Test
     public void DependencyInjectionTest(){
@@ -87,5 +93,20 @@ public class NewUserCompanyFormValidationTest {
         }catch(NoSuchMessageException ex){
             ex.printStackTrace();
         }
+    }
+
+    @Test
+    @Transactional
+    public void testValidatingByDao(){
+        Assert.assertFalse(userCompanyDao.ifEmailIsUsed("-1"));
+        Assert.assertFalse(userCompanyDao.ifCompanyNameIsUsed("-1"));
+        UserCompany userCompany=new UserCompany();
+        userCompany.setUserName("xyz@xyz.com");
+        Company company=new Company();
+        company.setCompanyName("companyA");
+        userCompany.setCompany(company);
+        userCompanyDao.addUserCompany(userCompany);
+        Assert.assertTrue(userCompanyDao.ifEmailIsUsed("xyz@xyz.com"));
+        Assert.assertTrue(userCompanyDao.ifCompanyNameIsUsed("companyA"));
     }
 }

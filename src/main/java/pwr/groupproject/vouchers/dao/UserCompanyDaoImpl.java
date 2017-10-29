@@ -20,7 +20,7 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
     }
 
     @Override
-    public void createNewUser(UserCompany userCompany) {
+    public void addUserCompany(UserCompany userCompany) {
         entityManager.persist(userCompany);
     }
 

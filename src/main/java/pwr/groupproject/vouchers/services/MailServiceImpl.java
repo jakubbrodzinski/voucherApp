@@ -8,6 +8,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import pwr.groupproject.vouchers.bean.model.User;
 import pwr.groupproject.vouchers.bean.model.Voucher;
+import pwr.groupproject.vouchers.bean.model.VoucherCode;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 
@@ -19,36 +20,30 @@ public class MailServiceImpl implements MailService {
 
     @Autowired
     private JavaMailSender mailSender;
-
     @Autowired
     private TemplateEngine htmlTemplateEngine;
-
     @Autowired
     private TemplateEngine textTemplateEngine;
 
     @Override
-    public void sendToken(String activationLink, UserCompany company) throws MessagingException {
+    public void sendVerificationTokenEmail(String activationLink, UserCompany company) throws MessagingException {
         final Context ctx = new Context();
         ctx.setVariable("link", activationLink);
 
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setTo(company.getUserName());
-        helper.setSubject("Activate your account in Voucher app!");
-
-        final String htmlContent = this.htmlTemplateEngine.process("html/tokenTemplate", ctx);
-        helper.setText(htmlContent, true);
-        mailSender.send(message);
+        this.send(company.getUserName(),"Activate your account in Voucher app!",ctx,"tokenTemplate");
     }
 
     @Override
-    public void sendVoucher(Voucher voucher, User user) throws MessagingException {
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setTo(user.geteMail());
-        helper.setSubject("subject");
-        helper.setText(voucher.getCodes().iterator().next().getVoucherCode());
-        mailSender.send(message);
+    public void sendPasswordResetEmail(String passwordResetLink, UserCompany company) throws MessagingException {
+
+    }
+
+    @Override
+    public void sendVoucherCodeEmail(VoucherCode voucher, User user) throws MessagingException {
+        final Context ctx=new Context();
+        ctx.setVariable("voucherCode",voucher.getVoucherCode());
+
+        this.send(user.geteMail(),"subject",ctx,"vouchertemplate");
     }
 
     @Override
@@ -57,13 +52,18 @@ public class MailServiceImpl implements MailService {
         ctx.setVariable("link", testLink);
         ctx.setVariable("text", testText);
 
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setTo(email);
-        helper.setSubject("subject");
+        this.send(email,"subject",ctx,"simpletemplate");
+    }
 
-        final String htmlContent = this.htmlTemplateEngine.process("html/simpletemplate", ctx);
-        helper.setText(htmlContent, true);
-        mailSender.send(message);
+    private void send(String destinationEmail, String subject,Context ctx,String eMailTemplate) throws  MessagingException{
+        MimeMessage eMailMessage= mailSender.createMimeMessage();
+        MimeMessageHelper eMailMessageHelper=new MimeMessageHelper(eMailMessage,true);
+        eMailMessageHelper.setTo(destinationEmail);
+        eMailMessageHelper.setSubject(subject);
+
+        final String htmlContent= this.htmlTemplateEngine.process(eMailTemplate,ctx);
+        eMailMessageHelper.setText(htmlContent,true);
+
+        mailSender.send(eMailMessage);
     }
 }

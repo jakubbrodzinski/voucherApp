@@ -22,7 +22,7 @@
         <transition on="previousStep" to="step1" validate="false"></transition>
     </view-state>
 
-    <end-state id="success" view="externalRedirect:my_account/home_page.html"></end-state>
-    <end-state id="cancel" view="externalRedirect:my_account/home_page.html"></end-state>
+    <end-state id="success" view="externalRedirect:/"></end-state>
+    <end-state id="cancel" view="externalRedirect:/"></end-state>
 
 </flow>

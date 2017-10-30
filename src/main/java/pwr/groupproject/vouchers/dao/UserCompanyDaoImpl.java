@@ -5,8 +5,10 @@ import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Optional;
 
 @Component
 public class UserCompanyDaoImpl implements UserCompanyDao {
@@ -16,7 +18,12 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
     @Override
     public UserCompany getUserByUserName(String userName) {
         TypedQuery<UserCompany> query= entityManager.createQuery("FROM "+ UserCompany.class.getName()+" WHERE userName='"+userName+"'", UserCompany.class);
-        return query.getSingleResult();
+        try {
+            return query.getSingleResult();
+        }catch(NoResultException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

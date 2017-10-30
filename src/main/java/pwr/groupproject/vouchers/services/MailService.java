@@ -5,11 +5,12 @@ import pwr.groupproject.vouchers.bean.model.VoucherCode;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 import javax.mail.MessagingException;
+import java.util.Date;
 
 public interface MailService {
-    void sendVerificationTokenEmail(String activationLink, UserCompany company) throws MessagingException;
-    void sendPasswordResetEmail(String passwordResetLink, UserCompany company) throws MessagingException;
-    void sendVoucherCodeEmail(VoucherCode voucher, User user) throws MessagingException;
+    boolean sendVerificationTokenEmail(String activationLink, Date expirationDate, String userName);
+    boolean sendPasswordResetEmail(String passwordResetLink, String userName);
+    boolean sendVoucherCodeEmail(VoucherCode voucher, User user);
 
     void sendTest(String email, String testLink, String testText) throws MessagingException;
 }

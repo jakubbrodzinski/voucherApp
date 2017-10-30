@@ -5,7 +5,9 @@ import pwr.groupproject.vouchers.bean.model.security.PasswordResetToken;
 import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Component
 public class TokenDaoImpl implements TokenDao {
@@ -34,7 +36,11 @@ public class TokenDaoImpl implements TokenDao {
 
     @Override
     public VerificationToken getVerificationTokenByToken(String verificationToken) {
-        return entityManager.createQuery("FROM "+VerificationToken.class.getName() + " WHERE token='"+verificationToken+"'",VerificationToken.class).getSingleResult();
+        try {
+            return entityManager.createQuery("FROM " + VerificationToken.class.getName() + " WHERE token='" + verificationToken + "'", VerificationToken.class).getSingleResult();
+        }catch(NoResultException e){
+            return null;
+        }
     }
 
     @Override
@@ -50,5 +56,17 @@ public class TokenDaoImpl implements TokenDao {
     @Override
     public void addVerificationToken(VerificationToken verificationToken) {
         entityManager.persist(verificationToken);
+    }
+
+    @Override
+    public void deleteUsersResetTokens(String userName) {
+        List<VerificationToken> resultList=entityManager.createQuery("FROM "+VerificationToken.class.getName() + " v WHERE userCompany='"+userName+"'",VerificationToken.class).getResultList();
+        resultList.forEach(this::deletVerificationToken);
+    }
+
+    @Override
+    public void deleteUsersVerificationTokens(String userName) {
+        List<PasswordResetToken> resultList=entityManager.createQuery("FROM "+PasswordResetToken.class.getName() + " v WHERE userCompany='"+userName+"'",PasswordResetToken.class).getResultList();
+        resultList.forEach(this::deleteResetToken);
     }
 }

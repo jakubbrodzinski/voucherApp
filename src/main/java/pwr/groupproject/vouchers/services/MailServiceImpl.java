@@ -7,13 +7,12 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import pwr.groupproject.vouchers.bean.model.User;
-import pwr.groupproject.vouchers.bean.model.Voucher;
 import pwr.groupproject.vouchers.bean.model.VoucherCode;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
-import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Date;
 
 @Component
 public class MailServiceImpl implements MailService {
@@ -26,24 +25,25 @@ public class MailServiceImpl implements MailService {
     private TemplateEngine textTemplateEngine;
 
     @Override
-    public void sendVerificationTokenEmail(String activationLink, UserCompany company) throws MessagingException {
+    public boolean sendVerificationTokenEmail(String activationLink, Date expirationDate, String userName){
         final Context ctx = new Context();
         ctx.setVariable("link", activationLink);
 
-        this.send(company.getUserName(),"Activate your account in Voucher app!",ctx,"tokenTemplate");
+        return this.send(userName,"Activate your account in Voucher app!",ctx,"tokenTemplate");
     }
 
     @Override
-    public void sendPasswordResetEmail(String passwordResetLink, UserCompany company) throws MessagingException {
+    public boolean sendPasswordResetEmail(String passwordResetLink, String userName) {
 
+        return false;
     }
 
     @Override
-    public void sendVoucherCodeEmail(VoucherCode voucher, User user) throws MessagingException {
+    public boolean sendVoucherCodeEmail(VoucherCode voucher, User user) {
         final Context ctx=new Context();
         ctx.setVariable("voucherCode",voucher.getVoucherCode());
 
-        this.send(user.geteMail(),"subject",ctx,"vouchertemplate");
+        return this.send(user.geteMail(),"subject",ctx,"vouchertemplate");
     }
 
     @Override
@@ -55,15 +55,21 @@ public class MailServiceImpl implements MailService {
         this.send(email,"subject",ctx,"simpletemplate");
     }
 
-    private void send(String destinationEmail, String subject,Context ctx,String eMailTemplate) throws  MessagingException{
+    private boolean send(String destinationEmail, String subject,Context ctx,String eMailTemplate) {
         MimeMessage eMailMessage= mailSender.createMimeMessage();
-        MimeMessageHelper eMailMessageHelper=new MimeMessageHelper(eMailMessage,true);
-        eMailMessageHelper.setTo(destinationEmail);
-        eMailMessageHelper.setSubject(subject);
+        MimeMessageHelper eMailMessageHelper;
+        try {
+            eMailMessageHelper = new MimeMessageHelper(eMailMessage, true);
+            eMailMessageHelper.setTo(destinationEmail);
+            eMailMessageHelper.setSubject(subject);
 
-        final String htmlContent= this.htmlTemplateEngine.process(eMailTemplate,ctx);
-        eMailMessageHelper.setText(htmlContent,true);
-
-        mailSender.send(eMailMessage);
+            final String htmlContent = this.htmlTemplateEngine.process(eMailTemplate, ctx);
+            eMailMessageHelper.setText(htmlContent, true);
+            mailSender.send(eMailMessage);
+            return true;
+        }catch (MessagingException e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

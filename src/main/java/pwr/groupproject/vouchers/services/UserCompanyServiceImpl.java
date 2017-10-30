@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.webflow.action.EventFactorySupport;
 import org.springframework.webflow.execution.Event;
 import pwr.groupproject.vouchers.bean.form.NewUserCompanyForm;
+import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
 import pwr.groupproject.vouchers.bean.model.Address;
 import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
@@ -51,6 +52,11 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     }
 
     @Override
+    public UserCompany getUserByUserName(String userName) {
+        return userCompanyDao.getUserByUserName(userName);
+    }
+
+    @Override
     public UserCompany getUserCompanyByCompanyId(int companyId) {
         return userCompanyDao.getUserCompanyByCompanyId(companyId);
     }
@@ -67,6 +73,12 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     public void changePassword(String userName, String newHashedPassword) {
         UserCompany userCompany=userCompanyDao.getUserByUserName(userName);
         userCompany.setPassword(newHashedPassword);
+        userCompanyDao.editUser(userCompany);
+    }
+
+    @Override
+    public void changePassword(UserCompany userCompany, ResetPasswordForm resetPasswordForm) {
+        userCompany.setPassword(shaPasswordEncoder.encodePassword(resetPasswordForm.getPassword(),null));
         userCompanyDao.editUser(userCompany);
     }
 

@@ -13,4 +13,7 @@ public interface TokenDao {
     VerificationToken getVerificationTokenById(int tokenId);
     void deletVerificationToken(VerificationToken verificationToken);
     void addVerificationToken(VerificationToken verificationToken);
+
+    void deleteUsersResetTokens(String userName);
+    void deleteUsersVerificationTokens(String userName);
 }

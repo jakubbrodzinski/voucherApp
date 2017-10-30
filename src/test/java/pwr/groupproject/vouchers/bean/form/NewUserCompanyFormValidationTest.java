@@ -43,12 +43,12 @@ public class NewUserCompanyFormValidationTest {
     private UserCompanyDao userCompanyDao;
 
     @Test
-    public void DependencyInjectionTest(){
+    public void dependencyInjectionTest(){
         Assert.assertNotNull(validator);
     }
 
     @Test
-    public void NewUserCompanyFormValidatingTest(){
+    public void newUserCompanyFormValidatingTest(){
         NewUserCompanyForm form1=new NewUserCompanyForm();
         Set<ConstraintViolation<NewUserCompanyForm>> violations1=validator.validate(form1,NewUserCompanyForm.ValidationGroup1.class);
         Assert.assertEquals(5,violations1.size());

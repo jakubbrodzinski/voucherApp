@@ -18,6 +18,7 @@ public class VerificationToken {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private UserCompany userCompany;
+    @Column(unique = true)
     private String token;
     private Date expirationDate;
 

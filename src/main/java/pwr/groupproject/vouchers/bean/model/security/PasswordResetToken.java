@@ -9,6 +9,7 @@ public class PasswordResetToken {
     @GeneratedValue
     private int id;
 
+    @Column(unique = true)
     private String token;
 
     @OneToOne(fetch = FetchType.EAGER)

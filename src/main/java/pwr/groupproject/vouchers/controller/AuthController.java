@@ -1,14 +1,25 @@
 package pwr.groupproject.vouchers.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import pwr.groupproject.vouchers.dao.UserCompanyDao;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import pwr.groupproject.vouchers.bean.form.ForgotPasswordForm;
+import pwr.groupproject.vouchers.bean.model.security.PasswordResetToken;
+import pwr.groupproject.vouchers.bean.model.security.UserCompany;
+import pwr.groupproject.vouchers.services.MailService;
+import pwr.groupproject.vouchers.services.TokenService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 
 import javax.annotation.security.PermitAll;
@@ -20,6 +31,14 @@ public class AuthController {
     public static final String ROOT_MAPPING="/";
     @Autowired
     private AuthenticationTrustResolver authenticationTrustResolver;
+    @Autowired
+    private MailService mailService;
+    @Autowired
+    private UserCompanyService userCompanyService;
+    @Autowired
+    private MessageSource messageSource;
+    @Autowired
+    private TokenService tokenService;
 
     @RequestMapping("sign_in")
     public String signIn(){
@@ -29,12 +48,26 @@ public class AuthController {
             return "redirect:"+"/my_account/home";
     }
 
-    @Autowired
-    private UserCompanyDao userCompanyDao;
-    @RequestMapping("/home")
-    @ResponseBody
-    public String xyz(){
-        return userCompanyDao.ifCompanyNameIsUsed("xyz") + " " + userCompanyDao.ifCompanyNameIsUsed("companyA") + "\n"+userCompanyDao.ifEmailIsUsed("xyz@xyz.com2")+' '+userCompanyDao.ifEmailIsUsed("xyz@xyz.com");
+    @RequestMapping(value = "forgot_password",method = RequestMethod.GET)
+    public String forgottenPassword(Model model){
+        model.addAttribute("form",new ForgotPasswordForm());
+        return "";
+    }
+
+    @RequestMapping(value = "forgot_password",method = RequestMethod.POST)
+    public String forgottenPassword(@ModelAttribute @Validated ForgotPasswordForm forgotPasswordForm, BindingResult bindingResult){
+        if(bindingResult.hasErrors())
+            return "";
+
+        UserCompany userCompany= userCompanyService.getUserByUserName(forgotPasswordForm.getUserName());
+        if(userCompany==null){
+            bindingResult.rejectValue("userName",messageSource.getMessage("message.wrong.email",null, LocaleContextHolder.getLocale()));
+            return "";
+        }
+        PasswordResetToken passwordResetToken=tokenService.generateNewPasswordResetToken(userCompany);
+        mailService.sendPasswordResetEmail(passwordResetToken.getToken(),userCompany.getUserName());
+
+        return "";
     }
 
     private String getPrincipal() {

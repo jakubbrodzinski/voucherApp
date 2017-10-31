@@ -1,4 +1,4 @@
-package pwr.groupproject.vouchers.bean.enums;
+package pwr.groupproject.vouchers.bean.model.enums;
 
 public enum VoucherType {
     NOTREUSABLE(0), REUSABLE(1);

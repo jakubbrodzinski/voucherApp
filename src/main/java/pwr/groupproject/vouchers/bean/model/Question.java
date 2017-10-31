@@ -1,6 +1,6 @@
 package pwr.groupproject.vouchers.bean.model;
 
-import pwr.groupproject.vouchers.bean.enums.QuestionType;
+import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package pwr.groupproject.vouchers.bean.enums;
+package pwr.groupproject.vouchers.bean.model.enums;
 
 import javax.persistence.Enumerated;
 

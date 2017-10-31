@@ -1,7 +1,6 @@
 package pwr.groupproject.vouchers.bean.model;
 
-import pwr.groupproject.vouchers.bean.enums.DiscountType;
-import pwr.groupproject.vouchers.bean.enums.VoucherType;
+import pwr.groupproject.vouchers.bean.model.enums.DiscountType;
 
 import javax.persistence.*;
 import java.util.Date;

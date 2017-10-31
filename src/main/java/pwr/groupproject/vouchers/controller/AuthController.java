@@ -40,11 +40,19 @@ public class AuthController {
     @Autowired
     private TokenService tokenService;
 
-    @RequestMapping("sign_in")
+    @RequestMapping(value = "sign_in",method = RequestMethod.GET)
     public String signIn(){
         if(getPrincipal()==null)
             return "auth/sign_in.html";
         else
+            return "redirect:"+"/my_account/home";
+    }
+    @RequestMapping(value = "sign_in",method = RequestMethod.POST)
+    public String signIn(@RequestParam(name = "error") int errorCode,Model model){
+        if(getPrincipal()==null) {
+            model.addAttribute("errorCode",errorCode);
+            return "auth/sign_in.html";
+        }else
             return "redirect:"+"/my_account/home";
     }
 
@@ -64,6 +72,7 @@ public class AuthController {
             bindingResult.rejectValue("userName",messageSource.getMessage("message.wrong.email",null, LocaleContextHolder.getLocale()));
             return "";
         }
+
         PasswordResetToken passwordResetToken=tokenService.generateNewPasswordResetToken(userCompany);
         mailService.sendPasswordResetEmail(passwordResetToken.getToken(),userCompany.getUserName());
 

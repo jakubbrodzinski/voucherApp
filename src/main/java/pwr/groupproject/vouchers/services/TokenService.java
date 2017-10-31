@@ -6,6 +6,9 @@ import pwr.groupproject.vouchers.bean.model.security.PasswordResetToken;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 
+import javax.annotation.security.PermitAll;
+
+@PermitAll
 public interface TokenService {
     void activateAccount(String activationToken) throws VerificationTokenExpired, WrongTokenException;
 
@@ -17,4 +20,5 @@ public interface TokenService {
 
     UserCompany getUserCompanyByPasswordResetToken(String passwordResetToken);
     UserCompany getUserCompanyByVerificationToken(String verificationToken);
+
 }

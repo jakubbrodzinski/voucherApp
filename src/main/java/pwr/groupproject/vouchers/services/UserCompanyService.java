@@ -8,7 +8,7 @@ import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 
 public interface UserCompanyService {
-    void addUser(NewUserCompanyForm newUserCompanyForm);
+    boolean addUser(NewUserCompanyForm newUserCompanyForm);
     UserCompany getUserCompanyById(int userCompanyId);
     UserCompany getUserByUserName(String userName);
     UserCompany getUserCompanyByCompanyId(int companyId);

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.dao.UserCompanyDao;
 
 import javax.persistence.NoResultException;
@@ -22,8 +23,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try{
-            pwr.groupproject.vouchers.bean.model.security.UserCompany userCompany= this.userCompanyDao.getUserByUserName(username);
-            System.out.println(userCompany.toString());
+            UserCompany userCompany= this.userCompanyDao.getUserByUserName(username);
             return new User(userCompany.getUserName(),userCompany.getPassword(),userCompany.isActivated(),true,true,true,userCompany.getUserProfiles());
         }catch(NoResultException ex){
             throw new UsernameNotFoundException("NOT FOUND LOGIN: \""+username+"\"");

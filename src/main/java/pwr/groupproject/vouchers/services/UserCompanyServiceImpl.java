@@ -16,20 +16,26 @@ import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
 import pwr.groupproject.vouchers.bean.model.Address;
 import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
+import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 import pwr.groupproject.vouchers.dao.UserCompanyDao;
 
 @Service
 @Transactional
 public class UserCompanyServiceImpl implements UserCompanyService {
+    private final int TOKEN_LENGTH=50;
     @Autowired
     private UserCompanyDao userCompanyDao;
     @Autowired
     private MessageSource messageSource;
     @Autowired
     private ShaPasswordEncoder shaPasswordEncoder;
+    @Autowired
+    private TokenService tokenService;
+    @Autowired
+    private MailService mailService;
 
     @Override
-    public void addUser(NewUserCompanyForm newUserCompanyForm){
+    public boolean addUser(NewUserCompanyForm newUserCompanyForm){
         Address address=new Address();
         address.setAddressDetails(newUserCompanyForm.getAddressDetails());
         address.setCity(newUserCompanyForm.getCity());
@@ -44,6 +50,11 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         userCompany.setPassword(shaPasswordEncoder.encodePassword(newUserCompanyForm.getPassword(),null));
         userCompany.setCompany(company);
         this.userCompanyDao.addUserCompany(userCompany);
+
+        VerificationToken verificationToken=tokenService.generateNewActicationToken(userCompany);
+        mailService.sendVerificationTokenEmail(verificationToken.getToken(),verificationToken.getExpirationDate(),userCompany.getUserName());
+
+        return true;
     }
 
     @Override

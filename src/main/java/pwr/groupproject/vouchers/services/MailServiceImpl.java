@@ -1,6 +1,10 @@
 package pwr.groupproject.vouchers.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -8,7 +12,6 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import pwr.groupproject.vouchers.bean.model.User;
 import pwr.groupproject.vouchers.bean.model.VoucherCode;
-import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -16,6 +19,7 @@ import java.util.Date;
 
 @Component
 public class MailServiceImpl implements MailService {
+    private final String APP_URL;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -23,36 +27,41 @@ public class MailServiceImpl implements MailService {
     private TemplateEngine htmlTemplateEngine;
     @Autowired
     private TemplateEngine textTemplateEngine;
+    @Autowired
+    private Environment environment;
+    @Autowired
+    @Qualifier("mailMessageSource")
+    private MessageSource messageSource;
+
+    public MailServiceImpl(){
+        APP_URL=environment.getProperty("web.app.url");
+    }
 
     @Override
-    public boolean sendVerificationTokenEmail(String activationLink, Date expirationDate, String userName){
+    public boolean sendVerificationTokenEmail(String activationToken, Date expirationDate, String userName){
         final Context ctx = new Context();
-        ctx.setVariable("link", activationLink);
+        ctx.setVariable("link", generateActivationLink(activationToken));
+        String eMailTitle=messageSource.getMessage("activate.account.email.title",null, LocaleContextHolder.getLocale());
 
-        return this.send(userName,"Activate your account in Voucher app!",ctx,"tokenTemplate");
+        return this.send(userName,eMailTitle,ctx,"activateAccountEmail");
     }
 
     @Override
     public boolean sendPasswordResetEmail(String passwordResetLink, String userName) {
+        final Context ctx = new Context();
+        ctx.setVariable("link", generatePasswordResetLink(passwordResetLink));
+        String eMailTitle=messageSource.getMessage("reset.password.email.title",null, LocaleContextHolder.getLocale());
 
-        return false;
+        return this.send(userName,eMailTitle,ctx,"resetPasswordEmail");
     }
 
     @Override
     public boolean sendVoucherCodeEmail(VoucherCode voucher, User user) {
         final Context ctx=new Context();
         ctx.setVariable("voucherCode",voucher.getVoucherCode());
+        String eMailTitle=messageSource.getMessage("voucher.code.email.title",null, LocaleContextHolder.getLocale());
 
-        return this.send(user.geteMail(),"subject",ctx,"vouchertemplate");
-    }
-
-    @Override
-    public void sendTest(String email, String testLink, String testText) throws MessagingException {
-        final Context ctx = new Context();
-        ctx.setVariable("link", testLink);
-        ctx.setVariable("text", testText);
-
-        this.send(email,"subject",ctx,"simpletemplate");
+        return this.send(user.geteMail(),eMailTitle,ctx,"voucherCodeEmail");
     }
 
     private boolean send(String destinationEmail, String subject,Context ctx,String eMailTemplate) {
@@ -71,5 +80,13 @@ public class MailServiceImpl implements MailService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private String generateActivationLink(String activationToken){
+        return APP_URL+"token/activate_account?t="+activationToken;
+    }
+
+    private String generatePasswordResetLink(String passwordResetToken){
+        return APP_URL+"token/reset_password?t="+passwordResetToken;
     }
 }

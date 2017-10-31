@@ -1,6 +1,7 @@
 package pwr.groupproject.vouchers.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -43,8 +44,8 @@ public class MailSenderConfiguration {
         return mailSender;
     }
 
-    @Bean
-    public ResourceBundleMessageSource mailMessageSource() {
+    @Bean(name = "mailMessageSource")
+    public MessageSource messageSource() {
         final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("mail/messages");
         return messageSource;
@@ -55,7 +56,7 @@ public class MailSenderConfiguration {
         final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.addTemplateResolver(textTemplateResolver());
         templateEngine.addTemplateResolver(htmlTemplateResolver());
-        templateEngine.setTemplateEngineMessageSource(mailMessageSource());
+        templateEngine.setTemplateEngineMessageSource(messageSource());
         return templateEngine;
     }
 

@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import pwr.groupproject.vouchers.configuration.handlers.CustomLoginFailureHandler;
 
 
 @EnableWebSecurity
@@ -20,11 +22,20 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
 
+    //we have to add logout functionality !!
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin().loginPage("/sign_in").usernameParameter("username").passwordParameter("password").failureForwardUrl("/sign_in").successForwardUrl("/my_account/home");
-        /*http.requiresChannel().antMatchers("/sign_in").requiresSecure();
-        http.authorizeRequests().antMatchers("/*").permitAll().antMatchers("/my_account/*").hasRole("USER").and().formLogin().loginPage("/sign_in").usernameParameter("username").passwordParameter("password").failureForwardUrl("/").successForwardUrl("/my_account_home");*/
+        http.requiresChannel().antMatchers("/*").requiresSecure()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/*").permitAll()
+                .antMatchers("/token/*").permitAll()
+                .antMatchers("/my_account/*").hasRole("USER")
+                .antMatchers("/*").hasRole("ADMIN")
+                .and()
+                .formLogin().loginPage("/sign_in").usernameParameter("username").passwordParameter("password")
+                .failureHandler(authenticationFailureHandler()).successForwardUrl("/my_account/home");
+
     }
 
     @Autowired
@@ -39,7 +50,12 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public ShaPasswordEncoder shaPasswordEncoder(){
+    public ShaPasswordEncoder shaPasswordEncoder() {
         return new ShaPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomLoginFailureHandler();
     }
 }

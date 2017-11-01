@@ -23,8 +23,7 @@ public class VerificationToken {
     private Date expirationDate;
 
     private Date calculateExpDate(){
-        LocalDateTime localDateTime=LocalDateTime.now();
-        localDateTime.plusDays(1);
+        LocalDateTime localDateTime=LocalDateTime.now().plusDays(1);
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
     }
 

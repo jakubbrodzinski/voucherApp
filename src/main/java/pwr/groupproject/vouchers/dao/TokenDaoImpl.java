@@ -2,6 +2,7 @@ package pwr.groupproject.vouchers.dao;
 
 import org.springframework.stereotype.Component;
 import pwr.groupproject.vouchers.bean.model.security.PasswordResetToken;
+import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 
 import javax.persistence.EntityManager;
@@ -21,7 +22,7 @@ public class TokenDaoImpl implements TokenDao {
 
     @Override
     public PasswordResetToken getPasswordResetTokenById(int tokenId) {
-        return entityManager.createQuery("FROM "+PasswordResetToken.class.getName() + " WHERE id='"+tokenId+"'",PasswordResetToken.class).getSingleResult();
+        return entityManager.find(PasswordResetToken.class,tokenId);
     }
 
     @Override
@@ -45,7 +46,7 @@ public class TokenDaoImpl implements TokenDao {
 
     @Override
     public VerificationToken getVerificationTokenById(int tokenId) {
-        return entityManager.createQuery("FROM "+VerificationToken.class.getName() + " WHERE id='"+tokenId+"'",VerificationToken.class).getSingleResult();
+        return entityManager.find(VerificationToken.class,tokenId);
     }
 
     @Override
@@ -60,13 +61,13 @@ public class TokenDaoImpl implements TokenDao {
 
     @Override
     public void deleteUsersResetTokens(String userName) {
-        List<VerificationToken> resultList=entityManager.createQuery("FROM "+VerificationToken.class.getName() + " v WHERE userCompany='"+userName+"'",VerificationToken.class).getResultList();
-        resultList.forEach(this::deletVerificationToken);
+        List<PasswordResetToken> resultList=entityManager.createQuery("SELECT t FROM "+PasswordResetToken.class.getName() + " t JOIN "+UserCompany.class.getName()+" u ON t.userCompany=u.Id WHERE u.userName='"+userName+"'",PasswordResetToken.class).getResultList();
+        resultList.forEach(this::deleteResetToken);
     }
 
     @Override
     public void deleteUsersVerificationTokens(String userName) {
-        List<PasswordResetToken> resultList=entityManager.createQuery("FROM "+PasswordResetToken.class.getName() + " v WHERE userCompany='"+userName+"'",PasswordResetToken.class).getResultList();
-        resultList.forEach(this::deleteResetToken);
+        List<VerificationToken> resultList=entityManager.createQuery("SELECT  v FROM "+VerificationToken.class.getName() + " v JOIN "+ UserCompany.class.getName()+ " u ON v.userCompany=u.Id WHERE u.userName='"+userName+"'",VerificationToken.class).getResultList();
+        resultList.forEach(this::deletVerificationToken);
     }
 }

@@ -33,4 +33,6 @@ public interface CompanySurveyService {
     AnsweredSurvey getResultDetails(int answeredSurveyId);
 
     Collection<Survey> getAllActiveSurveys(int companyId);
+
+    void unBlockAllBlockedVouchersForLongerThan(int hours, int minutes);
 }

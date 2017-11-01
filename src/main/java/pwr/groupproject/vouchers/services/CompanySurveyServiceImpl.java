@@ -15,7 +15,6 @@ import java.util.Set;
 
 @Service
 @Transactional
-@PreAuthorize("hasRole('USER')")
 public class CompanySurveyServiceImpl implements CompanySurveyService {
     @Autowired
     private CompanySurveyDao companySurveyDao;
@@ -101,6 +100,11 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     @Override
     public Collection<Survey> getAllActiveSurveys(int companyId) {
         return companySurveyDao.getAvailableSurveys(companyId);
+    }
+
+    @Override
+    public void unBlockAllBlockedVouchersForLongerThan(int hours, int minutes) {
+        voucherDao.unBlockAllBlockedVouchersForLongerThan(hours,minutes);
     }
 
 }

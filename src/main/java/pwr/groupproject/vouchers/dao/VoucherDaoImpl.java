@@ -8,11 +8,12 @@ import pwr.groupproject.vouchers.bean.model.VoucherCodeDate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class VoucherDaoImpl implements VoucherDao {
@@ -70,12 +71,21 @@ public class VoucherDaoImpl implements VoucherDao {
     }
 
     @Override
+    public VoucherCodeDate getVoucherCodeDateById(int voucherCodeDateId) {
+        return entityManager.find(VoucherCodeDate.class,voucherCodeDateId);
+    }
+
+    @Override
     public void deleteVoucherCodeDateByCodeId(int voucherCodeId) {
         entityManager.createQuery("DELETE FROM "+VoucherCodeDate.class.getName()+ " WHERE VoucherCodeDate .voucherCode='"+voucherCodeId+"'");
     }
 
     @Override
-    public void deleteVoucherCodeDateOlderThan(int hours, int minutes) {
-        //TO-DO
+    public void unBlockAllBlockedVouchersForLongerThan(int hours, int minutes) {
+        List<VoucherCodeDate> voucherCodeDates= entityManager.createQuery("FROM "+VoucherCodeDate.class.getName(),VoucherCodeDate.class).getResultList();
+        LocalDateTime localDateTime= LocalDateTime.now().minusHours(hours).minusMinutes(minutes);
+        Date date= Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+
+        voucherCodeDates.stream().filter(v -> v.getUseDate().compareTo(date) < 0).forEach(entityManager::remove);
     }
 }

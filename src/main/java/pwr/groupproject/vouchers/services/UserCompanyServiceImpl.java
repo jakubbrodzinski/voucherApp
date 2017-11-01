@@ -51,7 +51,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         userCompany.setCompany(company);
         this.userCompanyDao.addUserCompany(userCompany);
 
-        VerificationToken verificationToken=tokenService.generateNewActicationToken(userCompany);
+        VerificationToken verificationToken=tokenService.generateNewActivationToken(userCompany);
         mailService.sendVerificationTokenEmail(verificationToken.getToken(),verificationToken.getExpirationDate(),userCompany.getUserName());
 
         return true;

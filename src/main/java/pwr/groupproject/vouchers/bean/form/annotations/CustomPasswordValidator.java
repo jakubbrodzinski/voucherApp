@@ -14,7 +14,7 @@ public class CustomPasswordValidator implements ConstraintValidator<PasswordVali
    }
 
    public boolean isValid(Object obj, ConstraintValidatorContext context) {
-       Class<? extends Object> aClass=obj.getClass();
+       Class<?> aClass=obj.getClass();
        try {
            Field first = aClass.getDeclaredField(firstField);
            first.setAccessible(true);
@@ -29,11 +29,8 @@ public class CustomPasswordValidator implements ConstraintValidator<PasswordVali
                return false;
            if(valueFirst.equals(valueSecond))
                return true;
-       }catch (NoSuchFieldException e){
+       }catch (NoSuchFieldException | IllegalAccessException e){
            e.printStackTrace();
-           return false;
-       }catch(IllegalAccessException ex) {
-           ex.printStackTrace();
            return false;
        }
        return false;

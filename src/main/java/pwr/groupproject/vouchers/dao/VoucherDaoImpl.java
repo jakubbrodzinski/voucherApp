@@ -17,7 +17,7 @@ import java.util.List;
 @Component
 public class VoucherDaoImpl implements VoucherDao {
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     public Collection<Voucher> getAllVouchers() {

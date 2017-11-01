@@ -81,10 +81,8 @@ public class TokenServiceTest {
         tokenDao.addVerificationToken(verificationToken2);
         try {
             tokenService.activateAccount("2");
-        }catch(WrongTokenException e){
+        }catch(WrongTokenException | VerificationTokenExpired e){
             e.printStackTrace();
-        }catch (VerificationTokenExpired ex){
-            ex.printStackTrace();
         }
 
         Assert.assertTrue(userCompanyDao.getUserByUserName("username2").isActivated());

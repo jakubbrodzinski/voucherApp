@@ -8,11 +8,10 @@ import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 
 import javax.annotation.security.PermitAll;
 
-@PermitAll
 public interface TokenService {
     void activateAccount(String activationToken) throws VerificationTokenExpired, WrongTokenException;
 
-    VerificationToken generateNewActicationToken(UserCompany userCompany);
+    VerificationToken generateNewActivationToken(UserCompany userCompany);
     PasswordResetToken generateNewPasswordResetToken(UserCompany userCompany);
 
     PasswordResetToken validatePasswordResetToken(String passwordResetToken) throws WrongTokenException;

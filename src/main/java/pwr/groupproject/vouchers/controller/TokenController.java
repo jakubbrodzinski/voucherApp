@@ -63,7 +63,7 @@ public class TokenController {
             model.addAttribute("actiavtionResult", TokenStatus.WRONG);
         } catch (VerificationTokenExpired e2) {
             UserCompany userCompany=tokenService.getUserCompanyByVerificationToken(token);
-            VerificationToken newToken = tokenService.generateNewActicationToken(userCompany);
+            VerificationToken newToken = tokenService.generateNewActivationToken(userCompany);
             mailService.sendVerificationTokenEmail(newToken.getToken(),newToken.getExpirationDate(),userCompany.getUserName());
             model.addAttribute("activationResult", TokenStatus.EXPIRED);
         }

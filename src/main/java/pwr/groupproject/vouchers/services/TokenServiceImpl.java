@@ -32,7 +32,7 @@ public class TokenServiceImpl implements TokenService {
         if(verificationToken == null)
             throw new WrongTokenException();
 
-        if(verificationToken.getExpirationDate().compareTo(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))<0){
+        if(verificationToken.getExpirationDate().compareTo(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))>0){
             UserCompany userCompany=verificationToken.getUserCompany();
             userCompany.setActivated(true);
             userCompanyDao.editUser(userCompany);
@@ -43,14 +43,13 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public VerificationToken generateNewActicationToken(UserCompany userCompany) {
+    public VerificationToken generateNewActivationToken(UserCompany userCompany) {
         tokenDao.deleteUsersVerificationTokens(userCompany.getUserName());
         VerificationToken verificationToken=new VerificationToken();
         verificationToken.setUserCompany(userCompany);
         verificationToken.setToken(RandomString.make(TOKEN_LENGTH));
 
-        LocalDateTime localDateTime= LocalDateTime.now();
-        localDateTime.plusMonths(1);
+        LocalDateTime localDateTime= LocalDateTime.now().plusMonths(1);
         verificationToken.setExpirationDate(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()));
 
         tokenDao.addVerificationToken(verificationToken);

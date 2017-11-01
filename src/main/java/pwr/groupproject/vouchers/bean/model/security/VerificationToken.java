@@ -1,7 +1,5 @@
 package pwr.groupproject.vouchers.bean.model.security;
 
-import pwr.groupproject.vouchers.bean.model.Company;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;

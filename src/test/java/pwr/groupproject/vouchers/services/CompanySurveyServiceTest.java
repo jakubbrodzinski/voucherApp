@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {HibernateConfiguration.class,CompanySurveyServiceImpl.class, VoucherDaoImpl.class,CompanySurveyDaoImpl.class})

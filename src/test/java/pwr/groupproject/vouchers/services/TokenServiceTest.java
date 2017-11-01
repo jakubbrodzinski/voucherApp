@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,16 +13,12 @@ import pwr.groupproject.vouchers.bean.model.security.PasswordResetToken;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 import pwr.groupproject.vouchers.configuration.HibernateConfiguration;
-import pwr.groupproject.vouchers.configuration.SpringSecurityConfiguration;
-import pwr.groupproject.vouchers.configuration.SpringWebFlowConfiguration;
-import pwr.groupproject.vouchers.configuration.WebConfiguration;
 import pwr.groupproject.vouchers.dao.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
-import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {HibernateConfiguration.class,UserCompanyDaoImpl.class, TokenDaoImpl.class,TokenServiceImpl.class})

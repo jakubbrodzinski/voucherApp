@@ -22,8 +22,6 @@ import pwr.groupproject.vouchers.services.CustomUserDetailsServiceImpl;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 import pwr.groupproject.vouchers.services.UserCompanyServiceImpl;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolation;
 
 import java.util.Locale;

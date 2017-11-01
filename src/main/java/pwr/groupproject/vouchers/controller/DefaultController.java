@@ -7,6 +7,8 @@ import pwr.groupproject.vouchers.bean.model.User;
 import pwr.groupproject.vouchers.bean.model.VoucherCode;
 import pwr.groupproject.vouchers.services.MailService;
 
+import java.util.Date;
+
 @Controller
 public class DefaultController {
 
@@ -25,6 +27,8 @@ public class DefaultController {
         User user=new User();
         user.seteMail("jakubby@gmail.com");
         mailService.sendVoucherCodeEmail(voucherCode,user);
+        mailService.sendPasswordResetEmail("token","jakubby@gmail.com");
+        mailService.sendVerificationTokenEmail("token",new Date(),"jakubby@gmail.com");
         return "index";
     }
 }

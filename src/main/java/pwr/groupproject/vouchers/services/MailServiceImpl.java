@@ -2,6 +2,7 @@ package pwr.groupproject.vouchers.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.env.Environment;
@@ -19,7 +20,8 @@ import java.util.Date;
 
 @Component
 public class MailServiceImpl implements MailService {
-    private final String APP_URL;
+    @Value("${web.app.url}")
+    private String APP_URL;
 
     @Autowired
     private JavaMailSender mailSender;
@@ -28,19 +30,13 @@ public class MailServiceImpl implements MailService {
     @Autowired
     private TemplateEngine textTemplateEngine;
     @Autowired
-    private Environment environment;
-    @Autowired
     @Qualifier("mailMessageSource")
     private MessageSource messageSource;
-
-    public MailServiceImpl(){
-        APP_URL=environment.getProperty("web.app.url");
-    }
 
     @Override
     public boolean sendVerificationTokenEmail(String activationToken, Date expirationDate, String userName){
         final Context ctx = new Context();
-        ctx.setVariable("link", generateActivationLink(activationToken));
+        ctx.setVariable("activationLink", generateActivationLink(activationToken));
         String eMailTitle=messageSource.getMessage("activate.account.email.title",null, LocaleContextHolder.getLocale());
 
         return this.send(userName,eMailTitle,ctx,"activateAccountEmail");
@@ -49,7 +45,7 @@ public class MailServiceImpl implements MailService {
     @Override
     public boolean sendPasswordResetEmail(String passwordResetLink, String userName) {
         final Context ctx = new Context();
-        ctx.setVariable("link", generatePasswordResetLink(passwordResetLink));
+        ctx.setVariable("resetPasswordLink", generatePasswordResetLink(passwordResetLink));
         String eMailTitle=messageSource.getMessage("reset.password.email.title",null, LocaleContextHolder.getLocale());
 
         return this.send(userName,eMailTitle,ctx,"resetPasswordEmail");
@@ -59,6 +55,7 @@ public class MailServiceImpl implements MailService {
     public boolean sendVoucherCodeEmail(VoucherCode voucher, User user) {
         final Context ctx=new Context();
         ctx.setVariable("voucherCode",voucher.getVoucherCode());
+        ctx.setVariable("companyName","companyName");
         String eMailTitle=messageSource.getMessage("voucher.code.email.title",null, LocaleContextHolder.getLocale());
 
         return this.send(user.geteMail(),eMailTitle,ctx,"voucherCodeEmail");

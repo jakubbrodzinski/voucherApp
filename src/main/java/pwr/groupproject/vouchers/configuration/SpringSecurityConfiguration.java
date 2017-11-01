@@ -31,7 +31,6 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*").permitAll()
                 .antMatchers("/token/*").permitAll()
                 .antMatchers("/my_account/*").hasRole("USER")
-                .antMatchers("/*").hasRole("ADMIN")
                 .and()
                 .formLogin().loginPage("/sign_in").usernameParameter("username").passwordParameter("password")
                 .failureHandler(authenticationFailureHandler()).successForwardUrl("/my_account/home");

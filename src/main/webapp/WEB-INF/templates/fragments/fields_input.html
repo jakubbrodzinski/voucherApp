@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xxmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="field-errors(field)"
+     th:if="${#fields.hasErrors('__${field}__')}">
+    <ul>
+        <li th:each="error : ${#fields.errors('__${field}__')}"
+            th:text="${error}" th:class="labelError" ></li>
+    </ul>
+</div>
+
+<div th:fragment="inputText(label,fieldname)">
+    <div th:switch="${#fields.hasErrors('__${fieldname}__')}">
+        <div th:case="${true}">
+            <td><span th:text="${label}" ></span></td>
+            <td><input type="text" th:field="*{__${fieldname}__}"/></td>
+            <tr>
+                <td></td>
+                <td th:insert="fragments/fields_input.html :: field-errors(${fieldname})" ></td>
+            </tr>
+        </div>
+        <div th:case="${false}">
+            <td th:text="${label}+':'" ></td>
+            <td><input type="text" th:field="*{__${fieldname}__}" /></td>
+        </div>
+
+    </div>
+</div>
+
+<div th:fragment="inputPassword(label,fieldname)">
+    <div th:switch="${#fields.hasErrors('__${fieldname}__')}">
+        <div th:case="${true}">
+            <td><span th:text="${label}" ></span></td>
+            <td><input type="password" th:field="*{__${fieldname}__}"/></td>
+            <tr>
+                <td></td>
+                <td th:insert="fragments/fields_input.html :: field-errors(${fieldname})" ></td>
+            </tr>
+        </div>
+        <div th:case="${false}">
+            <td th:text="${label}+':'" ></td>
+            <td><input type="text" th:field="*{__${fieldname}__}" /></td>
+        </div>
+
+    </div>
+</div>
+
+<div th:fragment="inputNumber(label,fieldname)">
+    <div th:switch="${#fields.hasErrors('__${fieldname}__')}">
+        <div th:case="${true}">
+            <td><span th:text="${label}" ></span></td>
+            <td><input type="number" th:field="*{__${fieldname}__}" /></td>
+            <tr>
+                <td></td>
+                <td th:insert="fragments/fields_input.html :: field-errors(${fieldname})" ></td>
+            </tr>
+        </div>
+        <div th:case="${false}">
+            <td th:text="${label}+':'" ></td>
+            <td><input type="number" th:field="*{__${fieldname}__}" /></td>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

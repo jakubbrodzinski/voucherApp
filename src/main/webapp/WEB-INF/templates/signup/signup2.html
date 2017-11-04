@@ -9,21 +9,23 @@
 <body>
 <form method="post" th:action="${flowExecutionUrl}" th:object="${company}">
     <table>
-        Kod pocztowy:<br>
-        <input type="text" name="postal_code" th:field="*{postalCode}"><br>
-        Miasto:<br>
-        <input type="text" name="city" th:field="*{city}"><br>
-        Adres:<br>
-        <input type="text" name="address" th:field="*{addressDetails}"><br>
+        <tr>
+            <div th:insert="fragments/fields_input.html :: inputText(#{label.postalCode},'postalCode')"></div>
+        </tr>
+        <tr>
+            <div th:insert="fragments/fields_input.html :: inputText(#{label.town},'city')"></div>
+        </tr>
+        <tr>
+            <div th:insert="fragments/fields_input.html :: inputText(#{label.address},'addressDetails')"></div>
+        </tr>
+        <tr>
+        <td><input type="submit" name="_eventId" value="previousStep"/></td>
+        <td><input type="submit" name="_eventId" value="cancel"/></td>
         <td>
             <input type="submit" name="_eventId" value="nextStep"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         </td>
-        <td>
-            <input type="submit" name="_eventId" value="previousStep"/>
-        </td>
-        <td>
-            <input type="submit" name="_eventId" value="cancel"/>
-        </td>
+        </tr>
     </table>
 </form>
 </body>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import pwr.groupproject.vouchers.bean.enums.ErrorCode;
 import pwr.groupproject.vouchers.bean.form.ForgotPasswordForm;
 import pwr.groupproject.vouchers.bean.model.security.PasswordResetToken;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
@@ -44,7 +45,7 @@ public class AuthController {
     public String signIn(@RequestParam(name = "error",required = false) Integer errorCode,Model model){
         if(getPrincipal()==null) {
             if(errorCode != null)
-                model.addAttribute("errorCode", errorCode);
+                model.addAttribute("errorCode", ErrorCode.getCodeByStatus(errorCode));
             return "auth/sign_in.html";
         }else {
             return "redirect:" + "/my_account/home";

@@ -22,10 +22,13 @@
             <td>
                 <th:block th:if="${errorCode}">
                     <div th:switch="${errorCode}" th:remove="tag">
-                        <div th:case="${1}">
+                        <div th:case="${T(pwr.groupproject.vouchers.bean.enums.ErrorCode).WRONG_USERNAME}">
                             <span th:text="#{messages.wrong.login}"></span>
                         </div>
-                        <div th:case="${2}">
+                        <div th:case="${T(pwr.groupproject.vouchers.bean.enums.ErrorCode).WRONG_PASSWORD}">
+                            <span th:text="#{messages.wrong.login}"></span>
+                        </div>
+                        <div th:case="${T(pwr.groupproject.vouchers.bean.enums.ErrorCode).NOT_ACTIVATED}">
                             <span th:text="#{messages.account.not.activated}"></span>
                         </div>
                         <div th:case="*">

@@ -4,6 +4,7 @@ import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import pwr.groupproject.vouchers.bean.enums.ErrorCode;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +16,11 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         int errorCode;
         if(exception instanceof UsernameNotFoundException){
-            errorCode=1;
+            errorCode= ErrorCode.WRONG_USERNAME.getStatus();
         }else if(exception instanceof AccountStatusException){
-            errorCode=2;
+            errorCode= ErrorCode.NOT_ACTIVATED.getStatus();
         }else {
-            errorCode=3;
+            errorCode=ErrorCode.WRONG_PASSWORD.getStatus();
         }
         getRedirectStrategy().sendRedirect(request,response,"/sign_in?error="+Integer.toString(errorCode));
     }

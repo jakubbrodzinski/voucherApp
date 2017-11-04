@@ -9,15 +9,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
-import pwr.groupproject.vouchers.bean.model.Survey;
-import pwr.groupproject.vouchers.bean.model.Voucher;
-import pwr.groupproject.vouchers.bean.model.VoucherCode;
-import pwr.groupproject.vouchers.bean.model.VoucherCodeDate;
+import pwr.groupproject.vouchers.bean.model.*;
+import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 import pwr.groupproject.vouchers.configuration.HibernateConfiguration;
 import pwr.groupproject.vouchers.dao.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 
 
@@ -139,5 +139,97 @@ public class CompanySurveyServiceTest {
 
         companySurveyService.getVoucherCodeForSurvey(survey.getId());
     }
+
+    /*  SCENARIO:
+            Company has 3 surveys. One has only active codes, second one has only inactive codes and the third one
+            has both active and inactive codes.
+     */
+    @Test
+    @Transactional
+    public void getAllActiveSurveys() throws Exception {
+        Company company=new Company();
+        company.setCompanyName("company1");
+        // First Survey
+        Survey survey1=new Survey();
+        survey1.setCompany(company);
+
+        Question question1=new Question();
+        question1.setQuestionType(QuestionType.OPEN);
+        question1.setQuestionBody("abc?");
+        question1.setSurvey(survey1);
+        survey1.getQuestions().add(question1);
+
+        Voucher voucher1=new Voucher();
+        survey1.setVoucher(voucher1);
+        voucher1.setSurvey(survey1);
+
+        VoucherCode voucherCode1=new VoucherCode();
+        voucherCode1.setVoucher(voucher1);
+        voucher1.getCodes().add(voucherCode1);
+        voucher1.setSurvey(survey1);
+        survey1.setVoucher(voucher1);
+        //Second survey
+        Survey survey2= new Survey();
+        survey2.setCompany(company);
+
+        Question question2=new Question();
+        question2.setQuestionType(QuestionType.OPEN);
+        question2.setQuestionBody("abcabc?");
+        question2.setSurvey(survey2);
+        Question question3=new Question();
+        question3.setQuestionType(QuestionType.OPEN);
+        question3.setQuestionBody("abcabcabc?");
+        question3.setSurvey(survey2);
+
+        survey2.getQuestions().add(question2);
+        survey2.getQuestions().add(question3);
+
+        Voucher voucher2=new Voucher();
+        survey2.setVoucher(voucher2);
+        voucher2.setSurvey(survey2);
+
+        VoucherCode voucherCode2=new VoucherCode();
+        voucherCode2.setAmmountOfUses(0);
+        voucherCode2.setVoucher(voucher2);
+        voucherCode2.setVoucher(voucher2);
+        VoucherCode voucherCode3=new VoucherCode();
+        voucherCode3.setVoucherCode(":)");
+        voucherCode3.setVoucher(voucher2);
+
+        voucher2.getCodes().add(voucherCode2);
+        voucher2.getCodes().add(voucherCode3);
+        //Third survey
+        Survey survey3=new Survey();
+        survey3.setCompany(company);
+
+        Question question4=new Question();
+        question4.setQuestionType(QuestionType.RANGED);
+        question4.setQuestionBody("xyz?");
+        question4.setSurvey(survey3);
+        survey3.getQuestions().add(question4);
+
+        Voucher voucher3=new Voucher();
+        survey3.setVoucher(voucher3);
+        voucher3.setSurvey(survey3);
+
+        VoucherCode voucherCode4=new VoucherCode();
+        voucherCode4.setAmmountOfUses(0);
+        voucherCode4.setVoucher(voucher3);
+        voucher3.getCodes().add(voucherCode4);
+        //End of surveys
+        company.getCompanysSurveys().add(survey1);
+        company.getCompanysSurveys().add(survey2);
+        company.getCompanysSurveys().add(survey3);
+
+        companySurveyDao.createCompany(company);
+        Collection<Survey> activeSurveys=companySurveyService.getAllActiveSurveys(company.getId());
+
+        Assert.assertEquals(activeSurveys.size(),2);
+        int[] arr=activeSurveys.stream().mapToInt(Survey::getId).sorted().toArray();
+        Assert.assertEquals(survey1.getId(),arr[0]);
+        Assert.assertEquals(survey2.getId(),arr[1]);
+
+    }
+
 
 }

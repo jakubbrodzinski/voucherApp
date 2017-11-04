@@ -69,6 +69,11 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
+    public void createCompany(Company company) {
+        companySurveyDao.createCompany(company);
+    }
+
+    @Override
     public void deleteSurvey(int surveyId) {
         Survey survey=companySurveyDao.getSurveyById(surveyId);
         companySurveyDao.deleteSurvey(survey);
@@ -84,6 +89,12 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     public void deleteVoucherCode(int voucherCodeId) {
         VoucherCode voucherCode=voucherDao.getVoucherCode(voucherCodeId);
         voucherDao.deleteVoucherCode(voucherCode);
+    }
+
+    @Override
+    public void deleteCompany(int companyId) {
+        Company company=companySurveyDao.getCompanyById(companyId);
+        companySurveyDao.deleteCompany(company);
     }
 
     @Override

@@ -18,6 +18,8 @@ public interface CompanySurveyService {
     void addVoucher(Voucher voucher);
     @PreAuthorize("hasRole('USER')")
     void addVoucherCode(VoucherCode voucherCode,int voucherId);
+    @PreAuthorize("hasRole('USER')")
+    void createCompany(Company company);
 
     @PreAuthorize("hasRole('USER')")
     void deleteSurvey(int surveyId);
@@ -25,6 +27,8 @@ public interface CompanySurveyService {
     void deleteVoucher(int voucherId);
     @PreAuthorize("hasRole('USER')")
     void deleteVoucherCode(int voucherCodeId);
+    @PreAuthorize("hasRole('USER')")
+    void deleteCompany(int companyId);
 
     @PreAuthorize("hasRole('USER')")
     Collection<AnsweredSurvey> getAllAnsweredSurveys(int surveyId);

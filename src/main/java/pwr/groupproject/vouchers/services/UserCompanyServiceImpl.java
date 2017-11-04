@@ -80,7 +80,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
 
 
     @Override
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('COMPANY')")
     public void changePassword(String userName, String newHashedPassword) {
         UserCompany userCompany=userCompanyDao.getUserByUserName(userName);
         userCompany.setPassword(newHashedPassword);

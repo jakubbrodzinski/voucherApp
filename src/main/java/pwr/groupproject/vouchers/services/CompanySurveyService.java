@@ -12,28 +12,28 @@ public interface CompanySurveyService {
     VoucherCode getVoucherCodeForSurvey(int surveyId) throws NoAvaibleVouchersException;
     void unBlockVoucherCode(int voucherCodeId);
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('COMPANY')")
     void addSurvey(Survey survey);
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('COMPANY')")
     void addVoucher(Voucher voucher);
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('COMPANY')")
     void addVoucherCode(VoucherCode voucherCode,int voucherId);
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('COMPANY')")
     void createCompany(Company company);
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('COMPANY')")
     void deleteSurvey(int surveyId);
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('COMPANY')")
     void deleteVoucher(int voucherId);
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('COMPANY')")
     void deleteVoucherCode(int voucherCodeId);
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('COMPANY')")
     void deleteCompany(int companyId);
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('COMPANY')")
     Collection<AnsweredSurvey> getAllAnsweredSurveys(int surveyId);
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('COMPANY')")
     AnsweredSurvey getResultDetails(int answeredSurveyId);
 
     Collection<Survey> getAllActiveSurveys(int companyId);

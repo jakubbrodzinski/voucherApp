@@ -12,7 +12,7 @@ public class UserProfile implements GrantedAuthority{
     @GeneratedValue
     private int Id;
     @Enumerated(EnumType.STRING)
-    private UserProfileType type=UserProfileType.USER;
+    private UserProfileType type=UserProfileType.COMPANY;
 
     public int getId() {
         return Id;

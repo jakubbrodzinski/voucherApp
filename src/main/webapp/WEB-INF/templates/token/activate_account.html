@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
     Activate account site
+    <div th:switch="${activationResult}">
+        <th:block th:case="${}">ACTIVATED</th:block>
+        <th:block th:case="${2}">TOKEN EXPIRED, HAS BEEN RESENT</th:block>
+        <th:block th:case="${3}">WRONG LINK</th:block>
+        <th:block th:case="*">SOMETHING WENT WRONG. CONTACT US</th:block>
+    </div>
 </body>
 </html>

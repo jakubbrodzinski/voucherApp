@@ -49,6 +49,7 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setEnableSpringELCompiler(true);
         engine.setTemplateResolver(templateResolver());
+        engine.setMessageSource(messageSource());
         return engine;
     }
 

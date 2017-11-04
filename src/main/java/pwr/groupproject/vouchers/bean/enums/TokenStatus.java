@@ -8,4 +8,9 @@ public enum TokenStatus {
     private TokenStatus(int i){
         status=i;
     }
+
+    public int getStatus() {
+        return status;
+    }
+
 }

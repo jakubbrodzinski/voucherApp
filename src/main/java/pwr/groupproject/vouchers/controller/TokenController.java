@@ -68,7 +68,7 @@ public class TokenController {
             model.addAttribute("activationResult", TokenStatus.EXPIRED);
         }
 
-        return "";
+        return "token/activate_account.html";
     }
 
 

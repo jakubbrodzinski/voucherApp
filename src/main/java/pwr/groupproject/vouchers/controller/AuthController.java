@@ -41,42 +41,37 @@ public class AuthController {
     private TokenService tokenService;
 
     @RequestMapping(value = "sign_in",method = RequestMethod.GET)
-    public String signIn(){
-        if(getPrincipal()==null)
-            return "auth/sign_in.html";
-        else
-            return "redirect:"+"/my_account/home";
-    }
-    @RequestMapping(value = "sign_in",method = RequestMethod.POST)
-    public String signIn(@RequestParam(name = "error") int errorCode,Model model){
+    public String signIn(@RequestParam(name = "error",required = false) Integer errorCode,Model model){
         if(getPrincipal()==null) {
-            model.addAttribute("errorCode",errorCode);
+            if(errorCode != null)
+                model.addAttribute("errorCode", errorCode);
             return "auth/sign_in.html";
-        }else
-            return "redirect:"+"/my_account/home";
+        }else {
+            return "redirect:" + "/my_account/home";
+        }
     }
 
     @RequestMapping(value = "forgot_password",method = RequestMethod.GET)
     public String forgottenPassword(Model model){
         model.addAttribute("form",new ForgotPasswordForm());
-        return "";
+        return "auth/forgot_password.html";
     }
 
     @RequestMapping(value = "forgot_password",method = RequestMethod.POST)
     public String forgottenPassword(@ModelAttribute @Validated ForgotPasswordForm forgotPasswordForm, BindingResult bindingResult){
         if(bindingResult.hasErrors())
-            return "";
+            return "auth/forgot_password.html";
 
         UserCompany userCompany= userCompanyService.getUserByUserName(forgotPasswordForm.getUserName());
         if(userCompany==null){
             bindingResult.rejectValue("userName",messageSource.getMessage("message.wrong.email",null, LocaleContextHolder.getLocale()));
-            return "";
+            return "auth/forgot_password.html";
+        }else {
+            PasswordResetToken passwordResetToken=tokenService.generateNewPasswordResetToken(userCompany);
+            mailService.sendPasswordResetEmail(passwordResetToken.getToken(),userCompany.getUserName());
         }
 
-        PasswordResetToken passwordResetToken=tokenService.generateNewPasswordResetToken(userCompany);
-        mailService.sendPasswordResetEmail(passwordResetToken.getToken(),userCompany.getUserName());
-
-        return "";
+        return "auth/resetpassword_sent.html";
     }
 
     private String getPrincipal() {

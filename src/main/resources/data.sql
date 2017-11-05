@@ -1,4 +1,4 @@
-insert into USER_PROFILE values (1,'USER'),(2,'ADMIN');
+insert into USER_PROFILE values (1,'COMPANY'),(2,'ADMIN');
 
 
 INSERT INTO COMPANY(companyId, addressDetails, city, postalCode, companyName)

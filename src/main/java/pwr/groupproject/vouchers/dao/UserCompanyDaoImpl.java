@@ -16,9 +16,8 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
 
     @Override
     public UserCompany getUserByUserName(String userName) {
-        TypedQuery<UserCompany> query= entityManager.createQuery("FROM "+ UserCompany.class.getName()+" WHERE userName='"+userName+"'", UserCompany.class);
         try {
-            return query.getSingleResult();
+            return entityManager.createQuery("FROM "+UserCompany.class.getName()+" uc WHERE uc.userName='"+userName+"'",UserCompany.class).getSingleResult();
         }catch(NoResultException e){
             e.printStackTrace();
             return null;

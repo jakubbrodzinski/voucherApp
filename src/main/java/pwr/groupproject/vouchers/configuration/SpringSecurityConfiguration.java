@@ -22,7 +22,6 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
 
-    //we have to add logout functionality !!
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.requiresChannel().antMatchers("/*").requiresSecure()
@@ -33,7 +32,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/my_account/*").hasRole("COMPANY")
                 .and()
                 .formLogin().loginPage("/sign_in").usernameParameter("username").passwordParameter("password")
-                .failureHandler(authenticationFailureHandler()).successForwardUrl("/my_account/home");
+                .failureHandler(authenticationFailureHandler()).successForwardUrl("/my_account/home")
+                .and()
+                .logout().logoutUrl("/my_account/logout").logoutSuccessUrl("/");
 
     }
 

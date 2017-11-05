@@ -41,6 +41,11 @@ public class AuthController {
     @Autowired
     private TokenService tokenService;
 
+    @RequestMapping("/")
+    public String homePage(){
+        return "/index.html";
+    }
+
     @RequestMapping(value = "sign_in",method = RequestMethod.GET)
     public String signIn(@RequestParam(name = "error",required = false) Integer errorCode,Model model){
         if(getPrincipal()==null) {
@@ -72,7 +77,7 @@ public class AuthController {
             mailService.sendPasswordResetEmail(passwordResetToken.getToken(),userCompany.getUserName());
         }
 
-        return "auth/resetpassword_sent.html";
+        return "auth/forgot_password_sent.html";
     }
 
     private String getPrincipal() {

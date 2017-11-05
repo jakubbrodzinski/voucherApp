@@ -5,10 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pwr.groupproject.vouchers.bean.enums.TokenStatus;
 import pwr.groupproject.vouchers.bean.exceptions.VerificationTokenExpired;
 import pwr.groupproject.vouchers.bean.exceptions.WrongTokenException;
@@ -18,6 +15,9 @@ import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 import pwr.groupproject.vouchers.services.MailService;
 import pwr.groupproject.vouchers.services.TokenService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 @Controller
 @RequestMapping(TokenController.ROOT_MAPPING)
@@ -36,22 +36,28 @@ public class TokenController {
         try {
             tokenService.validatePasswordResetToken(token);
             ResetPasswordForm form = new ResetPasswordForm();
-            form.setPasswordToken(token);
-            model.addAttribute("resetPasswordForm", token);
+            form.setResetPasswordToken(token);
+            model.addAttribute("resetPasswordForm", form);
             model.addAttribute("tokenStatus",TokenStatus.OK);
         } catch (WrongTokenException ex) {
             model.addAttribute("tokenStatus",TokenStatus.WRONG);
         }
-        return "";
+        return "token/reset_password.html";
     }
 
     @RequestMapping(value = "/reset_password", method = RequestMethod.POST)
-    public String resetPassowrd(@RequestParam("t") String token, @ModelAttribute @Validated ResetPasswordForm resetPasswordForm, BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "";
-        UserCompany userCompany = tokenService.getUserCompanyByPasswordResetToken(resetPasswordForm.getPasswordToken());
-        userCompanyService.changePassword(userCompany, resetPasswordForm);
-        return "";
+    public String resetPassowrd(@ModelAttribute @Validated ResetPasswordForm resetPasswordForm, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            try {
+                tokenService.validatePasswordResetToken(resetPasswordForm.getResetPasswordToken());
+                model.addAttribute("tokenStatus", TokenStatus.OK);
+            }catch(WrongTokenException ex){
+                model.addAttribute("tokenStatus",TokenStatus.WRONG);
+            }
+            return "token/reset_password.html";
+        }
+        userCompanyService.changePassword(resetPasswordForm);
+        return "token/reset_password_success.html";
     }
 
     @RequestMapping(value = "/activate_account", method = RequestMethod.GET)

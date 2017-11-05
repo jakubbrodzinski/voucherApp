@@ -46,6 +46,11 @@ public class AuthController {
         return "/index.html";
     }
 
+    @RequestMapping("acc_denied")
+    public String accessDenied(){
+        return "/acc_denied.html";
+    }
+
     @RequestMapping(value = "sign_in",method = RequestMethod.GET)
     public String signIn(@RequestParam(name = "error",required = false) Integer errorCode,Model model){
         if(getPrincipal()==null) {

@@ -34,7 +34,9 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/sign_in").usernameParameter("username").passwordParameter("password")
                 .failureHandler(authenticationFailureHandler()).successForwardUrl("/my_account/home")
                 .and()
-                .logout().logoutUrl("/my_account/logout").logoutSuccessUrl("/");
+                .logout().logoutUrl("/my_account/logout").logoutSuccessUrl("/")
+                .and()
+                .exceptionHandling().accessDeniedPage("/acc_denied");
 
     }
 

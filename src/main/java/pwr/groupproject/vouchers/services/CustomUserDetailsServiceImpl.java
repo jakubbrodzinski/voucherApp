@@ -21,11 +21,10 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        try{
-            UserCompany userCompany= this.userCompanyDao.getUserByUserName(username);
-            return new User(userCompany.getUserName(),userCompany.getPassword(),userCompany.isActivated(),true,true,true,userCompany.getUserProfiles());
-        }catch(NoResultException ex){
+        UserCompany userCompany= this.userCompanyDao.getUserByUserName(username);
+        if(userCompany==null)
             throw new UsernameNotFoundException("NOT FOUND LOGIN: \""+username+"\"");
-        }
+        else
+            return new User(userCompany.getUserName(),userCompany.getPassword(),userCompany.isActivated(),true,true,true,userCompany.getUserProfiles());
     }
 }

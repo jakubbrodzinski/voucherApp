@@ -6,13 +6,13 @@ import pwr.groupproject.vouchers.bean.form.annotations.PasswordValidationConstra
 
 @PasswordValidationConstraint(filedOne = "password",filedTwo = "repeatedPassword")
 public class ResetPasswordForm {
-    private String passwordToken;
-
     @NotBlank
     @Length(min=6)
     private String password;
     @NotBlank
     private String repeatedPassword;
+
+    private String resetPasswordToken;
 
     public String getPassword() {
         return password;
@@ -30,11 +30,11 @@ public class ResetPasswordForm {
         this.repeatedPassword = repeatedPassword;
     }
 
-    public String getPasswordToken() {
-        return passwordToken;
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
     }
 
-    public void setPasswordToken(String passwordToken) {
-        this.passwordToken = passwordToken;
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
     }
 }

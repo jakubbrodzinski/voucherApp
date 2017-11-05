@@ -17,7 +17,7 @@ public class TokenDaoImpl implements TokenDao {
 
     @Override
     public PasswordResetToken getPasswordResetTokenByToken(String resetToken) {
-        return entityManager.createQuery("FROM "+PasswordResetToken.class.getName() + " WHERE token='"+resetToken+"'",PasswordResetToken.class).getSingleResult();
+        return entityManager.createQuery("FROM "+PasswordResetToken.class.getName() + " t WHERE t.token='"+resetToken+"'",PasswordResetToken.class).getSingleResult();
     }
 
     @Override

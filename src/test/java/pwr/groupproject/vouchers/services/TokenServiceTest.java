@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.exceptions.VerificationTokenExpired;
 import pwr.groupproject.vouchers.bean.exceptions.WrongTokenException;
+import pwr.groupproject.vouchers.bean.model.User;
 import pwr.groupproject.vouchers.bean.model.security.PasswordResetToken;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
@@ -124,7 +125,8 @@ public class TokenServiceTest {
         Assert.assertTrue(userCompanyDao.getUserByUserName("username1").isActivated());
     }
 
-    @Test(expected = Throwable.class)
+    @Test
+    @Transactional
     public void generateNewPasswordResetToken() throws Exception {
         UserCompany userCompany1=new UserCompany();
         userCompany1.setPassword("abc1");
@@ -150,9 +152,28 @@ public class TokenServiceTest {
             tokenService.validatePasswordResetToken(properToken.getToken());
             throw new Throwable();
         }catch (Throwable e){
-
+            throwable=e;
         }
-
+        Assert.assertFalse(throwable instanceof  WrongTokenException);
     }
 
+    @Test
+    @Transactional
+    public void getUserCompanyByPasswordResetToken() {
+        UserCompany userCompany=new UserCompany();
+        userCompany.setUserName("username1");
+        userCompany.setActivated(true);
+        userCompany.setPassword("xyz");
+
+        PasswordResetToken passwordResetToken=new PasswordResetToken();
+        passwordResetToken.setToken("token");
+        passwordResetToken.setUserCompany(userCompany);
+
+        userCompanyDao.addUserCompany(userCompany);
+        tokenDao.addPasswordResetToken(passwordResetToken);
+
+        UserCompany userCompanyByPasswordResetToken=tokenService.getUserCompanyByPasswordResetToken("token");
+        Assert.assertTrue(userCompanyByPasswordResetToken.getUserName().equals("username1"));
+        Assert.assertTrue(userCompanyByPasswordResetToken.getPassword().equals("xyz"));
+    }
 }

@@ -88,9 +88,11 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     }
 
     @Override
-    public void changePassword(UserCompany userCompany, ResetPasswordForm resetPasswordForm) {
+    public void changePassword(ResetPasswordForm resetPasswordForm) {
+        UserCompany userCompany=tokenService.getUserCompanyByPasswordResetToken(resetPasswordForm.getResetPasswordToken());
         userCompany.setPassword(shaPasswordEncoder.encodePassword(resetPasswordForm.getPassword(),null));
         userCompanyDao.editUser(userCompany);
+        tokenService.confirmResetingPassword(resetPasswordForm.getResetPasswordToken());
     }
 
     @Override

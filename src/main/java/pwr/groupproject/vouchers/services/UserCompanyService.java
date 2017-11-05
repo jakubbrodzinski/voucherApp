@@ -15,7 +15,7 @@ public interface UserCompanyService {
     void deleteUserCompany(int userCompanyId);
 
     void changePassword(String userName,String newHashedPassword);
-    void changePassword(UserCompany userCompany, ResetPasswordForm resetPasswordForm);
+    void changePassword(ResetPasswordForm resetPasswordForm);
 
     Event validateUserCompany(NewUserCompanyForm userCompanyForm, MessageContext messageContext);
 }

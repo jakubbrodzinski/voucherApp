@@ -12,6 +12,7 @@ import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 import pwr.groupproject.vouchers.dao.TokenDao;
 import pwr.groupproject.vouchers.dao.UserCompanyDao;
 
+import javax.persistence.NoResultException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -68,11 +69,12 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public PasswordResetToken validatePasswordResetToken(String passwordResetToken) throws WrongTokenException {
-        PasswordResetToken passwordResetToken1=tokenDao.getPasswordResetTokenByToken(passwordResetToken);
-        if(passwordResetToken1==null)
-            throw new WrongTokenException();
-        else
+        try {
+            PasswordResetToken passwordResetToken1 = tokenDao.getPasswordResetTokenByToken(passwordResetToken);
             return passwordResetToken1;
+        }catch(NoResultException ex){
+            throw new WrongTokenException();
+        }
     }
 
     @Override

@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="'Survey for ' + ${surveyCompany} + ' number '+ ${surveyId}">Template title</title>
 </head>
 <body>
-    Template for a survey that user fills.
+    <p th:text="${surveyName} + ' by ' + ${surveyCompany}">Template survey description</p>
+    <form th:action="@{/surveys}" method="post">
+        <div th:each="question : ${questions}">
+            <div th:insert="/fragments/survey_question.html :: inputQuestion(${question})"></div>
+        </div>
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>

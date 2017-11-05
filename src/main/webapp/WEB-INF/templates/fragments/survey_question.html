@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:fragment="inputQuestion(question)">
+        <p th:text="${question.questionBody}">Test</p>
+        <div th:switch="${question.questionType}">
+            <div th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).OPEN}">
+                <input type="text">
+            </div>
+            <div th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).MULTIPLE_CHOICE}">
+                <input type="checkbox" th:value="${question.possibleAnswers.possibleAnswerA}">
+                <p th:text="${question.possibleAnswers.possibleAnswerA}">PossibleAnswerA</p>
+                <input type="checkbox" th:value="${question.possibleAnswers.possibleAnswerB}">
+                <p th:text="${question.possibleAnswers.possibleAnswerB}">PossibleAnswerB</p>
+                <input type="checkbox" th:value="${question.possibleAnswers.possibleAnswerC}">
+                <p th:text="${question.possibleAnswers.possibleAnswerC}">PossibleAnswerC</p>
+                <input type="checkbox" th:value="${question.possibleAnswers.possibleAnswerD}">
+                <p th:text="${question.possibleAnswers.possibleAnswerD}">PossibleAnswerD</p>
+            </div>
+            <div th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).SINGLE_CHOICE}">
+                <input type="radio" th:value="${question.possibleAnswers.possibleAnswerA}">
+                <p th:text="${question.possibleAnswers.possibleAnswerA}">PossibleAnswerA</p>
+                <input type="radio" th:value="${question.possibleAnswers.possibleAnswerB}">
+                <p th:text="${question.possibleAnswers.possibleAnswerB}">PossibleAnswerB</p>
+                <input type="radio" th:value="${question.possibleAnswers.possibleAnswerC}">
+                <p th:text="${question.possibleAnswers.possibleAnswerC}">PossibleAnswerC</p>
+                <input type="radio" th:value="${question.possibleAnswers.possibleAnswerD}">
+                <p th:text="${question.possibleAnswers.possibleAnswerD}">PossibleAnswerD</p>
+            </div>
+            <div th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).RANGED}">
+                <input type="range">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

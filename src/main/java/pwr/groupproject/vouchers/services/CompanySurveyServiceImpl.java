@@ -113,6 +113,11 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
+    public Collection<Company> getAllActiveCompanies() {
+        return companySurveyDao.getAllActiveCompanies();
+    }
+
+    @Override
     public void unBlockAllBlockedVouchersForLongerThan(int hours, int minutes) {
         voucherDao.unBlockAllBlockedVouchersForLongerThan(hours,minutes);
     }

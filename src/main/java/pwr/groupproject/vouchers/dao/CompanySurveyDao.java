@@ -22,6 +22,8 @@ public interface CompanySurveyDao {
     Collection<Survey> getCompanysAllSurveys(int companyId);
     Collection<Survey> getAvailableSurveys(int companyId);
 
+    Collection<Company> getAllActiveCompanies();
+
     void addAnsweredSurvey(AnsweredSurvey answeredSurvey);
     void deleteAnsweredSurvey(AnsweredSurvey answeredSurvey);
     void updateAnsweredSurvey(AnsweredSurvey answeredSurvey);

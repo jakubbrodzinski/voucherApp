@@ -35,16 +35,16 @@ public class MailSenderConfiguration {
         mailSender.setPassword(env.getProperty("spring.mail.password"));
 
         Properties props = mailSender.getJavaMailProperties();
-        props.put("properties.mail.transport.protocol", env.getProperty("spring.mail.transport.protocol"));
-        props.put("properties.mail.smtp.auth", env.getProperty("spring.mail.properties.mail.smtp.auth"));
-        props.put("properties.mail.smtp.starttls.enable", env.getProperty("spring.mail.properties.mail.smtp.starttls.enable"));
-        props.put("properties.mail.debug", env.getProperty("spring.mail.debug"));
+        props.put("mail.transport.protocol", env.getProperty("spring.mail.transport.protocol"));
+        props.put("mail.smtp.auth", env.getProperty("spring.mail.properties.mail.smtp.auth"));
+        props.put("mail.smtp.starttls.enable", env.getProperty("spring.mail.properties.mail.smtp.starttls.enable"));
+        props.put("mail.debug", env.getProperty("spring.mail.debug"));
         return mailSender;
     }
 
     @Bean(name = "mailMessageSource")
     public MessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource=new ReloadableResourceBundleMessageSource();
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setDefaultEncoding(EMAIL_TEMPLATE_ENCODING);
         messageSource.setCacheMillis(0);
         messageSource.setBasename("message_sources/mail/messages");

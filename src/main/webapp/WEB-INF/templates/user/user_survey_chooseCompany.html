@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    Board with active companys from which a user can choose.
+    <form th:action="@{/get_surveys_from_company}" method="get">
+        <select name="companyId">
+            <option th:each="company : ${companies}" th:value = "${company}" th:text="${company}"></option>
+        </select>
+        <input type="submit" th:value="send">
+    </form>
 </body>
 </html>

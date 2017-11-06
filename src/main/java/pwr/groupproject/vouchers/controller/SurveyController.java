@@ -12,7 +12,9 @@ import pwr.groupproject.vouchers.bean.model.Survey;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Controller
 @RequestMapping(SurveyController.ROOT_MAPPING)
@@ -30,20 +32,16 @@ public class SurveyController {
         /*Czekam kotku na implementację :*
         Collection<Company> companys = userCompanyService.getAllUsers();
         model.addAttribute("companys",companys);*/
+        ArrayList<String> companies = new ArrayList<String>();
+        companies.add("1");
+        companies.add("2");
+        model.addAttribute("companies",companies);
         return "/user/user_survey_chooseCompany.html";
     }
-    @RequestMapping(value = "/get_vouchers_from_company")
-    public String voucherListPage(@RequestParam(name = "comapnyId", required = true) Integer companyId, Model model){
-        /*Czekam kochanie na implementację :*
-        Collection<Voucher> vouchers = userCompanyService.getVouchersByCompany(companyID);
-        model.addAttribute("vouchers",vouchers);*/
-        return "/user/user_survey_chooseVoucher.html";
-    }
-    @RequestMapping(value = "/get_surveys_related_to_voucher")
-    public String surveyListPage(@RequestParam(name = "voucherID", required = true) Integer voucherId, Model model){
-        /*Czekam pysiu na implementację :*
-        Collection<Survey> surveys = userCompanyService.getSurveysByVoucher(voucherID);
-        model.addAttribute("surveys",surveys);*/
+    @RequestMapping(value = "/get_surveys_from_company")
+    public String voucherListPage(@RequestParam(name = "companyId", required = true) Integer companyId, Model model){
+        Collection<Survey> surveys = companySurveyService.getAllActiveSurveys(companyId);
+        model.addAttribute("surveys",surveys);
         return "/user/user_survey_chooseSurvey.html";
     }
 

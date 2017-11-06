@@ -5,7 +5,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -18,7 +18,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:/properties/mailsender.properties")
+@PropertySource("classpath:/app_properties/mailsender.properties")
 public class MailSenderConfiguration {
 
     private static final String EMAIL_TEMPLATE_ENCODING = "UTF-8";
@@ -35,17 +35,19 @@ public class MailSenderConfiguration {
         mailSender.setPassword(env.getProperty("spring.mail.password"));
 
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", env.getProperty("spring.mail.transport.protocol"));
-        props.put("mail.smtp.auth", env.getProperty("spring.mail.properties.mail.smtp.auth"));
-        props.put("mail.smtp.starttls.enable", env.getProperty("spring.mail.properties.mail.smtp.starttls.enable"));
-        props.put("mail.debug", env.getProperty("spring.mail.debug"));
+        props.put("properties.mail.transport.protocol", env.getProperty("spring.mail.transport.protocol"));
+        props.put("properties.mail.smtp.auth", env.getProperty("spring.mail.properties.mail.smtp.auth"));
+        props.put("properties.mail.smtp.starttls.enable", env.getProperty("spring.mail.properties.mail.smtp.starttls.enable"));
+        props.put("properties.mail.debug", env.getProperty("spring.mail.debug"));
         return mailSender;
     }
 
     @Bean(name = "mailMessageSource")
     public MessageSource messageSource() {
-        final ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("mail/messages");
+        ReloadableResourceBundleMessageSource messageSource=new ReloadableResourceBundleMessageSource();
+        messageSource.setDefaultEncoding(EMAIL_TEMPLATE_ENCODING);
+        messageSource.setCacheMillis(0);
+        messageSource.setBasename("message_sources/mail/messages");
         return messageSource;
     }
 

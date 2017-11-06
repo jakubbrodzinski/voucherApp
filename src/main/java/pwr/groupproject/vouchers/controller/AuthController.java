@@ -29,7 +29,7 @@ import javax.annotation.security.PermitAll;
 @RequestMapping(AuthController.ROOT_MAPPING)
 @PermitAll
 public class AuthController {
-    public static final String ROOT_MAPPING="/";
+    public static final String ROOT_MAPPING = "/";
     @Autowired
     private AuthenticationTrustResolver authenticationTrustResolver;
     @Autowired
@@ -42,44 +42,47 @@ public class AuthController {
     private TokenService tokenService;
 
     @RequestMapping("/")
-    public String homePage(){
+    public String homePage() {
         return "/index.html";
     }
 
     @RequestMapping("acc_denied")
-    public String accessDenied(){
+    public String accessDenied() {
         return "/acc_denied.html";
     }
 
-    @RequestMapping(value = "sign_in",method = RequestMethod.GET)
-    public String signIn(@RequestParam(name = "error",required = false) Integer errorCode,Model model){
-        if(getPrincipal()==null) {
-            if(errorCode != null)
+    @RequestMapping(value = "sign_in", method = RequestMethod.GET)
+    public String signIn(@RequestParam(name = "error", required = false) Integer errorCode, Model model) {
+        if (getPrincipal() == null) {
+            if (errorCode != null)
                 model.addAttribute("errorCode", ErrorCode.getCodeByStatus(errorCode));
             return "auth/sign_in.html";
-        }else {
+        } else {
             return "redirect:" + "/my_account/home";
         }
     }
 
-    @RequestMapping(value = "forgot_password",method = RequestMethod.GET)
-    public String forgottenPassword(Model model){
-        model.addAttribute("form",new ForgotPasswordForm());
+    @RequestMapping(value = "forgot_password", method = RequestMethod.GET)
+    public String forgottenPassword(Model model) {
+        model.addAttribute("form", new ForgotPasswordForm());
         return "auth/forgot_password.html";
     }
 
-    @RequestMapping(value = "forgot_password",method = RequestMethod.POST)
-    public String forgottenPassword(@ModelAttribute @Validated ForgotPasswordForm forgotPasswordForm, BindingResult bindingResult){
-        if(bindingResult.hasErrors())
+    @RequestMapping(value = "forgot_password", method = RequestMethod.POST)
+    public String forgottenPassword(@ModelAttribute(name = "form") @Validated ForgotPasswordForm forgotPasswordForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors())
             return "auth/forgot_password.html";
 
-        UserCompany userCompany= userCompanyService.getUserByUserName(forgotPasswordForm.getUserName());
-        if(userCompany==null){
-            bindingResult.rejectValue("userName",messageSource.getMessage("message.wrong.email",null, LocaleContextHolder.getLocale()));
+        UserCompany userCompany = userCompanyService.getUserByUserName(forgotPasswordForm.getUserName());
+        if (userCompany == null) {
+            bindingResult.rejectValue("userName", "email.dont.exist", messageSource.getMessage("message.wrong.email", null, LocaleContextHolder.getLocale()));
             return "auth/forgot_password.html";
-        }else {
-            PasswordResetToken passwordResetToken=tokenService.generateNewPasswordResetToken(userCompany);
-            mailService.sendPasswordResetEmail(passwordResetToken.getToken(),userCompany.getUserName());
+        } else if (!userCompany.isActivated()) {
+            bindingResult.rejectValue("userName", "account.not.activated",messageSource.getMessage("messages.account.not.activated", null, LocaleContextHolder.getLocale()));
+            return "auth/forgot_password.html";
+        } else {
+            PasswordResetToken passwordResetToken = tokenService.generateNewPasswordResetToken(userCompany);
+            mailService.sendPasswordResetEmail(passwordResetToken.getToken(), userCompany.getUserName());
         }
 
         return "auth/forgot_password_sent.html";

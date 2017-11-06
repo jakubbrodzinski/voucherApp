@@ -99,7 +99,8 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     public MessageSource messageSource(){
         ReloadableResourceBundleMessageSource messageSource=new ReloadableResourceBundleMessageSource();
         messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setBasenames("classpath:/messages/messages");
+        messageSource.setCacheMillis(0);
+        messageSource.setBasename("/message_sources/html/messages");
         return messageSource;
     }
 
@@ -107,7 +108,8 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     public MessageSource validationMessages(){
         ReloadableResourceBundleMessageSource messageSource=new ReloadableResourceBundleMessageSource();
         messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setBasenames("classpath:/validation/messages");
+        messageSource.setCacheMillis(0);
+        messageSource.setBasenames("/message_sources/validation/messages");
         return messageSource;
     }
 

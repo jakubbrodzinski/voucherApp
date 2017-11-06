@@ -10,9 +10,7 @@ import pwr.groupproject.vouchers.bean.model.Question;
 import pwr.groupproject.vouchers.bean.model.Survey;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Controller
 @RequestMapping(SurveyController.ROOT_MAPPING)

@@ -16,8 +16,6 @@ import pwr.groupproject.vouchers.services.MailService;
 import pwr.groupproject.vouchers.services.TokenService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpServletResponseWrapper;
 
 @Controller
 @RequestMapping(TokenController.ROOT_MAPPING)

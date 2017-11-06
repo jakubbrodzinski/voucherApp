@@ -8,7 +8,6 @@ import pwr.groupproject.vouchers.bean.enums.TokenStatus;
 import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
 import pwr.groupproject.vouchers.bean.model.User;
 import pwr.groupproject.vouchers.bean.model.VoucherCode;
-import pwr.groupproject.vouchers.bean.model.security.PasswordResetToken;
 import pwr.groupproject.vouchers.services.MailService;
 
 import java.util.Date;
@@ -38,11 +37,5 @@ public class DefaultController {
         model.addAttribute("resetPasswordForm",form);
         model.addAttribute("tokenStatus", TokenStatus.OK);
         return "/token/reset_password.html";
-    }
-
-    @RequestMapping(value = "/xyz",method = RequestMethod.POST)
-    @ResponseBody
-    public String hello2(@ModelAttribute ResetPasswordForm form){
-        return form.getResetPasswordToken();
     }
 }

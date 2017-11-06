@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.dao.UserCompanyDao;
 
-import javax.persistence.NoResultException;
-
 
 @Service
 public class CustomUserDetailsServiceImpl implements UserDetailsService {

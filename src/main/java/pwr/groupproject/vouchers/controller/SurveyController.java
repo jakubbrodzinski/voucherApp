@@ -24,17 +24,11 @@ public class SurveyController {
 
     @Autowired
     private CompanySurveyService companySurveyService;
-    @Autowired
-    private UserCompanyService userCompanyService;
 
     @RequestMapping(value = "/get_company_list")
     public String companyListPage(Model model){
-        /*Czekam kotku na implementację :*
-        Collection<Company> companys = userCompanyService.getAllUsers();
-        model.addAttribute("companys",companys);*/
-        ArrayList<String> companies = new ArrayList<String>();
-        companies.add("1");
-        companies.add("2");
+        Collection<Company> companies = companySurveyService.getAllActiveCompanies();
+        model.addAttribute("companies",companies);
         model.addAttribute("companies",companies);
         return "/user/user_survey_chooseCompany.html";
     }

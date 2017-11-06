@@ -10,11 +10,8 @@ import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.Question;
 import pwr.groupproject.vouchers.bean.model.Survey;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
-import pwr.groupproject.vouchers.services.UserCompanyService;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Controller
 @RequestMapping(SurveyController.ROOT_MAPPING)
@@ -28,7 +25,6 @@ public class SurveyController {
     @RequestMapping(value = "/get_company_list")
     public String companyListPage(Model model){
         Collection<Company> companies = companySurveyService.getAllActiveCompanies();
-        model.addAttribute("companies",companies);
         model.addAttribute("companies",companies);
         return "/user/user_survey_chooseCompany.html";
     }

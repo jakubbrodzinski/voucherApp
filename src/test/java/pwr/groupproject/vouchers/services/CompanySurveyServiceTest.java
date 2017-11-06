@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
+import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.configuration.HibernateConfiguration;
 import pwr.groupproject.vouchers.dao.*;
 
@@ -230,5 +231,58 @@ public class CompanySurveyServiceTest {
 
     }
 
+    @Test
+    @Transactional
+    public void getAllActiveCompanies() throws Exception {
+        VoucherCode voucherCode1=new VoucherCode();
+        voucherCode1.setVoucherCode("code1");
+        voucherCode1.setAmmountOfUses(0);
+        VoucherCode voucherCode2=new VoucherCode();
+        voucherCode2.setVoucherCode("code2");
+        voucherCode2.setAmmountOfUses(0);
+
+        Voucher voucher1=new Voucher();
+        voucher1.getCodes().add(voucherCode1);
+        voucher1.getCodes().add(voucherCode2);
+        voucherCode1.setVoucher(voucher1);
+        voucherCode2.setVoucher(voucher1);
+
+        Survey survey1=new Survey();
+        survey1.setVoucher(voucher1);
+        voucher1.setSurvey(survey1);
+
+        Company company1=new Company();
+        company1.setCompanyName("xyz1");
+
+        company1.getCompanysSurveys().add(survey1);
+        survey1.setCompany(company1);
+
+        VoucherCode voucherCode3=new VoucherCode();
+        voucherCode3.setVoucherCode("code3");
+        VoucherCode voucherCode4=new VoucherCode();
+        voucherCode4.setVoucherCode("code4");
+        voucherCode4.setAmmountOfUses(0);
+
+        Voucher voucher2=new Voucher();
+        voucher2.getCodes().add(voucherCode3);
+        voucher2.getCodes().add(voucherCode4);
+        voucherCode3.setVoucher(voucher2);
+        voucherCode4.setVoucher(voucher2);
+
+        Survey survey2=new Survey();
+        survey2.setVoucher(voucher2);
+        voucher2.setSurvey(survey2);
+
+        Company company2=new Company();
+        company2.setCompanyName("xyz1");
+
+        company2.getCompanysSurveys().add(survey2);
+        survey2.setCompany(company2);
+
+        companySurveyDao.createCompany(company2);
+        companySurveyDao.createCompany(company1);
+
+        Assert.assertEquals(1,companySurveyService.getAllActiveCompanies().size());
+    }
 
 }

@@ -74,6 +74,11 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
     }
 
     @Override
+    public Collection<Company> getAllActiveCompanies() {
+        return entityManager.createQuery("SELECT DISTINCT s.company FROM "+ Survey.class.getName()+" s JOIN "+Voucher.class.getName()+" v ON s.Id=v.survey JOIN "+VoucherCode.class.getName()+" vc ON v.Id=vc.voucher WHERE vc.ammountOfUses>0",Company.class).getResultList();
+    }
+
+    @Override
     public void addAnsweredSurvey(AnsweredSurvey answeredSurvey) {
         entityManager.persist(answeredSurvey);
     }

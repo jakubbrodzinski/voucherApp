@@ -32,11 +32,11 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
 
     @Override
     public VoucherCode getVoucherCodeForSurvey(int surveyId) throws NoAvaibleVouchersException {
-        Set<VoucherCode> voucherCodes=companySurveyDao.getSurveyById(surveyId).getVoucher().getCodes();
-        VoucherCode voucherCode=voucherCodes.stream().filter(code -> code.getAmmountOfUses()>0).findFirst().orElseThrow(NoAvaibleVouchersException::new);
-        voucherCode.setAmmountOfUses(voucherCode.getAmmountOfUses()-1);
+        Set<VoucherCode> voucherCodes = companySurveyDao.getSurveyById(surveyId).getVoucher().getCodes();
+        VoucherCode voucherCode = voucherCodes.stream().filter(code -> code.getAmmountOfUses() > 0).findFirst().orElseThrow(NoAvaibleVouchersException::new);
+        voucherCode.setAmmountOfUses(voucherCode.getAmmountOfUses() - 1);
 
-        VoucherCodeDate voucherCodeDate=new VoucherCodeDate();
+        VoucherCodeDate voucherCodeDate = new VoucherCodeDate();
         voucherCodeDate.setUseDate(new Date());
         voucherCodeDate.setVoucherCode(voucherCode);
         voucherDao.addVoucherCodeDate(voucherCodeDate);
@@ -46,8 +46,8 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
 
     @Override
     public void unBlockVoucherCode(int voucherCodeId) {
-        VoucherCode voucherCode=voucherDao.getVoucherCode(voucherCodeId);
-        voucherCode.setAmmountOfUses(voucherCode.getAmmountOfUses()+1);
+        VoucherCode voucherCode = voucherDao.getVoucherCode(voucherCodeId);
+        voucherCode.setAmmountOfUses(voucherCode.getAmmountOfUses() + 1);
         voucherDao.deleteVoucherCodeDateByCodeId(voucherCodeId);
     }
 
@@ -63,7 +63,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
 
     @Override
     public void addVoucherCode(VoucherCode voucherCode, int voucherId) {
-        Voucher voucher=voucherDao.getVoucherById(voucherId);
+        Voucher voucher = voucherDao.getVoucherById(voucherId);
         voucher.getCodes().add(voucherCode);
         voucherDao.updateVoucher(voucher);
     }
@@ -75,25 +75,25 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
 
     @Override
     public void deleteSurvey(int surveyId) {
-        Survey survey=companySurveyDao.getSurveyById(surveyId);
+        Survey survey = companySurveyDao.getSurveyById(surveyId);
         companySurveyDao.deleteSurvey(survey);
     }
 
     @Override
     public void deleteVoucher(int voucherId) {
-        Voucher voucher=voucherDao.getVoucherById(voucherId);
+        Voucher voucher = voucherDao.getVoucherById(voucherId);
         voucherDao.deleteVoucher(voucher);
     }
 
     @Override
     public void deleteVoucherCode(int voucherCodeId) {
-        VoucherCode voucherCode=voucherDao.getVoucherCode(voucherCodeId);
+        VoucherCode voucherCode = voucherDao.getVoucherCode(voucherCodeId);
         voucherDao.deleteVoucherCode(voucherCode);
     }
 
     @Override
     public void deleteCompany(int companyId) {
-        Company company=companySurveyDao.getCompanyById(companyId);
+        Company company = companySurveyDao.getCompanyById(companyId);
         companySurveyDao.deleteCompany(company);
     }
 
@@ -108,6 +108,11 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
+    public Company getCompanyWithSurveys(Company company) {
+        return companySurveyDao.getCompanyWithSurveys(company.getId());
+    }
+
+    @Override
     public Collection<Survey> getAllActiveSurveys(int companyId) {
         return companySurveyDao.getAvailableSurveys(companyId);
     }
@@ -119,7 +124,6 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
 
     @Override
     public void unBlockAllBlockedVouchersForLongerThan(int hours, int minutes) {
-        voucherDao.unBlockAllBlockedVouchersForLongerThan(hours,minutes);
+        voucherDao.unBlockAllBlockedVouchersForLongerThan(hours, minutes);
     }
-
 }

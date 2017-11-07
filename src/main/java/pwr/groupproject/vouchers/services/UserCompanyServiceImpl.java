@@ -46,13 +46,13 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         company.setCompanyName(newUserCompanyForm.getCompanyName());
 
         UserCompany userCompany=new UserCompany();
-        userCompany.setUserName(newUserCompanyForm.getUserName());
+        userCompany.setUsername(newUserCompanyForm.getUserName());
         userCompany.setPassword(shaPasswordEncoder.encodePassword(newUserCompanyForm.getPassword(),null));
         userCompany.setCompany(company);
         this.userCompanyDao.addUserCompany(userCompany);
 
         VerificationToken verificationToken=tokenService.generateNewActivationToken(userCompany);
-        mailService.sendVerificationTokenEmail(verificationToken.getToken(),verificationToken.getExpirationDate(),userCompany.getUserName());
+        mailService.sendVerificationTokenEmail(verificationToken.getToken(),verificationToken.getExpirationDate(),userCompany.getUsername());
 
         return true;
     }

@@ -36,8 +36,10 @@ public interface CompanySurveyService {
     @PreAuthorize("hasRole('COMPANY')")
     AnsweredSurvey getResultDetails(int answeredSurveyId);
 
+    Company getCompanyWithSurveys(Company company);
     Collection<Survey> getAllActiveSurveys(int companyId);
     Collection<Company> getAllActiveCompanies();
 
     void unBlockAllBlockedVouchersForLongerThan(int hours, int minutes);
+
 }

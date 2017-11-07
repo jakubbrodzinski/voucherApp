@@ -1,13 +1,14 @@
 package pwr.groupproject.vouchers.bean.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
 @Table(name = "COMPANY")
-public class Company {
-
+public class Company implements Serializable {
+    private static final long serialVersionUID = -8588675464469442741L;
     @Id
     @GeneratedValue
     @Column(name = "companyId")

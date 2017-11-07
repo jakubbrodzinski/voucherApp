@@ -1,7 +1,6 @@
 package pwr.groupproject.vouchers.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +22,7 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
         if(userCompany==null)
             throw new UsernameNotFoundException("NOT FOUND LOGIN: \""+username+"\"");
         else
-            return new User(userCompany.getUserName(),userCompany.getPassword(),userCompany.isActivated(),true,true,true,userCompany.getUserProfiles());
+            return userCompany;
+
     }
 }

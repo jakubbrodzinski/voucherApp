@@ -99,7 +99,7 @@ public class NewUserCompanyFormValidationTest {
         Assert.assertFalse(userCompanyDao.ifEmailIsUsed("-1"));
         Assert.assertFalse(userCompanyDao.ifCompanyNameIsUsed("-1"));
         UserCompany userCompany=new UserCompany();
-        userCompany.setUserName("xyz@xyz.com");
+        userCompany.setUsername("xyz@xyz.com");
         Company company=new Company();
         company.setCompanyName("companyA");
         userCompany.setCompany(company);

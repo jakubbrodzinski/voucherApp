@@ -35,7 +35,7 @@ public class TokenServiceImpl implements TokenService {
 
         if(verificationToken.getExpirationDate().compareTo(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))>0){
             UserCompany userCompany=verificationToken.getUserCompany();
-            userCompany.setActivated(true);
+            userCompany.setEnabled(true);
             userCompanyDao.editUser(userCompany);
             tokenDao.deletVerificationToken(verificationToken);
         }else{
@@ -45,7 +45,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public VerificationToken generateNewActivationToken(UserCompany userCompany) {
-        tokenDao.deleteUsersVerificationTokens(userCompany.getUserName());
+        tokenDao.deleteUsersVerificationTokens(userCompany.getUsername());
         VerificationToken verificationToken=new VerificationToken();
         verificationToken.setUserCompany(userCompany);
         verificationToken.setToken(RandomString.make(TOKEN_LENGTH));
@@ -59,7 +59,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public PasswordResetToken generateNewPasswordResetToken(UserCompany userCompany) {
-        tokenDao.deleteUsersResetTokens(userCompany.getUserName());
+        tokenDao.deleteUsersResetTokens(userCompany.getUsername());
         PasswordResetToken passwordResetToken=new PasswordResetToken();
         passwordResetToken.setUserCompany(userCompany);
         passwordResetToken.setToken(RandomString.make(TOKEN_LENGTH));

@@ -2,9 +2,11 @@ package pwr.groupproject.vouchers.bean.model;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 @Embeddable
-public class Address {
+public class Address implements Serializable {
+    private static final long serialVersionUID = 6425275180773007677L;
     @Column(length = 10)
     private String postalCode;
     @Column(length = 30)

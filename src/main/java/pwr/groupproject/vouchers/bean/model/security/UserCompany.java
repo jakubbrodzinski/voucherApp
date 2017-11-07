@@ -1,5 +1,7 @@
 package pwr.groupproject.vouchers.bean.model.security;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import pwr.groupproject.vouchers.bean.model.Company;
 
 import javax.persistence.*;
@@ -8,7 +10,8 @@ import java.util.*;
 
 @Entity
 @Table(name = "USER_COMPANY")
-public class UserCompany{
+public class UserCompany implements UserDetails{
+    private static final long serialVersionUID = -8998307817499676750L;
     @Id
     @GeneratedValue
     private int Id;
@@ -18,12 +21,12 @@ public class UserCompany{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "companyId")
     private Company company;
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "APP_USER_USER_PROFILE",
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
     private final Set<UserProfile> userProfiles = new HashSet<>(Arrays.asList(new UserProfile()));
-    private boolean isActivated=false;
+    private boolean isEnabled=false;
 
     public int getId() {
         return Id;
@@ -33,20 +36,52 @@ public class UserCompany{
         Id = id;
     }
 
-    public String getUserName() {
-        return userName;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return userProfiles;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
+    @Override
     public String getPassword() {
         return encodedPassword;
     }
 
-    public void setPassword(String encodedPassword) {
-        this.encodedPassword = encodedPassword;
+    public void setPassword(String password) {
+        this.encodedPassword = password;
+    }
+
+    @Override
+    public String getUsername() {
+        return userName;
+    }
+
+    public void setUsername(String userName) {
+        this.userName = userName;
+    }
+
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean isEnabled) {
+        this.isEnabled = isEnabled;
     }
 
     public Company getCompany() {
@@ -55,29 +90,5 @@ public class UserCompany{
 
     public void setCompany(Company company) {
         this.company = company;
-    }
-
-    public Set<UserProfile> getUserProfiles() {
-        return userProfiles;
-    }
-
-    public boolean isActivated() {
-        return isActivated;
-    }
-
-    public void setActivated(boolean activated) {
-        isActivated = activated;
-    }
-
-    @Override
-    public String toString() {
-        return "UserCompany{" +
-                "Id=" + Id +
-                ", userName='" + userName + '\'' +
-                ", encodedPassword='" + encodedPassword + '\'' +
-                ", company=" + company +
-                ", userProfiles=" + userProfiles +
-                ", isActivated=" + isActivated +
-                '}';
     }
 }

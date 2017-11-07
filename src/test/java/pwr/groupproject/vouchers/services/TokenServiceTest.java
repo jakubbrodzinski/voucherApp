@@ -42,7 +42,7 @@ public class TokenServiceTest {
     public void activateAccount() throws Exception, VerificationTokenExpired {
         UserCompany userCompany1=new UserCompany();
         userCompany1.setPassword("abc1");
-        userCompany1.setUserName("username1");
+        userCompany1.setUsername("username1");
 
         LocalDateTime localDateTime1= LocalDateTime.now().minusMonths(2);
         Date date1= Date.from(localDateTime1.atZone(ZoneId.systemDefault()).toInstant());
@@ -67,7 +67,7 @@ public class TokenServiceTest {
     public void activateAccountOK() throws Exception {
         UserCompany userCompany2=new UserCompany();
         userCompany2.setPassword("abc2");
-        userCompany2.setUserName("username2");
+        userCompany2.setUsername("username2");
 
         LocalDateTime localDateTime2= LocalDateTime.now().plusMinutes(10);
         Date date2= Date.from(localDateTime2.atZone(ZoneId.systemDefault()).toInstant());
@@ -85,7 +85,7 @@ public class TokenServiceTest {
             e.printStackTrace();
         }
 
-        Assert.assertTrue(userCompanyDao.getUserByUserName("username2").isActivated());
+        Assert.assertTrue(userCompanyDao.getUserByUserName("username2").isEnabled());
 
     }
 
@@ -94,7 +94,7 @@ public class TokenServiceTest {
     public void generateNewActivationToken() throws Exception {
         UserCompany userCompany1=new UserCompany();
         userCompany1.setPassword("abc1");
-        userCompany1.setUserName("username1");
+        userCompany1.setUsername("username1");
 
         LocalDateTime localDateTime1= LocalDateTime.now().minusMonths(2);
         Date date1= Date.from(localDateTime1.atZone(ZoneId.systemDefault()).toInstant());
@@ -121,7 +121,7 @@ public class TokenServiceTest {
         }catch (Throwable e){
 
         }
-        Assert.assertTrue(userCompanyDao.getUserByUserName("username1").isActivated());
+        Assert.assertTrue(userCompanyDao.getUserByUserName("username1").isEnabled());
     }
 
     @Test
@@ -129,7 +129,7 @@ public class TokenServiceTest {
     public void generateNewPasswordResetToken() throws Exception {
         UserCompany userCompany1=new UserCompany();
         userCompany1.setPassword("abc1");
-        userCompany1.setUserName("username1");
+        userCompany1.setUsername("username1");
 
         PasswordResetToken passwordResetToken1=new PasswordResetToken();
         passwordResetToken1.setUserCompany(userCompany1);
@@ -160,8 +160,8 @@ public class TokenServiceTest {
     @Transactional
     public void getUserCompanyByPasswordResetToken() {
         UserCompany userCompany=new UserCompany();
-        userCompany.setUserName("username1");
-        userCompany.setActivated(true);
+        userCompany.setUsername("username1");
+        userCompany.setEnabled(true);
         userCompany.setPassword("xyz");
 
         PasswordResetToken passwordResetToken=new PasswordResetToken();
@@ -172,7 +172,7 @@ public class TokenServiceTest {
         tokenDao.addPasswordResetToken(passwordResetToken);
 
         UserCompany userCompanyByPasswordResetToken=tokenService.getUserCompanyByPasswordResetToken("token");
-        Assert.assertTrue(userCompanyByPasswordResetToken.getUserName().equals("username1"));
+        Assert.assertTrue(userCompanyByPasswordResetToken.getUsername().equals("username1"));
         Assert.assertTrue(userCompanyByPasswordResetToken.getPassword().equals("xyz"));
     }
 }

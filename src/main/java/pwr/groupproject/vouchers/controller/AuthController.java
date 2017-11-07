@@ -77,12 +77,12 @@ public class AuthController {
         if (userCompany == null) {
             bindingResult.rejectValue("userName", "email.dont.exist", messageSource.getMessage("message.wrong.email", null, LocaleContextHolder.getLocale()));
             return "auth/forgot_password.html";
-        } else if (!userCompany.isActivated()) {
+        } else if (!userCompany.isEnabled()) {
             bindingResult.rejectValue("userName", "account.not.activated",messageSource.getMessage("messages.account.not.activated", null, LocaleContextHolder.getLocale()));
             return "auth/forgot_password.html";
         } else {
             PasswordResetToken passwordResetToken = tokenService.generateNewPasswordResetToken(userCompany);
-            mailService.sendPasswordResetEmail(passwordResetToken.getToken(), userCompany.getUserName());
+            mailService.sendPasswordResetEmail(passwordResetToken.getToken(), userCompany.getUsername());
         }
 
         return "auth/forgot_password_sent.html";

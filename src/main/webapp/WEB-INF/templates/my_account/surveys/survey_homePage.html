@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:insert="/fragments/dashboard.html :: dashboard"></div>
+<form method="get" th:action="@{/my_account/manage_surveys/create_new_survey}">
+    <input type="submit" value="Create New Survey"/>
+</form>
+<form method="get" th:action="@{/my_account/manage_surveys/view_existing_surveys}">
+    <input type="submit" value="View/modify existing surveys"/>
+</form>
+</body>
+</html>

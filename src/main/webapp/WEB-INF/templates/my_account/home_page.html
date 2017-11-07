@@ -5,9 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form method="post" th:action="@{/my_account/logout}">
-    <input type="submit" name="submit" value="log out"/>
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-</form>
+<div th:insert="/fragments/dashboard.html :: dashboard"></div>
+JDJDJDJDJDJDJDJDJDJDJDJD
 </body>
 </html>

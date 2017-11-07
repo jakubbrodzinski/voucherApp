@@ -6,9 +6,9 @@
 </head>
 <body>
 <div th:insert="/fragments/dashboard.html :: dashboard"></div>
-<form th:action="@{/my_account/manage_vouchers/view_existing_vouchers/view_concrete_voucher}" method="get">
+<form th:action="@{/my_account/manage_surveys/view_existing_surveys/view_concrete_survey}" method="get">
     <select name="surveyId">
-        <option th:each="survey : ${surveys}" th:value = "${survey.id}" th:utext="${survey.voucher.voucherDescription}"></option>
+        <option th:each="survey : ${surveys}" th:value = "${survey.id}" th:utext="${survey.surveyName} + ' ' + ${survey.voucher.voucherDescription}"></option>
     </select>
     <input type="submit" th:value="send">
 </form>

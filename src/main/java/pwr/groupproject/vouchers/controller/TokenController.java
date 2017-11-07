@@ -36,9 +36,9 @@ public class TokenController {
             ResetPasswordForm form = new ResetPasswordForm();
             form.setResetPasswordToken(token);
             model.addAttribute("resetPasswordForm", form);
-            model.addAttribute("tokenStatus",TokenStatus.OK);
+            model.addAttribute("tokenStatus", TokenStatus.OK);
         } catch (WrongTokenException ex) {
-            model.addAttribute("tokenStatus",TokenStatus.WRONG);
+            model.addAttribute("tokenStatus", TokenStatus.WRONG);
         }
         return "token/reset_password.html";
     }
@@ -49,8 +49,8 @@ public class TokenController {
             try {
                 tokenService.validatePasswordResetToken(resetPasswordForm.getResetPasswordToken());
                 model.addAttribute("tokenStatus", TokenStatus.OK);
-            }catch(WrongTokenException ex){
-                model.addAttribute("tokenStatus",TokenStatus.WRONG);
+            } catch (WrongTokenException ex) {
+                model.addAttribute("tokenStatus", TokenStatus.WRONG);
             }
             return "token/reset_password.html";
         }
@@ -59,16 +59,16 @@ public class TokenController {
     }
 
     @RequestMapping(value = "/activate_account", method = RequestMethod.GET)
-    public String activateAccount(@RequestParam("t") String token,Model model) {
+    public String activateAccount(@RequestParam("t") String token, Model model) {
         try {
             tokenService.activateAccount(token);
             model.addAttribute("activationResult", TokenStatus.OK);
         } catch (WrongTokenException e) {
             model.addAttribute("actiavtionResult", TokenStatus.WRONG);
         } catch (VerificationTokenExpired e2) {
-            UserCompany userCompany=tokenService.getUserCompanyByVerificationToken(token);
+            UserCompany userCompany = tokenService.getUserCompanyByVerificationToken(token);
             VerificationToken newToken = tokenService.generateNewActivationToken(userCompany);
-            mailService.sendVerificationTokenEmail(newToken.getToken(),newToken.getExpirationDate(),userCompany.getUserName());
+            mailService.sendVerificationTokenEmail(newToken.getToken(), newToken.getExpirationDate(), userCompany.getUserName());
             model.addAttribute("activationResult", TokenStatus.EXPIRED);
         }
 

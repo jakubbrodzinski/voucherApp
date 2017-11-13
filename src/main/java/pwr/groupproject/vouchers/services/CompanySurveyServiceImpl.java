@@ -3,10 +3,13 @@ package pwr.groupproject.vouchers.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.dao.CompanySurveyDao;
 import pwr.groupproject.vouchers.dao.VoucherDao;
+import pwr.groupproject.vouchers.bean.dto.QuestionDto;
+import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 
 import java.util.Collection;
 import java.util.Date;
@@ -52,8 +55,28 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public void addSurvey(Survey survey) {
-        companySurveyDao.addSurvey(survey);
+    public void addSurvey(SurveyDto surveyDto, Company company) {
+        Survey newSurvey = new Survey();
+        newSurvey.setCompany(company);
+        company.getCompanysSurveys().add(newSurvey);
+        newSurvey.setCreationDate(new Date());
+        newSurvey.setSurveyName(surveyDto.getSurveyName());
+        for (QuestionDto questionDto : surveyDto.getQuestions()) {
+            Question question = new Question();
+            question.setSurvey(newSurvey);
+            question.setQuestionBody(questionDto.getQuestionBody());
+            question.setQuestionType(questionDto.getQuestionType());
+            if(questionDto instanceof ClosedQuestionDto){
+                PossibleAnswers possibleAnswers= question.getPossibleAnswers();
+                PossibleAnswers possibleAnswersInput=((ClosedQuestionDto) questionDto).getPossibleAnswers();
+                possibleAnswers.setPossibleAnswerA(possibleAnswersInput.getPossibleAnswerA());
+                possibleAnswers.setPossibleAnswerB(possibleAnswersInput.getPossibleAnswerB());
+                possibleAnswers.setPossibleAnswerC(possibleAnswersInput.getPossibleAnswerC());
+                possibleAnswers.setPossibleAnswerD(possibleAnswersInput.getPossibleAnswerD());
+            }
+            newSurvey.getQuestions().add(question);
+        }
+        companySurveyDao.addSurvey(newSurvey);
     }
 
     @Override

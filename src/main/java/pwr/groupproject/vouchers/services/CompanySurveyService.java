@@ -3,6 +3,7 @@ package pwr.groupproject.vouchers.services;
 import org.springframework.security.access.prepost.PreAuthorize;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.model.*;
+import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 
 import java.util.Collection;
 
@@ -13,7 +14,7 @@ public interface CompanySurveyService {
     void unBlockVoucherCode(int voucherCodeId);
 
     @PreAuthorize("hasRole('COMPANY')")
-    void addSurvey(Survey survey);
+    void addSurvey(SurveyDto surveyDto, Company company);
     @PreAuthorize("hasRole('COMPANY')")
     void addVoucher(Voucher voucher);
     @PreAuthorize("hasRole('COMPANY')")

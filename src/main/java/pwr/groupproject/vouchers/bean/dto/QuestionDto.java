@@ -1,4 +1,4 @@
-package pwr.groupproject.vouchers.dto;
+package pwr.groupproject.vouchers.bean.dto;
 
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 

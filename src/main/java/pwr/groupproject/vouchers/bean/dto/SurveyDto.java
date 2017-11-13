@@ -1,4 +1,4 @@
-package pwr.groupproject.vouchers.dto;
+package pwr.groupproject.vouchers.bean.dto;
 
 import java.util.Collection;
 

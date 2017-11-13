@@ -9,6 +9,7 @@ import java.util.Collection;
 public interface CompanySurveyDao {
     Company getCompanyById(int id);
     Company getCompanyWithSurveys(int id);
+    Company getCompanyWithSurveysAndQuestions(int id);
 
     Survey getSurveyById(int id);
     Survey getSurveyWithQuestions(int id);

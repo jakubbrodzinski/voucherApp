@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
+import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
 import pwr.groupproject.vouchers.bean.model.*;
+import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.dao.CompanySurveyDao;
 import pwr.groupproject.vouchers.dao.VoucherDao;
 import pwr.groupproject.vouchers.bean.dto.QuestionDto;
@@ -26,6 +28,15 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     @Override
     public Survey getSurveyById(int surveyId) {
         return companySurveyDao.getSurveyById(surveyId);
+    }
+
+    @Override
+    public Survey checkIfSurveyExists(int surveyId, UserCompany userCompany) throws WrongSurveyIdException {
+        Survey survey=companySurveyDao.getSurveyById(surveyId);
+        if(survey.getCompany().getId()==userCompany.getCompany().getId())
+            return survey;
+        else
+            throw new WrongSurveyIdException();
     }
 
     @Override
@@ -133,6 +144,11 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     @Override
     public Company getCompanyWithSurveys(Company company) {
         return companySurveyDao.getCompanyWithSurveys(company.getId());
+    }
+
+    @Override
+    public Company getCompanyWithSurveysAndQuestions(Company company){
+        return companySurveyDao.getCompanyWithSurveysAndQuestions(company.getId());
     }
 
     @Override

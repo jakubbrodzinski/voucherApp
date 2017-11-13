@@ -23,6 +23,13 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
     public Company getCompanyWithSurveys(int id) {
         Company company = entityManager.find(Company.class, id);
         Hibernate.initialize(company.getCompanysSurveys());
+        return company;
+    }
+
+    @Override
+    public Company getCompanyWithSurveysAndQuestions(int id) {
+        Company company = entityManager.find(Company.class, id);
+        Hibernate.initialize(company.getCompanysSurveys());
         company.getCompanysSurveys().stream().map(Survey::getQuestions).forEach(Hibernate::initialize);
         return company;
     }

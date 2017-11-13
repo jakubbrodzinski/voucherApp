@@ -2,13 +2,16 @@ package pwr.groupproject.vouchers.services;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
+import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
+import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 import java.util.Collection;
 
 public interface CompanySurveyService {
     Survey getSurveyById(int surveyId);
+    Survey checkIfSurveyExists(int surveyId, UserCompany userCompany) throws WrongSurveyIdException;
     void addAnsweredSurvey(AnsweredSurvey answeredSurvey);
     VoucherCode getVoucherCodeForSurvey(int surveyId) throws NoAvaibleVouchersException;
     void unBlockVoucherCode(int voucherCodeId);
@@ -38,6 +41,7 @@ public interface CompanySurveyService {
     AnsweredSurvey getResultDetails(int answeredSurveyId);
 
     Company getCompanyWithSurveys(Company company);
+    Company getCompanyWithSurveysAndQuestions(Company company);
     Collection<Survey> getAllActiveSurveys(int companyId);
     Collection<Company> getAllActiveCompanies();
 

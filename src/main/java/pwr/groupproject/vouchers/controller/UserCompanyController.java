@@ -2,15 +2,20 @@ package pwr.groupproject.vouchers.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import pwr.groupproject.vouchers.bean.dto.SurveyDto;
+import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
+import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.Survey;
 import pwr.groupproject.vouchers.bean.model.Voucher;
+import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.Collection;
 
@@ -18,63 +23,85 @@ import java.util.Collection;
 @RequestMapping(UserCompanyController.ROOT_MAPPING)
 @PreAuthorize("hasRole('USER')")
 public class UserCompanyController {
-    public static final String ROOT_MAPPING="/my_account";
+    public static final String ROOT_MAPPING = "/my_account";
     @Autowired
     private CompanySurveyService companySurveyService;
     @Autowired
     private UserCompanyService userCompanyService;
 
     @RequestMapping("/home")
-    public String homePage(Model model){ return "my_account/home_page.html";
+    public String homePage(Model model) {
+        return "my_account/home_page.html";
     }
-    @RequestMapping("/my_profile")
-    public String myProfile(Model model){
-        return "my_account/my_profile";
+
+    @RequestMapping("/account_panel")
+    public String accountPanel(Model model) {
+        return "my_account/account_panel.html";
     }
-    @RequestMapping("/manage_surveys")
-    public String surveysHomePage(Model model){
-        return "my_account/surveys/survey_homePage";
+
+    @RequestMapping(value = "/surveys",method = RequestMethod.GET)
+    public String surveysHomePage(Model model,@AuthenticationPrincipal UserCompany userCompany) {
+        Company companyWithSurveys=companySurveyService.getCompanyWithSurveys(userCompany.getCompany());
+        model.addAttribute("surveyList",companyWithSurveys.getCompanysSurveys());
+        return "my_account/surveys/surveys.html";
     }
-    @RequestMapping("/manage_vouchers")
-    public String vouchersHomePage(Model model){
-        return "my_account/vouchers/vouchers_homePage";
+
+    @RequestMapping(value="/surveys/{id}",method = RequestMethod.GET)
+    public String surveyDetails(@PathVariable("id") int surveyId,Model model,@AuthenticationPrincipal UserCompany userCompany){
+        try {
+            Survey survey = companySurveyService.checkIfSurveyExists(surveyId, userCompany);
+            model.addAttribute("survey",survey);
+            return "my_account/surveys/survey_details.html";
+        }catch(WrongSurveyIdException ex){
+            ex.printStackTrace();
+            return "/error.html"; //I have no idea how to tell spring that error occured properly :( . FIX IT PLZ!
+        }
     }
+
+    @RequestMapping(value="/surveys/{id}/vouchers",method = RequestMethod.GET)
+    public String manageSurveysVoucher(@PathVariable("id") int surveyId,Model model,@AuthenticationPrincipal UserCompany userCompany){
+        try {
+            Survey survey = companySurveyService.checkIfSurveyExists(surveyId, userCompany);
+            model.addAttribute("surveyName",survey.getSurveyName());
+            model.addAttribute("voucher",survey.getVoucher());
+            return "/my_account/vouchers/manage_vouchers.html";
+        }catch(WrongSurveyIdException ex){
+            ex.printStackTrace();
+            return "/error.html";
+        }
+    }
+
+    @RequestMapping(value = "/surveys/add", method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    public String newSurvey(@RequestParam SurveyDto surveyDto, @AuthenticationPrincipal UserCompany userCompany, HttpServletResponse httpServletResponse) {
+        try {
+            companySurveyService.addSurvey(surveyDto, userCompany.getCompany());
+            httpServletResponse.setStatus(HttpServletResponse.SC_CREATED);
+            return "OK";
+        } catch (Exception e) {
+            e.printStackTrace();
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return "NOT";
+        }
+    }
+
+    @RequestMapping(value = "/surveys/add",method = RequestMethod.GET)
+    public String newSurvey(Model model) {
+        return "my_account/surveys/create_survey.html";
+    }
+
+
     @RequestMapping("/statistics")
-    public String statsHomePage(Model model){
+    public String statsHomePage(Model model) {
         return "my_account/stats/stats_homePage";
     }
-    @RequestMapping("/manage_surveys/create_new_survey")
-    public String createNewSurveyPage(Model model){
-        return "my_account/surveys/create_survey";
-    }
-    @RequestMapping("/manage_surveys/view_existing_surveys")
-    public String existingSurveysPage(Principal userCompany, Model model){
-        Collection<Survey> surveys = companySurveyService.getAllActiveSurveys(userCompanyService.getUserByUserName(userCompany.getName()).getId());
-        model.addAttribute("surveys",surveys);
-        return "my_account/surveys/existing_surveys";
-    }
-    @RequestMapping("/manage_surveys/view_existing_surveys/view_concrete_survey")
-    public String previewSurveyPage(@RequestParam(name = "surveyId", required = true) Integer surveyId, Model model){
-        Survey survey = companySurveyService.getSurveyById(surveyId);
-        model.addAttribute("survey",survey);
-        return "my_account/surveys/preview_survey";
-    }
+
+
     @RequestMapping("/manage_vouchers/create_new_voucher")
-    public String createNewVoucherPage(Model model){
+    public String createNewVoucherPage(Model model) {
         return "my_account/vouchers/add_voucher";
     }
-    @RequestMapping("/manage_vouchers/view_existing_vouchers")
-    public String existingVouchersPage(Principal userCompany, Model model){
-        Collection<Survey> surveys = companySurveyService.getAllActiveSurveys(userCompanyService.getUserByUserName(userCompany.getName()).getId());
-        model.addAttribute("surveys",surveys);
-        return "my_account/vouchers/manage_vouchers";
-    }
-    @RequestMapping("/manage_vouchers/view_existing_vouchers/view_concrete_voucher")
-    public String previewVoucherPage(@RequestParam(name = "surveyId", required = true) Integer surveyId, Model model){
-        Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
-        System.out.println(voucher.getVoucherDescription());
-        model.addAttribute("voucher",voucher);
-        return "my_account/vouchers/preview_voucher.html";
-    }
+
 }
+
 

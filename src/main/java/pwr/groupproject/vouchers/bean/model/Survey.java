@@ -80,4 +80,10 @@ public class Survey {
     public void setAnsweredSurveys(Collection<AnsweredSurvey> answeredSurveys) {
         this.answeredSurveys = answeredSurveys;
     }
+
+    public boolean isActive(){
+        if(voucher==null)
+            return false;
+        return voucher.getCodes().stream().filter(voucherCode -> voucherCode.getAmmountOfUses()>0).count()>0;
+    }
 }

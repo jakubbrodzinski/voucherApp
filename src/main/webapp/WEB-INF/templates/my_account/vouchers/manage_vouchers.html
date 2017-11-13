@@ -6,11 +6,22 @@
 </head>
 <body>
 <div th:insert="/fragments/dashboard.html :: dashboard"></div>
-<form th:action="@{/my_account/manage_vouchers/view_existing_vouchers/view_concrete_voucher}" method="get">
-    <select name="surveyId">
-        <option th:each="survey : ${surveys}" th:value = "${survey.id}" th:utext="${survey.voucher.voucherDescription}"></option>
-    </select>
-    <input type="submit" th:value="send">
-</form>
+<div th:text="${'vouchers for '+surveyName+' survey'}"></div>
+<div th:if="${voucher!=null}" th:remove="tag">
+    <div th:text="${'Voucher details:'}"></div>
+    <div th:text="${'Start date: '+voucher.startDate}">1.01.1010 21:37</span></div>
+    <div th:text="${'Discount type: '+voucher.endDate}">1.01.1010 21:37</div>
+    <div th:text="${'Discount amount: '+voucher.discountType}">Discount amount</div>
+    <div th:text="${'Additional info: '+voucher.voucherDescription}">Additional data here</div>
+    <div th:text="${'VoucherCodes :'}" ></div>
+    <br>
+    <div th:each="code : ${voucher.codes}">
+        <br>
+        <div th:text="${'code: '+code.voucherCode}">code</div>
+        <div th:text="${'ammount left: '+code.ammountOfUses}">ammount left</div>
+    </div>
+</div>
+<div th:unless="${voucher!=null}" th:remove="tag">ni ma nic</div>
+<br>
 </body>
 </html>

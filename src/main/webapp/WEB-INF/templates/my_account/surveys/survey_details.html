@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:text="${'Name: '+survey.surveyName}">Name: surveyName</div>
+<div th:text="${'Created on: '+survey.creationDate}">1.01.1010 21:37</div>
+<span th:text="${'Spoko pomyslem byłoby tutaj mozliwosc edycji vouchera/ pop-up informujacy zeby przejsc do innego menu zeby edytowac vouchery'}"></span><div th:text="${'Voucher details:'}"></div>
+<div th:text="${'Start date: '+survey.voucher.startDate}">1.01.1010 21:37</span></div>
+<div th:text="${'Discount type: '+survey.voucher.endDate}">1.01.1010 21:37</div>
+<div th:text="${'Discount amount: '+survey.voucher.discountType}">Discount amount</div>
+<div th:text="${'Additional info: '+survey.voucher.voucherDescription}">Additional data here</div>
+<br>
+<div th:each="q : ${survey.questions}">
+    <br>
+    <div th:text="${'Question body: '+q.questionBody}">Question body</div>
+    <div th:switch="${q.questionType}">
+        <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).OPEN}">
+            <div th:text="${'Question type: Open'}"></div>
+        </th:block>
+        <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).MULTIPLE_CHOICE}">
+            <div th:text="${'Question type: Closed, multiple choice'}"></div>
+            <div th:text="${'a)'+q.possibleAnswers.possibleAnswerA}"></div>
+            <div th:text="${'b)'+q.possibleAnswers.possibleAnswerB}"></div>
+            <div th:text="${'c)'+q.possibleAnswers.possibleAnswerC}"></div>
+            <div th:text="${'d)'+q.possibleAnswers.possibleAnswerD}"></div>
+        </th:block>
+        <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).SINGLE_CHOICE}">
+            <div th:text="${'Question type: Closed, single choice'}"></div>
+            <div th:text="${'a)'+q.possibleAnswers.possibleAnswerA}"></div>
+            <div th:text="${'b)'+q.possibleAnswers.possibleAnswerB}"></div>
+            <div th:text="${'c)'+q.possibleAnswers.possibleAnswerC}"></div>
+            <div th:text="${'d)'+q.possibleAnswers.possibleAnswerD}"></div></th:block>
+        <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).RANGED}">
+            <div th:text="${'Question type: Ranged'}"></div>
+        </th:block>
+        <th:block th:case="*">SOMETHING WENT HORRIBLY WRONG!</th:block>
+    </div>
+</div>
+
+</body>
+</html>

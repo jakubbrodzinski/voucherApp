@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
+import pwr.groupproject.vouchers.bean.dto.QuestionDto;
+import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.enums.TokenStatus;
 import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
 import pwr.groupproject.vouchers.bean.model.Question;
@@ -11,9 +14,7 @@ import pwr.groupproject.vouchers.bean.model.Survey;
 import pwr.groupproject.vouchers.bean.model.User;
 import pwr.groupproject.vouchers.bean.model.VoucherCode;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
-import pwr.groupproject.vouchers.dto.ClosedQuestionDto;
-import pwr.groupproject.vouchers.dto.QuestionDto;
-import pwr.groupproject.vouchers.dto.SurveyDto;
+
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.MailService;
 

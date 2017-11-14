@@ -3,12 +3,11 @@ package pwr.groupproject.vouchers.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.Question;
 import pwr.groupproject.vouchers.bean.model.Survey;
+import pwr.groupproject.vouchers.bean.dto.QuestionDto;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 
 import java.util.Collection;
@@ -47,7 +46,21 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "surveys", method = RequestMethod.POST)
-    public String renderSurvey() {
+    public @ResponseBody String renderSurvey(@RequestBody QuestionDto questionDto) {
+        String questionBody = questionDto.getQuestionBody();
+        System.out.println("DP: " + questionBody);
         return new String("redirect:/");
+    }
+
+    @RequestMapping(value = "create_survey", method = RequestMethod.GET)
+    public String renderCreate() {
+        return "my_account/surveys/create_survey";
+    }
+
+    @RequestMapping(value = "create_survey", method = RequestMethod.POST)
+    public String testCreate(@RequestBody QuestionDto questionDto) {
+        String questionBody = questionDto.getQuestionBody();
+        System.out.println("DP: " + questionBody);
+        return "my_account/surveys/create_survey";
     }
 }

@@ -25,7 +25,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.requiresChannel().antMatchers("/*").requiresSecure()
-                .and()
+                .and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/*").permitAll()
                 .antMatchers("/token/*").permitAll()

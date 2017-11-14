@@ -1,11 +1,226 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"><script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<div th:insert="/fragments/dashboard.html :: dashboard"></div>
-    Create survey fragment.
+<!--<div th:insert="/fragments/dashboard.html :: dashboard"></div>-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-8">
+                <h2>Survey creation</h2>
+                <input id="survey_name" class="form-control form-control-lg mx-auto mt-3 mb-3" type="text" placeholder="Enter the survey name">
+                <h4>Add question</h4>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs nav-justified" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="single_choice_tab" data-toggle="tab" href="#single_choice" role="tab">Single choice</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="multiple_choice_tab" data-toggle="tab" href="#multiple_choice" role="tab">Multiple choice</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="open_tab" data-toggle="tab" href="#open" role="tab">Open</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="ranged_tab" data-toggle="tab" href="#ranged" role="tab">Ranged</a>
+                    </li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="single_choice" role="tabpanel">
+                        <div class="card card-block bg-light m-3 p-3" style="height: 11rem">
+                            <input class="form-control form-control-lg mx-auto mb-2 clear-me" type="text" placeholder="Enter the question body">
+                            <div class="form-row m-1">
+                                <div class="col">
+                                    <input type="text" class="form-control clear-me possibleA" placeholder="Answer A">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control clear-me possibleB" placeholder="Answer B">
+                                </div>
+                            </div>
+                            <div class="form-row m-1">
+                                <div class="col">
+                                    <input type="text" class="form-control clear-me possibleC" placeholder="Answer C">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control clear-me possibleD" placeholder="Answer D">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="multiple_choice" role="tabpanel">
+                        <div class="card card-block bg-light m-3 p-3" style="height: 11rem">
+                            <input class="form-control form-control-lg mx-auto mb-2 clear-me" type="text" placeholder="Enter the question body">
+                            <div class="form-row m-1">
+                                <div class="col">
+                                    <input type="text" class="form-control clear-me possibleA" placeholder="Answer A">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control clear-me possibleB" placeholder="Answer B">
+                                </div>
+                            </div>
+                            <div class="form-row m-1">
+                                <div class="col">
+                                    <input type="text" class="form-control clear-me possibleC" placeholder="Answer C">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control clear-me possibleD" placeholder="Answer D">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="open" role="tabpanel">
+                        <div class="card card-block bg-light m-3 p-3 " style="height: 11rem">
+                            <input class="form-control form-control-lg mx-auto mb-2 mt-4 clear-me" type="text" placeholder="Enter the question body">
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="ranged" role="tabpanel">
+                        <div class="card card-block bg-light m-3 p-3 text-center" style="height: 11rem">
+                            <input class="form-control form-control-lg mx-auto mb-2 mt-4 clear-me" type="text" placeholder="Enter the question body">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary float-right" onclick="addQuestion()">Add question</button>
+            </div>
+            <div class="col-4">
+                TEST
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <button type="button" class="btn btn-primary" onclick="addSurvey()">Add survey</button>
+            </div>
+        </div>
+    </div>
 </body>
+
+<script type="text/javascript" language="javascript">
+
+    var activeTab = null;
+
+    $(document).ready(function() {
+        activeTab = $('#single_choice_tab').attr("id");
+    });
+
+    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+        activeTab = e.target; // newly activated tab
+        activeTab = $(activeTab).attr("id");
+        $(".clear-me").map(function() {
+            $(this).val("");
+        });
+    });
+
+    function Survey(surveyName, questions) {
+        this.surveyName = surveyName;
+        this.questions = questions;
+    }
+
+    function Question(questionBody, questionType) {
+        this.questionBody = questionBody;
+        this.questionType = questionType;
+    }
+
+    function ClosedQuestion(questionBody, questionType, possibleAnswers) {
+        this.questionBody = questionBody;
+        this.questionType = questionType;
+        this.possibleAnswers = possibleAnswers;
+    }
+
+    function PossibleAnswers(possibleAnswerA, possibleAnswerB, possibleAnswerC, possibleAnswerD) {
+        this.possibleAnswerA = possibleAnswerA;
+        this.possibleAnswerB = possibleAnswerB;
+        this.possibleAnswerC = possibleAnswerC;
+        this.possibleAnswerD = possibleAnswerD;
+    }
+
+    var questions = [];
+
+    function addQuestion() {
+        switch (activeTab) {
+            case "single_choice_tab":
+                var $activePane = $('.tab-pane.active');
+                var questionBody = $activePane.find('.form-control-lg').val();
+                var questionType = "SINGLE_CHOICE";
+                var possibleA = $activePane.find('.possibleA').val();
+                var possibleB = $activePane.find('.possibleB').val();
+                var possibleC = $activePane.find('.possibleC').val();
+                var possibleD = $activePane.find('.possibleD').val();
+                var possibleAnswers = new PossibleAnswers(possibleA, possibleB, possibleC, possibleD);
+                var closedQuestion = new ClosedQuestion(questionBody, questionType, possibleAnswers);
+                console.log(JSON.stringify(closedQuestion));
+                questions.push(closedQuestion);
+                alert("SCT");
+                break;
+            case "multiple_choice_tab":
+                var $activePane = $('.tab-pane.active');
+                var questionBody = $activePane.find('.form-control-lg').val();
+                var questionType = "MULTIPLE_CHOICE";
+                var possibleA = $activePane.find('.possibleA').val();
+                var possibleB = $activePane.find('.possibleB').val();
+                var possibleC = $activePane.find('.possibleC').val();
+                var possibleD = $activePane.find('.possibleD').val();
+                var possibleAnswers = new PossibleAnswers(possibleA, possibleB, possibleC, possibleD);
+                var closedQuestion = new ClosedQuestion(questionBody, questionType, possibleAnswers);
+                console.log(JSON.stringify(closedQuestion));
+                questions.push(closedQuestion);
+                alert("MCT");
+                break;
+            case "open_tab":
+                var $activePane = $('.tab-pane.active');
+                var questionBody = $activePane.find('.form-control-lg').val();
+                var questionType = "OPEN";
+                var question = new Question(questionBody, questionType);
+                console.log(JSON.stringify(question));
+                questions.push(question);
+                alert("OT");
+                break;
+            case "ranged_tab":
+                var $activePane = $('.tab-pane.active');
+                var questionBody = $activePane.find('.form-control-lg').val();
+                var questionType = "RANGED";
+                var question = new Question(questionBody, questionType);
+                console.log(JSON.stringify(question));
+                questions.push(question);
+                alert("RT");
+                break;
+        }
+        $(".clear-me").map(function() {
+            $(this).val("");
+        });
+    }
+
+    function addSurvey() {
+        var surveyName = $('#survey_name').val();
+        var survey = new Survey(surveyName, questions);
+        console.log(JSON.stringify(survey));
+        alert("DODANO");
+    }
+
+    function test() {
+        var xhr = new XMLHttpRequest();
+        var url = "/create_survey";
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader(header, token);
+        xhr.setRequestHeader("Content-type", "application/json");
+        var data = JSON.stringify({"questionBody": "test", "questionType": "MULTIPLE_CHOICE"});
+        xhr.send();
+
+    }
+</script>
+<style>
+    .clear-me {}
+    .possibleA {}
+    .possibleB {}
+    .possibleC {}
+    .possibleD {}
+</style>
 </html>

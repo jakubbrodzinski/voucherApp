@@ -1,10 +1,12 @@
 package pwr.groupproject.vouchers.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
+import pwr.groupproject.vouchers.bean.dto.QuestionDto;
+import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.enums.TokenStatus;
 import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
 import pwr.groupproject.vouchers.bean.model.Question;
@@ -12,10 +14,7 @@ import pwr.groupproject.vouchers.bean.model.Survey;
 import pwr.groupproject.vouchers.bean.model.User;
 import pwr.groupproject.vouchers.bean.model.VoucherCode;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
-import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
-import pwr.groupproject.vouchers.bean.dto.QuestionDto;
-import pwr.groupproject.vouchers.bean.dto.SurveyDto;
-import pwr.groupproject.vouchers.bean.model.security.UserCompany;
+
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.MailService;
 
@@ -77,17 +76,5 @@ public class DefaultController {
         surveyWrapper.setQuestions(questionWrappers);
         surveyWrapper.setSurveyName(survey.getSurveyName());
         return surveyWrapper;
-    }
-
-    @RequestMapping(value = "/jj",method = RequestMethod.GET)
-    public String addNewSurvey(){
-        return "/temporary.html";
-    }
-
-    @RequestMapping(value = "/jj",method = RequestMethod.POST)
-    @ResponseBody
-    public String addNewSurvey(@RequestParam(required = false) QuestionDto questionDto){
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!");
-        return "OK";
     }
 }

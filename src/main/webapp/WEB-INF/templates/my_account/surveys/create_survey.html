@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"><script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
@@ -7,6 +7,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 <!--<div th:insert="/fragments/dashboard.html :: dashboard"></div>-->
@@ -90,7 +93,7 @@
                 <button type="button" class="btn btn-primary float-right" onclick="addQuestion()">Add question</button>
             </div>
             <div class="col-4">
-                TEST
+                <button type="button" class="btn btn-warning" onclick="test()">TEST THE POST</button>
             </div>
         </div>
         <div class="row">
@@ -212,7 +215,7 @@
         xhr.setRequestHeader(header, token);
         xhr.setRequestHeader("Content-type", "application/json");
         var data = JSON.stringify({"questionBody": "test", "questionType": "MULTIPLE_CHOICE"});
-        xhr.send();
+        xhr.send(data);
 
     }
 </script>

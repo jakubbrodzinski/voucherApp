@@ -60,7 +60,7 @@ public class SurveyController {
     @RequestMapping(value = "create_survey", method = RequestMethod.POST)
     public String testCreate(@RequestBody QuestionDto questionDto) {
         String questionBody = questionDto.getQuestionBody();
-        System.out.println("DP: " + questionBody);
+        System.out.println("DOSTALEM QUESTION BODY: " + questionBody);
         return "my_account/surveys/create_survey";
     }
 }

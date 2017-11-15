@@ -1,6 +1,7 @@
 package pwr.groupproject.vouchers.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
@@ -31,7 +32,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public Survey checkIfSurveyExists(int surveyId, UserCompany userCompany) throws WrongSurveyIdException {
+    public Survey checkIfSurveyExists(int surveyId,@AuthenticationPrincipal UserCompany userCompany) throws WrongSurveyIdException {
         Survey survey=companySurveyDao.getSurveyById(surveyId);
         if(survey.getCompany().getId()==userCompany.getCompany().getId())
             return survey;
@@ -66,7 +67,8 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public void addSurvey(SurveyDto surveyDto, Company company) {
+    public void addSurvey(SurveyDto surveyDto, UserCompany userCcompany) {
+        Company company=companySurveyDao.getCompanyById(userCcompany.getCompany().getId());
         Survey newSurvey = new Survey();
         newSurvey.setCompany(company);
         company.getCompanysSurveys().add(newSurvey);
@@ -78,7 +80,9 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
             question.setQuestionBody(questionDto.getQuestionBody());
             question.setQuestionType(questionDto.getQuestionType());
             if(questionDto instanceof ClosedQuestionDto){
-                PossibleAnswers possibleAnswers= question.getPossibleAnswers();
+                PossibleAnswers possibleAnswers= new PossibleAnswers();
+                question.setPossibleAnswers(possibleAnswers);
+
                 PossibleAnswers possibleAnswersInput=((ClosedQuestionDto) questionDto).getPossibleAnswers();
                 possibleAnswers.setPossibleAnswerA(possibleAnswersInput.getPossibleAnswerA());
                 possibleAnswers.setPossibleAnswerB(possibleAnswersInput.getPossibleAnswerB());

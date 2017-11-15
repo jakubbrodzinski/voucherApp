@@ -217,13 +217,13 @@
 
     function test() {
         var xhr = new XMLHttpRequest();
-        var url = "/create_survey";
+        var url = "/my_account/surveys/add";
         var token = $("meta[name='_csrf']").attr("content");
         var header = $("meta[name='_csrf_header']").attr("content");
         xhr.open("POST", url, true);
         xhr.setRequestHeader(header, token);
         xhr.setRequestHeader("Content-type", "application/json");
-        var data = JSON.stringify({"questionBody": "test", "questionType": "MULTIPLE_CHOICE"});
+        var data = JSON.stringify({"surveyName":"name","questions":[{"questionBody":"xyz?","questionType":"RANGED"}]});
         xhr.send(data);
 
     }

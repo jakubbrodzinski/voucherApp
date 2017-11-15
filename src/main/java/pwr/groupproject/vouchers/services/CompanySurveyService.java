@@ -11,13 +11,14 @@ import java.util.Collection;
 
 public interface CompanySurveyService {
     Survey getSurveyById(int surveyId);
+    @PreAuthorize("hasRole('COMPANY')")
     Survey checkIfSurveyExists(int surveyId, UserCompany userCompany) throws WrongSurveyIdException;
     void addAnsweredSurvey(AnsweredSurvey answeredSurvey);
     VoucherCode getVoucherCodeForSurvey(int surveyId) throws NoAvaibleVouchersException;
     void unBlockVoucherCode(int voucherCodeId);
 
     @PreAuthorize("hasRole('COMPANY')")
-    void addSurvey(SurveyDto surveyDto, Company company);
+    void addSurvey(SurveyDto surveyDto, UserCompany userCompany );
     @PreAuthorize("hasRole('COMPANY')")
     void addVoucher(Voucher voucher);
     @PreAuthorize("hasRole('COMPANY')")

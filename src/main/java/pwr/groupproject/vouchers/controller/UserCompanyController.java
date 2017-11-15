@@ -21,7 +21,7 @@ import java.util.Collection;
 
 @Controller
 @RequestMapping(UserCompanyController.ROOT_MAPPING)
-@PreAuthorize("hasRole('USER')")
+@PreAuthorize("hasRole('COMPANY')")
 public class UserCompanyController {
     public static final String ROOT_MAPPING = "/my_account";
     @Autowired
@@ -73,9 +73,9 @@ public class UserCompanyController {
 
     @RequestMapping(value = "/surveys/add", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public String newSurvey(@RequestParam SurveyDto surveyDto, @AuthenticationPrincipal UserCompany userCompany, HttpServletResponse httpServletResponse) {
+    public String newSurvey(@RequestBody SurveyDto surveyDto, @AuthenticationPrincipal UserCompany userCompany, HttpServletResponse httpServletResponse) {
         try {
-            companySurveyService.addSurvey(surveyDto, userCompany.getCompany());
+            companySurveyService.addSurvey(surveyDto, userCompany);
             httpServletResponse.setStatus(HttpServletResponse.SC_CREATED);
             return "OK";
         } catch (Exception e) {

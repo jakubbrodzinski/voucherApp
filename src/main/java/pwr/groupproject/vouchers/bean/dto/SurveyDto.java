@@ -1,11 +1,14 @@
 package pwr.groupproject.vouchers.bean.dto;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 
-public class SurveyDto {
+public class SurveyDto implements Serializable {
+    private static final long serialVersionUID = 3671011244626651928L;
 
     private String surveyName;
-    private Collection<QuestionDto> questions;
+    private Collection<QuestionDto> questions = new ArrayList<>();
 
     public String getSurveyName() {
         return surveyName;

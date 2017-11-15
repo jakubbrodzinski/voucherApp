@@ -6,19 +6,19 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Table(name="SURVEY")
+@Table(name = "SURVEY")
 public class Survey {
-    @javax.persistence.Id
+    @Id
     @GeneratedValue
     private int Id;
     @Column(length = 50)
     private String surveyName;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "survey")
-    private Collection<Question> questions=new ArrayList<>();
-    @OneToOne(mappedBy = "survey",cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
+    private Collection<Question> questions = new ArrayList<>();
+    @OneToOne(mappedBy = "survey", cascade = CascadeType.ALL, optional = true)
     private Voucher voucher;
     @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
-    private Collection<AnsweredSurvey> answeredSurveys=new ArrayList<>();
+    private Collection<AnsweredSurvey> answeredSurveys = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "companyId")
     private Company company;
@@ -81,9 +81,9 @@ public class Survey {
         this.answeredSurveys = answeredSurveys;
     }
 
-    public boolean isActive(){
-        if(voucher==null)
+    public boolean isActive() {
+        if (voucher == null)
             return false;
-        return voucher.getCodes().stream().filter(voucherCode -> voucherCode.getAmmountOfUses()>0).count()>0;
+        return voucher.getCodes().stream().filter(voucherCode -> voucherCode.getAmmountOfUses() > 0).count() > 0;
     }
 }

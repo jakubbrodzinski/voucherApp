@@ -2,7 +2,10 @@ package pwr.groupproject.vouchers.bean.dto;
 
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 
-public class QuestionDto {
+import java.io.Serializable;
+
+public class QuestionDto implements Serializable {
+    private static final long serialVersionUID = 1789775665002232105L;
 
     private String questionBody;
     private QuestionType questionType;

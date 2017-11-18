@@ -20,7 +20,7 @@ public interface CompanySurveyService {
     @PreAuthorize("hasRole('COMPANY')")
     void addSurvey(SurveyDto surveyDto, UserCompany userCompany );
     @PreAuthorize("hasRole('COMPANY')")
-    void addVoucher(Voucher voucher);
+    void addVoucher(Voucher voucher, int surveyId);
     @PreAuthorize("hasRole('COMPANY')")
     void addVoucherCode(VoucherCode voucherCode,int voucherId);
     @PreAuthorize("hasRole('COMPANY')")

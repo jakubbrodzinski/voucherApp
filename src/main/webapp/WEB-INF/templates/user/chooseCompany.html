@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-    <form th:action="@{/get_surveys_from_company}" method="get">
+    <form th:action="@{/companySurveys}" method="get">
         <select name="companyId">
             <option th:each="company : ${companies}" th:value = "${company.Id}" th:text="${company.companyName}"></option>
         </select>

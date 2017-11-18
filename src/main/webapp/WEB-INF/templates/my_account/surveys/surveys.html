@@ -21,7 +21,10 @@
         <div th:text="${'NOT ACTIVE'}"></div>
     </th:block>
     <div>
-        <a th:href="@{${'/my_account/surveys/'+survey.Id}+'/vouchers'}" th:text="${'Add vouchers'}">One of you surveys</a>
+        <a th:href="@{${'/my_account/surveys/'+survey.Id}+'/voucher'}" th:text="${'Edit voucher'}" th:if="${survey.voucher!=null}">One of you surveys</a>
+    </div>
+    <div>
+        <a th:href="@{${'/my_account/surveys/'+survey.Id}+'/addVoucher'}" th:text="${'Add voucher'}" th:if="${survey.voucher==null}">One of you surveys</a>
     </div>
     <div th:text="${'Created on: '+survey.creationDate}"></div>
     <br>

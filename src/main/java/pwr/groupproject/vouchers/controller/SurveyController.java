@@ -21,17 +21,17 @@ public class SurveyController {
     @Autowired
     private CompanySurveyService companySurveyService;
 
-    @RequestMapping(value = "/get_company_list")
-    public String companyListPage(Model model){
+    @RequestMapping(value = "/companies")
+    public String companyList(Model model){
         Collection<Company> companies = companySurveyService.getAllActiveCompanies();
         model.addAttribute("companies",companies);
-        return "/user/user_survey_chooseCompany.html";
+        return "/user/chooseCompany.html";
     }
-    @RequestMapping(value = "/get_surveys_from_company")
-    public String voucherListPage(@RequestParam(name = "companyId", required = true) Integer companyId, Model model){
+    @RequestMapping(value = "/companySurveys")
+    public String voucherList(@RequestParam(name = "companyId", required = true) Integer companyId, Model model){
         Collection<Survey> surveys = companySurveyService.getAllActiveSurveys(companyId);
         model.addAttribute("surveys",surveys);
-        return "/user/user_survey_chooseSurvey.html";
+        return "/user/chooseSurvey.html";
     }
 
     @RequestMapping(value = "surveys", method = RequestMethod.GET)

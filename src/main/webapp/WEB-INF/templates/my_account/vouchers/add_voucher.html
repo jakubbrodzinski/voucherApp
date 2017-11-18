@@ -6,6 +6,21 @@
 </head>
 <body>
 <div th:insert="/fragments/dashboard.html :: dashboard"></div>
-    Fragment to add vouchers.
+<form th:action="@{/my_account/surveys/} + ${surveyId} +@{/addVoucher}" method="post">
+    Discount Type:
+    <th:block th:each="discount : ${discountType}">
+    <br><input type="radio" name="discountType" th:text="${discount}" th:value="${discount}">
+    </th:block>
+    <br>
+    Discount Amount: <input type="number" name="discountAmount">
+    <br>
+    Voucher Description: <input type="text" name="description">
+    <br>
+    Start Date: <input type="date" name="startDate">
+    <br>
+    End Date: <input type="date" name="endDate">
+    <br>
+    <input type="submit" value="Add Voucher">
+</form>
 </body>
 </html>

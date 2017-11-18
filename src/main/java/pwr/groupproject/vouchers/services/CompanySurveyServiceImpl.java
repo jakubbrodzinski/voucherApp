@@ -95,13 +95,17 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public void addVoucher(Voucher voucher) {
+    public void addVoucher(Voucher voucher, int surveyId) {
+        Survey survey = companySurveyDao.getSurveyById(surveyId);
+        survey.setVoucher(voucher);
+        voucher.setSurvey(survey);
         voucherDao.addVoucher(voucher);
     }
 
     @Override
     public void addVoucherCode(VoucherCode voucherCode, int voucherId) {
         Voucher voucher = voucherDao.getVoucherById(voucherId);
+        voucherCode.setVoucher(voucher);
         voucher.getCodes().add(voucherCode);
         voucherDao.updateVoucher(voucher);
     }

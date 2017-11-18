@@ -11,13 +11,19 @@ import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
 import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.Survey;
 import pwr.groupproject.vouchers.bean.model.Voucher;
+import pwr.groupproject.vouchers.bean.model.VoucherCode;
+import pwr.groupproject.vouchers.bean.model.enums.DiscountType;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
 @Controller
 @RequestMapping(UserCompanyController.ROOT_MAPPING)
@@ -40,7 +46,7 @@ public class UserCompanyController {
     }
 
     @RequestMapping(value = "/surveys",method = RequestMethod.GET)
-    public String surveysHomePage(Model model,@AuthenticationPrincipal UserCompany userCompany) {
+    public String surveys(Model model, @AuthenticationPrincipal UserCompany userCompany) {
         Company companyWithSurveys=companySurveyService.getCompanyWithSurveys(userCompany.getCompany());
         model.addAttribute("surveyList",companyWithSurveys.getCompanysSurveys());
         return "my_account/surveys/surveys.html";
@@ -58,17 +64,74 @@ public class UserCompanyController {
         }
     }
 
-    @RequestMapping(value="/surveys/{id}/vouchers",method = RequestMethod.GET)
+    @RequestMapping(value="/surveys/{id}/voucher",method = RequestMethod.GET)
     public String manageSurveysVoucher(@PathVariable("id") int surveyId,Model model,@AuthenticationPrincipal UserCompany userCompany){
         try {
             Survey survey = companySurveyService.checkIfSurveyExists(surveyId, userCompany);
             model.addAttribute("surveyName",survey.getSurveyName());
             model.addAttribute("voucher",survey.getVoucher());
-            return "/my_account/vouchers/manage_vouchers.html";
+            model.addAttribute("surveyId",surveyId);
+            return "/my_account/vouchers/manage_voucher.html";
         }catch(WrongSurveyIdException ex){
             ex.printStackTrace();
             return "/error.html";
         }
+    }
+
+    @RequestMapping(value="/surveys/{id}/voucher/changeCode",method = RequestMethod.POST)
+    public String changeVoucherCodes(@PathVariable("id") int surveyId, @RequestParam(name="numberOfCodes", required = true) Integer numberOfCodes, @RequestParam(name="codeId", required = true) Integer codeId){
+        Survey survey = companySurveyService.getSurveyById(surveyId);
+        for (VoucherCode code:survey.getVoucher().getCodes()) {
+            if(code.getId()==codeId){
+                code.setAmmountOfUses(numberOfCodes);
+                break;
+            }
+        }
+        return "redirect:/my_account/surveys";
+    }
+
+    @RequestMapping(value="/surveys/{id}/voucher/addCode",method = RequestMethod.POST)
+    public String addVoucherCodes(@PathVariable("id") int surveyId, @RequestParam(name="numberOfCodes", required = true) Integer numberOfCodes, @RequestParam(name="code", required = true) String code){
+        VoucherCode voucherCode = new VoucherCode();
+        voucherCode.setVoucherCode(code);
+        voucherCode.setAmmountOfUses(numberOfCodes);
+        companySurveyService.addVoucherCode(voucherCode, companySurveyService.getSurveyById(surveyId).getVoucher().getId());
+        return "redirect:/my_account/surveys";
+    }
+
+    @RequestMapping(value="/surveys/{id}/voucher/details",method = RequestMethod.POST)
+    public String changeVoucherDetails(@PathVariable("id") int surveyId, @RequestParam(name="details", required = true) String details){
+       companySurveyService.getSurveyById(surveyId).getVoucher().setVoucherDescription(details);
+        return "redirect:/my_account/surveys";
+    }
+
+    @RequestMapping(value="/surveys/{id}/addVoucher",method = RequestMethod.GET)
+    public String voucher(@PathVariable("id") int surveyId, Model model){
+        model.addAttribute("surveyId", surveyId);
+        model.addAttribute("discountType", DiscountType.values());
+        return "my_account/vouchers/add_voucher";
+    }
+
+    @RequestMapping(value="/surveys/{id}/addVoucher",method = RequestMethod.POST)
+    public String addVoucher(@PathVariable("id") int surveyId, @RequestParam(name="discountType", required = true) DiscountType discountType, @RequestParam(name="discountAmount", required = true) Integer discountAmount, @RequestParam(name="description", required = true) String description, @RequestParam(name="startDate", required = true) String startDate, @RequestParam(name="endDate", required = true) String endDate  ){
+        Voucher voucher = new Voucher();
+        voucher.setDiscountType(discountType);
+        voucher.setDiscountAmount(discountAmount);
+        voucher.setVoucherDescription(description);
+        System.out.println(startDate+ "   "+endDate);
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            voucher.setStartDate(formatter.parse(startDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            voucher.setEndDate(formatter.parse(endDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        companySurveyService.addVoucher(voucher, surveyId);
+        return "redirect:/my_account/surveys";
     }
 
     @RequestMapping(value = "/surveys/add", method = RequestMethod.POST, consumes = "application/json")
@@ -92,13 +155,13 @@ public class UserCompanyController {
 
 
     @RequestMapping("/statistics")
-    public String statsHomePage(Model model) {
+    public String statistics(Model model) {
         return "my_account/stats/stats_homePage";
     }
 
 
-    @RequestMapping("/manage_vouchers/create_new_voucher")
-    public String createNewVoucherPage(Model model) {
+    @RequestMapping("/vouchers/add")
+    public String createNewVoucher(Model model) {
         return "my_account/vouchers/add_voucher";
     }
 

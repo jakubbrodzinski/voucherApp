@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:insert="/fragments/dashboard.html :: dashboard"></div>
+<div th:text="${'vouchers for '+surveyName+' survey'}"></div>
+<div th:if="${voucher!=null}" th:remove="tag">
+    <div th:text="${'Voucher details:' +voucher.voucherDescription}"></div>
+    <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/details}" method="post">
+    <input type="text" name="details">
+    <input type="submit" value="Set details">
+</form>
+    <div th:text="${'Start date: '+voucher.startDate}">1.01.1010 21:37</span></div>
+    <div th:text="${'Start date: '+voucher.endDate}">1.01.1010 21:37</span></div>
+    <div th:text="${'Discount type: '+voucher.discountType}">1.01.1010 21:37</div>
+    <div th:text="${'Discount amount: '+voucher.discountAmount}">Discount amount</div>
+    <div th:text="${'VoucherCodes :'}" ></div>
+    <br>
+    <div th:each="code : ${voucher.codes}">
+        <br>
+        <div th:text="${'code: '+code.voucherCode}">code</div>
+        <div th:text="${'ammount left: '+code.ammountOfUses}">ammount left</div>
+        <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/changeCode}" method="post">
+            <input type="number" name="numberOfCodes">
+            <input type="hidden" name="codeId" th:value ="${code.getId()}"></input>
+            <input type="submit" value="Set Amount">
+        </form>
+    </div>
+    <br>
+    <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/addCode}" method="post">
+        code:<input type="text" name="code"><br>
+        amount:<input type="number" name="numberOfCodes"><br>
+        <input type="submit" value="Add code">
+    </form>
+</div>
+<div th:unless="${voucher!=null}" th:remove="tag">ni ma nic</div>
+<br>
+</body>
+</html>

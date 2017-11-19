@@ -18,7 +18,8 @@ public class Voucher {
     private Survey survey;
     private Date startDate;
     private Date endDate;
-    @OneToMany(mappedBy = "voucher",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    //orphanRemoval = true
+    @OneToMany(mappedBy = "voucher",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<VoucherCode> codes = new HashSet<>();
     @Enumerated
     private DiscountType discountType;

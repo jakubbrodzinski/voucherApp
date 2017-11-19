@@ -36,6 +36,13 @@ public interface CompanySurveyService {
     void deleteCompany(int companyId);
 
     @PreAuthorize("hasRole('COMPANY')")
+    void updateVoucher(Voucher voucher);
+    @PreAuthorize("hasRole('COMPANY')")
+    void updateVoucherCode(VoucherCode voucherCode);
+    @PreAuthorize("hasRole('COMPANY')")
+    void updateCompany(Company company);
+
+    @PreAuthorize("hasRole('COMPANY')")
     Collection<AnsweredSurvey> getAllAnsweredSurveys(int surveyId);
 
     @PreAuthorize("hasRole('COMPANY')")

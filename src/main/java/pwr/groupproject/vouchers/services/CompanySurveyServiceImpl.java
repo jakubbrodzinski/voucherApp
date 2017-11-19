@@ -10,6 +10,8 @@ import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.dao.CompanySurveyDao;
+import pwr.groupproject.vouchers.dao.UserCompanyDao;
+import pwr.groupproject.vouchers.dao.UserCompanyDaoImpl;
 import pwr.groupproject.vouchers.dao.VoucherDao;
 import pwr.groupproject.vouchers.bean.dto.QuestionDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
@@ -137,6 +139,21 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     public void deleteCompany(int companyId) {
         Company company = companySurveyDao.getCompanyById(companyId);
         companySurveyDao.deleteCompany(company);
+    }
+
+    @Override
+    public void updateVoucher(Voucher voucher){
+        voucherDao.updateVoucher(voucher);
+    }
+
+    @Override
+    public void updateVoucherCode(VoucherCode voucherCode){
+        voucherDao.updateVoucherCode(voucherCode);
+    }
+
+    @Override
+    public void updateCompany(Company company) {
+        companySurveyDao.updateCompany(company);
     }
 
     @Override

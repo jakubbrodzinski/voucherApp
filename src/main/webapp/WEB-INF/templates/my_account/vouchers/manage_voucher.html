@@ -10,13 +10,31 @@
 <div th:if="${voucher!=null}" th:remove="tag">
     <div th:text="${'Voucher details:' +voucher.voucherDescription}"></div>
     <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/details}" method="post">
-    <input type="text" name="details">
-    <input type="submit" value="Set details">
-</form>
+        <input type="text" name="details">
+        <input type="submit" value="Set details">
+    </form>
     <div th:text="${'Start date: '+voucher.startDate}">1.01.1010 21:37</span></div>
+    <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/startDate}" method="post">
+        <input type="date" name="startDate">
+        <input type="submit" value="Set start date">
+    </form>
     <div th:text="${'End date: '+voucher.endDate}">1.01.1010 21:37</span></div>
+    <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/endDate}" method="post">
+        <input type="date" name="endDate">
+        <input type="submit" value="Set end date">
+    </form>
     <div th:text="${'Discount type: '+voucher.discountType}">1.01.1010 21:37</div>
+    <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/discountType}" method="post">
+        <th:block th:each="discount : ${discountType}">
+            <br><input type="radio" name="discountType" th:text="${discount}" th:value="${discount}">
+        </th:block>
+        <input type="submit" value="Set discount type">
+    </form>
     <div th:text="${'Discount amount: '+voucher.discountAmount}">Discount amount</div>
+    <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/discountAmount}" method="post">
+        <input type="number" name="discountAmount">
+        <input type="submit" value="Set discount Amount">
+    </form>
     <div th:text="${'VoucherCodes :'}" ></div>
     <br>
     <div th:each="code : ${voucher.codes}">
@@ -25,8 +43,12 @@
         <div th:text="${'ammount left: '+code.ammountOfUses}">ammount left</div>
         <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/changeCode}" method="post">
             <input type="number" name="numberOfCodes">
-            <input type="hidden" name="codeId" th:value ="${code.getId()}"></input>
+            <input type="hidden" name="codeId" th:value ="${code.getId()}">
             <input type="submit" value="Set Amount">
+        </form>
+        <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/deleteCode}" method="post">
+            <input type="hidden" name="codeId" th:value ="${code.getId()}">
+            <input type="submit" value="iksik">
         </form>
     </div>
     <br>

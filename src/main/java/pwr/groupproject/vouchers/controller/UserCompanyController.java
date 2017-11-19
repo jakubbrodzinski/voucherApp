@@ -102,6 +102,7 @@ public class UserCompanyController {
             model.addAttribute("surveyName",survey.getSurveyName());
             model.addAttribute("voucher",survey.getVoucher());
             model.addAttribute("surveyId",surveyId);
+            model.addAttribute("discountType", DiscountType.values());
             return "/my_account/vouchers/manage_voucher.html";
         }catch(WrongSurveyIdException ex){
             ex.printStackTrace();
@@ -111,30 +112,87 @@ public class UserCompanyController {
 
     @RequestMapping(value="/surveys/{id}/voucher/details",method = RequestMethod.POST)
     public String changeVoucherDetails(@PathVariable("id") int surveyId, @RequestParam(name="details", required = true) String details){
-        companySurveyService.getSurveyById(surveyId).getVoucher().setVoucherDescription(details);
+        Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
+        voucher.setVoucherDescription(details);
+        companySurveyService.updateVoucher(voucher);
         return "redirect:/my_account/surveys";
     }
+
+    @RequestMapping(value="/surveys/{id}/voucher/discountType",method = RequestMethod.POST)
+    public String changeVoucherDiscountType(@PathVariable("id") int surveyId, @RequestParam(name="discountType", required = true) DiscountType discountType){
+        Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
+        voucher.setDiscountType(discountType);
+        companySurveyService.updateVoucher(voucher);
+        return "redirect:/my_account/surveys";
+    }
+    @RequestMapping(value="/surveys/{id}/voucher/discountAmount",method = RequestMethod.POST)
+    public String changeVoucherDiscountAmount(@PathVariable("id") int surveyId, @RequestParam(name="discountAmount", required = true) Integer discountAmount){
+        Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
+        voucher.setDiscountAmount(discountAmount);
+        companySurveyService.updateVoucher(voucher);
+        return "redirect:/my_account/surveys";
+    }
+    @RequestMapping(value="/surveys/{id}/voucher/startDate",method = RequestMethod.POST)
+    public String changeVoucherStartDate(@PathVariable("id") int surveyId, @RequestParam(name="startDate", required = true) String startDate){
+        Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            voucher.setStartDate(formatter.parse(startDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        companySurveyService.updateVoucher(voucher);
+        return "redirect:/my_account/surveys";
+    }
+
+    @RequestMapping(value="/surveys/{id}/voucher/endDate",method = RequestMethod.POST)
+    public String changeVoucherEndDate(@PathVariable("id") int surveyId, @RequestParam(name="endDate", required = true) String endDate){
+        Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            voucher.setEndDate(formatter.parse(endDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        companySurveyService.updateVoucher(voucher);
+        return "redirect:/my_account/surveys";
+    }
+
     //endregion
 
     //region Codes Management
     @RequestMapping(value="/surveys/{id}/voucher/changeCode",method = RequestMethod.POST)
-    public String changeVoucherCodes(@PathVariable("id") int surveyId, @RequestParam(name="numberOfCodes", required = true) Integer numberOfCodes, @RequestParam(name="codeId", required = true) Integer codeId){
+    public String changeVoucherCode(@PathVariable("id") int surveyId, @RequestParam(name="numberOfCodes", required = true) Integer numberOfCodes, @RequestParam(name="codeId", required = true) Integer codeId){
         Survey survey = companySurveyService.getSurveyById(surveyId);
         for (VoucherCode code:survey.getVoucher().getCodes()) {
             if(code.getId()==codeId){
                 code.setAmmountOfUses(numberOfCodes);
+                companySurveyService.updateVoucherCode(code);
                 break;
             }
         }
         return "redirect:/my_account/surveys";
     }
 
+    //orphanRemoval = true by cascade = CascadeType.ALL in Voucher for it to work
     @RequestMapping(value="/surveys/{id}/voucher/addCode",method = RequestMethod.POST)
-    public String addVoucherCodes(@PathVariable("id") int surveyId, @RequestParam(name="numberOfCodes", required = true) Integer numberOfCodes, @RequestParam(name="code", required = true) String code){
+    public String addVoucherCode(@PathVariable("id") int surveyId, @RequestParam(name="numberOfCodes", required = true) Integer numberOfCodes, @RequestParam(name="code", required = true) String code){
         VoucherCode voucherCode = new VoucherCode();
         voucherCode.setVoucherCode(code);
         voucherCode.setAmmountOfUses(numberOfCodes);
         companySurveyService.addVoucherCode(voucherCode, companySurveyService.getSurveyById(surveyId).getVoucher().getId());
+        return "redirect:/my_account/surveys";
+    }
+
+    //cascade = CascadeType.ALL by orphanRemoval = true in Voucher for it to work
+    @RequestMapping(value="/surveys/{id}/voucher/deleteCode",method = RequestMethod.POST)
+    public String deleteVoucherCode(@PathVariable("id") int surveyId, @RequestParam(name="codeId", required = true) Integer codeId){
+        for (VoucherCode code:companySurveyService.getSurveyById(surveyId).getVoucher().getCodes()) {
+            if(code.getId()==codeId){
+                companySurveyService.deleteVoucherCode(codeId);
+                break;
+            }
+        }
         return "redirect:/my_account/surveys";
     }
     //endregion

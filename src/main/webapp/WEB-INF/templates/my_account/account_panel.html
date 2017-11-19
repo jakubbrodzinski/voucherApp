@@ -6,6 +6,21 @@
 </head>
 <body>
 <div th:insert="/fragments/dashboard.html :: dashboard"></div>
-    Company's profile fragment.
+<div th:text="${'Company Name:' +company.companyName}"></div>
+<form th:action="@{/my_account/account_panel/companyName}" method="post">
+    <input type="text" name="companyName">
+    <input type="submit" value="Set Company Name">
+</form>
+<div th:text="${'Company Address: '+company.companyAddress}"></div>
+<form th:action="@{/my_account/account_panel/companyAddress}" method="post">
+    postal code :<input type="text" name="postalCode">
+    city :<input type="text" name="city">
+    address details: <input type="text" name="addressDetails">
+    <input type="submit" value="Set Address">
+</form>
+
+<form th:action="@{/my_account/account_panel/delete}" method="post">
+    <input type="submit" value="delete Account">
+</form>
 </body>
 </html>

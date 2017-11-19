@@ -8,10 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
-import pwr.groupproject.vouchers.bean.model.Company;
-import pwr.groupproject.vouchers.bean.model.Survey;
-import pwr.groupproject.vouchers.bean.model.Voucher;
-import pwr.groupproject.vouchers.bean.model.VoucherCode;
+import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.enums.DiscountType;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
@@ -44,8 +41,36 @@ public class UserCompanyController {
 
     //region Account Management
     @RequestMapping("/account_panel")
-    public String accountPanel(Model model) {
+    public String accountPanel(Model model, @AuthenticationPrincipal UserCompany userCompany) {
+        model.addAttribute("company", userCompany.getCompany());
         return "my_account/account_panel.html";
+    }
+
+    @RequestMapping(value = "/account_panel/companyName" ,method = RequestMethod.POST)
+    public String changeCompanyName(Model model, @AuthenticationPrincipal UserCompany userCompany, @RequestParam(name="companyName", required = true) String companyName) {
+        Company company = userCompany.getCompany();
+        company.setCompanyName(companyName);
+        System.out.println(company.getCompanyName());
+        companySurveyService.updateCompany(company);
+        return "redirect:/my_account/account_panel";
+    }
+
+    @RequestMapping(value= "/account_panel/companyAddress",method = RequestMethod.POST)
+    public String changeCompanyAddress(Model model, @AuthenticationPrincipal UserCompany userCompany, @RequestParam(name="addressDetails", required = true) String addressDetails, @RequestParam(name="city", required = true) String city, @RequestParam(name="postalCode", required = true) String postalCode) {
+        Address address = new Address();
+        address.setPostalCode(postalCode);
+        address.setCity(city);
+        address.setAddressDetails(addressDetails);
+        Company company = userCompany.getCompany();
+        company.setCompanyAddress(address);
+        companySurveyService.updateCompany(company);
+        return "redirect:/my_account/account_panel";
+    }
+
+    @RequestMapping(value = "/account_panel/delete",method = RequestMethod.POST)
+    public String deleteAccount(@AuthenticationPrincipal UserCompany userCompany, Model model) {
+        companySurveyService.deleteCompany(userCompany.getCompany().getId());
+        return "redirect:/";
     }
     //endregion
 

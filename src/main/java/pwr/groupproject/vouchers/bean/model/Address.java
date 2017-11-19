@@ -37,4 +37,9 @@ public class Address implements Serializable {
     public void setAddressDetails(String addressDetails) {
         this.addressDetails = addressDetails;
     }
+
+    @Override
+    public String toString() {
+        return postalCode+" "+city+" "+addressDetails;
+    }
 }

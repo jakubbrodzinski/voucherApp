@@ -35,16 +35,22 @@ public class UserCompanyController {
     @Autowired
     private UserCompanyService userCompanyService;
 
+    //region Home Management
     @RequestMapping("/home")
     public String homePage(Model model) {
         return "my_account/home_page.html";
     }
+    //endregion
 
+    //region Account Management
     @RequestMapping("/account_panel")
     public String accountPanel(Model model) {
         return "my_account/account_panel.html";
     }
+    //endregion
 
+    //region Survey Management
+    //region Viewing Surveys
     @RequestMapping(value = "/surveys",method = RequestMethod.GET)
     public String surveys(Model model, @AuthenticationPrincipal UserCompany userCompany) {
         Company companyWithSurveys=companySurveyService.getCompanyWithSurveys(userCompany.getCompany());
@@ -63,7 +69,32 @@ public class UserCompanyController {
             return "/error.html"; //I have no idea how to tell spring that error occured properly :( . FIX IT PLZ!
         }
     }
+    //endregion
 
+    //region Adding Survey
+    @RequestMapping(value = "/surveys/add", method = RequestMethod.POST, consumes = "application/json")
+    @ResponseBody
+    public String newSurvey(@RequestBody SurveyDto surveyDto, @AuthenticationPrincipal UserCompany userCompany, HttpServletResponse httpServletResponse) {
+        try {
+            companySurveyService.addSurvey(surveyDto, userCompany);
+            httpServletResponse.setStatus(HttpServletResponse.SC_CREATED);
+            return "OK";
+        } catch (Exception e) {
+            e.printStackTrace();
+            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return "NOT";
+        }
+    }
+
+    @RequestMapping(value = "/surveys/add",method = RequestMethod.GET)
+    public String newSurvey(Model model) {
+        return "my_account/surveys/create_survey.html";
+    }
+    //endregion
+    //endregion
+
+    //region Voucher Management
+    //region Concrete Voucher Management
     @RequestMapping(value="/surveys/{id}/voucher",method = RequestMethod.GET)
     public String manageSurveysVoucher(@PathVariable("id") int surveyId,Model model,@AuthenticationPrincipal UserCompany userCompany){
         try {
@@ -78,6 +109,14 @@ public class UserCompanyController {
         }
     }
 
+    @RequestMapping(value="/surveys/{id}/voucher/details",method = RequestMethod.POST)
+    public String changeVoucherDetails(@PathVariable("id") int surveyId, @RequestParam(name="details", required = true) String details){
+        companySurveyService.getSurveyById(surveyId).getVoucher().setVoucherDescription(details);
+        return "redirect:/my_account/surveys";
+    }
+    //endregion
+
+    //region Codes Management
     @RequestMapping(value="/surveys/{id}/voucher/changeCode",method = RequestMethod.POST)
     public String changeVoucherCodes(@PathVariable("id") int surveyId, @RequestParam(name="numberOfCodes", required = true) Integer numberOfCodes, @RequestParam(name="codeId", required = true) Integer codeId){
         Survey survey = companySurveyService.getSurveyById(surveyId);
@@ -98,13 +137,9 @@ public class UserCompanyController {
         companySurveyService.addVoucherCode(voucherCode, companySurveyService.getSurveyById(surveyId).getVoucher().getId());
         return "redirect:/my_account/surveys";
     }
+    //endregion
 
-    @RequestMapping(value="/surveys/{id}/voucher/details",method = RequestMethod.POST)
-    public String changeVoucherDetails(@PathVariable("id") int surveyId, @RequestParam(name="details", required = true) String details){
-       companySurveyService.getSurveyById(surveyId).getVoucher().setVoucherDescription(details);
-        return "redirect:/my_account/surveys";
-    }
-
+    //region Adding Voucher
     @RequestMapping(value="/surveys/{id}/addVoucher",method = RequestMethod.GET)
     public String voucher(@PathVariable("id") int surveyId, Model model){
         model.addAttribute("surveyId", surveyId);
@@ -133,38 +168,15 @@ public class UserCompanyController {
         companySurveyService.addVoucher(voucher, surveyId);
         return "redirect:/my_account/surveys";
     }
+    //endregion
+    //endregion
 
-    @RequestMapping(value = "/surveys/add", method = RequestMethod.POST, consumes = "application/json")
-    @ResponseBody
-    public String newSurvey(@RequestBody SurveyDto surveyDto, @AuthenticationPrincipal UserCompany userCompany, HttpServletResponse httpServletResponse) {
-        try {
-            companySurveyService.addSurvey(surveyDto, userCompany);
-            httpServletResponse.setStatus(HttpServletResponse.SC_CREATED);
-            return "OK";
-        } catch (Exception e) {
-            e.printStackTrace();
-            httpServletResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return "NOT";
-        }
-    }
-
-    @RequestMapping(value = "/surveys/add",method = RequestMethod.GET)
-    public String newSurvey(Model model) {
-        return "my_account/surveys/create_survey.html";
-    }
-
-
+    //region Statistics Managment
     @RequestMapping("/statistics")
     public String statistics(Model model) {
         return "my_account/stats/stats_homePage";
     }
-
-
-    @RequestMapping("/vouchers/add")
-    public String createNewVoucher(Model model) {
-        return "my_account/vouchers/add_voucher";
-    }
-
+    //endregion
 }
 
 

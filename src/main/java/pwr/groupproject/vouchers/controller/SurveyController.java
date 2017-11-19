@@ -52,6 +52,8 @@ public class SurveyController {
         return new String("redirect:/");
     }
 
+    //chyba nieuzywane
+    /*
     @RequestMapping(value = "create_survey", method = RequestMethod.GET)
     public String renderCreate() {
         return "my_account/surveys/create_survey";
@@ -63,4 +65,5 @@ public class SurveyController {
         System.out.println("DOSTALEM QUESTION BODY: " + questionBody);
         return "my_account/surveys/create_survey";
     }
+    */
 }

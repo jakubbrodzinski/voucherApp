@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"><script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -16,7 +18,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-8">
-                <h2>Survey creation</h2>
+                <h2 class="mx-auto mt-2">Survey creation</h2>
                 <input id="survey_name" class="form-control form-control-lg mx-auto mt-3 mb-3" type="text" placeholder="Enter the survey name">
                 <h4>Add question</h4>
                 <!-- Nav tabs -->
@@ -36,7 +38,7 @@
                 </ul>
 
                 <!-- Tab panes -->
-                <div class="tab-content">
+                <div class="tab-content" id="tab_content">
                     <div class="tab-pane fade show active" id="single_choice" role="tabpanel">
                         <div class="card card-block bg-light m-3 p-3" style="height: 11rem">
                             <input class="form-control form-control-lg mx-auto mb-2 clear-me" type="text" placeholder="Enter the question body">
@@ -90,15 +92,51 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-primary float-right" onclick="addQuestion()">Add question</button>
+                <button type=" mb-6" class="btn btn-primary float-right" onclick="addQuestion()">Add question</button>
+                <div class="row mt-5">
+                    <div class="col text-center">
+                        <button type="button" class="btn btn-primary btn-lg" onclick="addSurvey()">Add survey</button>
+                    </div>
+                </div>
             </div>
             <div class="col-4">
-                <button type="button" class="btn btn-warning" onclick="test()">TEST THE POST</button>
+
+
+                <div class="text-center mt-5 phone">
+
+                    <img style="height: 90vh" class="" src="http://www.eye-square.com/wp-content/uploads/revslider/in-context23/52-smartphone-transparent-png-image.png">
+                    <div class="phone-screen">
+                        <h3 id="previewSurveyName" class="text-center text-primary mt-3 mx-auto"></h3>
+                        <ul id="previewListGroup" class="list-group">
+
+                        </ul>
+
+                    </div>
+                </div>
+
+
+
             </div>
         </div>
-        <div class="row">
-            <div class="col text-center">
-                <button type="button" class="btn btn-primary" onclick="addSurvey()">Add survey</button>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="warningModalLabel">Error!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="warningModalBody">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -110,6 +148,9 @@
 
     $(document).ready(function() {
         activeTab = $('#single_choice_tab').attr("id");
+        $("#survey_name").change(function() {
+            $('#previewSurveyName').html($("#survey_name").val());
+        });
     });
 
     $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
@@ -157,9 +198,11 @@
                 var possibleD = $activePane.find('.possibleD').val();
                 var possibleAnswers = new PossibleAnswers(possibleA, possibleB, possibleC, possibleD);
                 var closedQuestion = new ClosedQuestion(questionBody, questionType, possibleAnswers);
-                console.log(JSON.stringify(closedQuestion));
-                questions.push(closedQuestion);
-                alert("SCT");
+                if(validateClosedQuestion(closedQuestion)) {
+                    console.log(JSON.stringify(closedQuestion));
+                    questions.push(closedQuestion);
+                    $('#previewListGroup').append(previewClosedQuestion(closedQuestion, 'Single choice', questions.length - 1));
+                }
                 break;
             case "multiple_choice_tab":
                 var $activePane = $('.tab-pane.active');
@@ -171,27 +214,33 @@
                 var possibleD = $activePane.find('.possibleD').val();
                 var possibleAnswers = new PossibleAnswers(possibleA, possibleB, possibleC, possibleD);
                 var closedQuestion = new ClosedQuestion(questionBody, questionType, possibleAnswers);
-                console.log(JSON.stringify(closedQuestion));
-                questions.push(closedQuestion);
-                alert("MCT");
+                if(validateClosedQuestion(closedQuestion)) {
+                    console.log(JSON.stringify(closedQuestion));
+                    questions.push(closedQuestion);
+                    $('#previewListGroup').append(previewClosedQuestion(closedQuestion, 'Multiple choice', questions.length - 1));
+                }
                 break;
             case "open_tab":
                 var $activePane = $('.tab-pane.active');
                 var questionBody = $activePane.find('.form-control-lg').val();
                 var questionType = "OPEN";
                 var question = new Question(questionBody, questionType);
-                console.log(JSON.stringify(question));
-                questions.push(question);
-                alert("OT");
+                if(validateQuestion(question)) {
+                    console.log(JSON.stringify(question));
+                    questions.push(question);
+                    $('#previewListGroup').append(previewQuestion(question, 'Open', questions.length - 1));
+                }
                 break;
             case "ranged_tab":
                 var $activePane = $('.tab-pane.active');
                 var questionBody = $activePane.find('.form-control-lg').val();
                 var questionType = "RANGED";
                 var question = new Question(questionBody, questionType);
-                console.log(JSON.stringify(question));
-                questions.push(question);
-                alert("RT");
+                if(validateQuestion(question)) {
+                    console.log(JSON.stringify(question));
+                    questions.push(question);
+                    $('#previewListGroup').append(previewQuestion(question, 'Ranged', questions.length - 1));
+                }
                 break;
         }
         $(".clear-me").map(function() {
@@ -202,30 +251,101 @@
     function addSurvey() {
         var surveyName = $('#survey_name').val();
         var survey = new Survey(surveyName, questions);
-        console.log(JSON.stringify(survey));
-        var xhr = new XMLHttpRequest();
-        var url = "/my_account/surveys/add";
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader(header, token);
-        xhr.setRequestHeader("Content-type", "application/json");
-        var data = JSON.stringify(survey);
-        xhr.send(data);
-        alert("DODANO");
+        if(validateInput(survey)) {
+            console.log(JSON.stringify(survey));
+            var xhr = new XMLHttpRequest();
+            var url = "/my_account/surveys/add";
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader(header, token);
+            xhr.setRequestHeader("Content-type", "application/json");
+            var data = JSON.stringify(survey);
+            xhr.send(data);
+        }
     }
 
-    function test() {
-        var xhr = new XMLHttpRequest();
-        var url = "/my_account/surveys/add";
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader(header, token);
-        xhr.setRequestHeader("Content-type", "application/json");
-        var data = JSON.stringify({"surveyName":"name","questions":[{"questionBody":"xyz?","questionType":"RANGED"}]});
-        xhr.send(data);
+    function validateInput(survey) {
+        if(survey.surveyName === "") {
+            $('#warningModalBody').html('Survey\'s name is not specified.');
+            $('#warningModal').modal('show');
+            return false;
+        }
+        if(survey.questions === undefined || survey.questions.length === 0) {
+            $('#warningModalBody').html('Survey must contain questions.');
+            $('#warningModal').modal('show');
+            return false;
+        }
+        return true;
+    }
 
+    function validateQuestion(question) {
+        if(question.questionBody === "") {
+            $('#warningModalBody').html('Question body cannot be empty.');
+            $('#warningModal').modal('show');
+            return false;
+        }
+        return true;
+    }
+
+    function validateClosedQuestion(closedQuestion) {
+        if(closedQuestion.questionBody === "") {
+            $('#warningModalBody').html('Question body cannot be empty.');
+            $('#warningModal').modal('show');
+            return false;
+        }
+        if(closedQuestion.possibleAnswers.possibleAnswerA === "" || closedQuestion.possibleAnswers.possibleAnswerB === "" ||
+            closedQuestion.possibleAnswers.possibleAnswerC === "" || closedQuestion.possibleAnswers.possibleAnswerD === "") {
+            $('#warningModalBody').html('All answers must be supplied.');
+            $('#warningModal').modal('show');
+            return false;
+        }
+        return true;
+    }
+
+    function previewClosedQuestion(question, questionType, id) {
+        var questionName = question.questionBody;
+        var possibleAnswers = question.possibleAnswers;
+        return '<li id="' + id +'" class="list-group-item list-group-item-action flex-column align-items-start mx-auto">' +
+                '<i class="fa fa-times float-right mb-3 text-danger" onclick="deleteQuestion(this)"></i>' +
+                '<div class="d-flex w-100 justify-content-between">' +
+                    '<h5 class="mb-1">' + questionName + '</h5>'+
+                    '<small> Type: ' + questionType +'</small>' +
+                '</div>' +
+                '<div class="row">\n' +
+                '    <div class="col-sm-6">\n' +
+                '      <p>' + possibleAnswers.possibleAnswerA + '</p>\n' +
+                '    </div>\n' +
+                '    <div class="col-sm-6">\n' +
+                '      <p>' + possibleAnswers.possibleAnswerB + '</p>\n' +
+                '    </div>\n' +
+            '    </div>' +
+                '<div class="row">\n' +
+                '    <div class="col-sm-6">\n' +
+                '      <p>' + possibleAnswers.possibleAnswerA + '</p>\n' +
+                '    </div>\n' +
+                '    <div class="col-sm-6">\n' +
+                '      <p>' + possibleAnswers.possibleAnswerB + '</p>\n' +
+                '    </div>\n' +
+            '    </div>' +
+                '</li>';
+    }
+
+    function previewQuestion(question, questionType, id) {
+        var questionName = question.questionBody;
+        return '<li id="' + id +'" class="list-group-item list-group-item-action flex-column align-items-start mx-auto">' +
+            '<i class="fa fa-times float-right mb-3 text-danger"  onclick="deleteQuestion(this)"></i>' +
+            '<div class="d-flex w-100 justify-content-between">' +
+            '<h5 class="mb-1">' + questionName + '</h5>'+
+            '<small> Type: ' + questionType +'</small>' +
+            '</div>' +
+            '</li>';
+    }
+
+    function deleteQuestion(caller) {
+        var index = $(caller).closest('li').attr('id');
+        questions.splice(index, 1);
+        $(caller).closest('li').remove();
     }
 </script>
 <style>
@@ -234,5 +354,18 @@
     .possibleB {}
     .possibleC {}
     .possibleD {}
+
+    .phone {
+        overflow: hidden;
+        position: relative;
+    }
+    .phone-screen {
+        overflow-y: scroll;
+        position: absolute;
+        height: 626px;
+        width: 355px;
+        left: 120px;
+        top: 130px;
+    }
 </style>
 </html>

@@ -45,25 +45,4 @@ public class SurveyController {
         return "/user/survey.html";
     }
 
-    @RequestMapping(value = "surveys", method = RequestMethod.POST)
-    public @ResponseBody String renderSurvey(@RequestBody QuestionDto questionDto) {
-        String questionBody = questionDto.getQuestionBody();
-        System.out.println("DP: " + questionBody);
-        return new String("redirect:/");
-    }
-
-    //chyba nieuzywane
-    /*
-    @RequestMapping(value = "create_survey", method = RequestMethod.GET)
-    public String renderCreate() {
-        return "my_account/surveys/create_survey";
-    }
-
-    @RequestMapping(value = "create_survey", method = RequestMethod.POST)
-    public String testCreate(@RequestBody QuestionDto questionDto) {
-        String questionBody = questionDto.getQuestionBody();
-        System.out.println("DOSTALEM QUESTION BODY: " + questionBody);
-        return "my_account/surveys/create_survey";
-    }
-    */
 }

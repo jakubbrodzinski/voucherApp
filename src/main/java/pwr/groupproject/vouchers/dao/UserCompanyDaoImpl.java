@@ -3,6 +3,7 @@ package pwr.groupproject.vouchers.dao;
 import org.springframework.stereotype.Component;
 import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
+import pwr.groupproject.vouchers.bean.model.security.UserProfile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -60,6 +61,11 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
     public UserCompany getUserCompanyByCompanyId(int companyId) {
         TypedQuery<UserCompany> query=entityManager.createQuery("FROM "+UserCompany.class.getName()+" uc WHERE uc.company='"+companyId+"'",UserCompany.class);
         return query.getSingleResult();
+    }
+
+    @Override
+    public UserProfile getUserProfileByName(String userProfile) {
+        return entityManager.createQuery("FROM "+UserProfile.class.getName()+" WHERE type='"+userProfile+"'",UserProfile.class).getSingleResult();
     }
 
 }

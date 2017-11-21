@@ -21,11 +21,11 @@ public class UserCompany implements UserDetails{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "companyId")
     private Company company;
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "APP_USER_USER_PROFILE",
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
-    private final Set<UserProfile> userProfiles = new HashSet<>(Arrays.asList(new UserProfile()));
+    private final Collection<UserProfile> userProfiles = new ArrayList<>();
     private boolean isEnabled=false;
 
     public int getId() {
@@ -34,6 +34,10 @@ public class UserCompany implements UserDetails{
 
     public void setId(int id) {
         Id = id;
+    }
+
+    public Collection<UserProfile> getUserProfiles() {
+        return userProfiles;
     }
 
     @Override

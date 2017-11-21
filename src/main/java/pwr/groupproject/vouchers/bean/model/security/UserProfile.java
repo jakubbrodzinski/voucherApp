@@ -7,10 +7,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "USER_PROFILE")
-public class UserProfile implements GrantedAuthority{
+public class UserProfile implements GrantedAuthority {
     @javax.persistence.Id
     @GeneratedValue
     private int Id;
+    @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private UserProfileType type=UserProfileType.COMPANY;
 
@@ -50,6 +51,6 @@ public class UserProfile implements GrantedAuthority{
 
     @Override
     public String getAuthority() {
-        return type.toString();
+        return type.toString() ;
     }
 }

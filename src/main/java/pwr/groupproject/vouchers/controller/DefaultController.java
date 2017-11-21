@@ -1,6 +1,7 @@
 package pwr.groupproject.vouchers.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,14 +10,14 @@ import pwr.groupproject.vouchers.bean.dto.QuestionDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.enums.TokenStatus;
 import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
-import pwr.groupproject.vouchers.bean.model.Question;
-import pwr.groupproject.vouchers.bean.model.Survey;
-import pwr.groupproject.vouchers.bean.model.User;
-import pwr.groupproject.vouchers.bean.model.VoucherCode;
+import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
+
+import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.MailService;
 
+import javax.annotation.security.PermitAll;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -75,5 +76,61 @@ public class DefaultController {
         surveyWrapper.setQuestions(questionWrappers);
         surveyWrapper.setSurveyName(survey.getSurveyName());
         return surveyWrapper;
+    }
+
+    @RequestMapping(value = "/testJSON2", produces = "application/json")
+    @ResponseBody
+    public SurveyDto testJSON2() {
+        SurveyDto surveyDto=new SurveyDto();
+        surveyDto.setSurveyName("name");
+        QuestionDto questionDto=new QuestionDto();
+        questionDto.setQuestionBody("xyz?");
+        questionDto.setQuestionType(QuestionType.RANGED);
+        surveyDto.getQuestions().add(questionDto);
+        return  surveyDto;
+    }
+
+    @RequestMapping(value = "/test3", method = RequestMethod.GET)
+    @ResponseBody
+    public String test3() {
+        SurveyDto surveyDto=new SurveyDto();
+        surveyDto.setSurveyName("name");
+        QuestionDto questionDto=new QuestionDto();
+        questionDto.setQuestionBody("xyz?");
+        questionDto.setQuestionType(QuestionType.RANGED);
+        surveyDto.getQuestions().add(questionDto);
+        UserCompany userCompany=new UserCompany();
+        userCompany.setCompany(new Company());
+        userCompany.getCompany().setId(1);
+        companySurveyService.addSurvey(surveyDto,userCompany);
+        return "OK";
+    }
+
+    @RequestMapping(value = "/test4", method = RequestMethod.GET)
+    @ResponseBody
+    public String test4() {
+        SurveyDto surveyDto=new SurveyDto();
+        surveyDto.setSurveyName("name");
+        ClosedQuestionDto questionDto=new ClosedQuestionDto();
+        questionDto.setQuestionBody("xyz?");
+        questionDto.setQuestionType(QuestionType.SINGLE_CHOICE);
+        questionDto.getPossibleAnswers().setPossibleAnswerA("A");
+        questionDto.getPossibleAnswers().setPossibleAnswerB("B");
+        questionDto.getPossibleAnswers().setPossibleAnswerC("C");
+        questionDto.getPossibleAnswers().setPossibleAnswerD("D");
+        surveyDto.getQuestions().add(questionDto);
+        UserCompany userCompany=new UserCompany();
+        userCompany.setCompany(new Company());
+        userCompany.getCompany().setId(1);
+        companySurveyService.addSurvey(surveyDto,userCompany);
+        return "OK";
+    }
+
+    @RequestMapping(value = "/abc/abc/test5", method = RequestMethod.GET)
+    @ResponseBody
+    @PreAuthorize("hasRole('COMPANY')")
+    public String test5() {
+        companySurveyService.deleteVoucherCode(4);
+        return "OK";
     }
 }

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
   <head>
 
     <meta charset="utf-8">
 
     <title>ANKIETYZACJA</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}" />
 
   </head>
 
@@ -16,8 +16,8 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
           <ul>
-            <li><a href="#signin">Sign in</a></li>
-            <li><a href="#login">Log in</a></li>
+            <li><a th:href="@{sign_in}">Sign in</a></li>
+            <li><a th:href="@{sign_up}">Sign up</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#home">Home</a></li>
           </ul>
@@ -27,7 +27,7 @@
     <!-- Header -->
     <header class="masthead" id="home">
       <div class="container">
-        <img class="img-fluid" src="images/logo.png" alt="">
+        <img class="img-fluid" th:src="@{images/logo.png}" alt="">
         <div class="intro-text">
           <span class="name">Superowe ankiety</span>
           <hr>
@@ -48,6 +48,7 @@
           <h3>Dlaczego warto wypelniac ankiety?</h3>
           <p>Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum. Integer aliquam purus. Quisque lorem tortor fringilla sed, vestibulum id, eleifend justo vel bibendum sapien massa ac turpis faucibus orci luctus non, consectetuer lobortis quis, varius in, purus. Integer ultrices posuere cubilia Curae, Nulla ipsum dolor lacus, suscipit adipiscing. Cum sociis natoque penatibus et ultrices volutpat. Nullam wisi ultricies a, gravida vitae, dapibus risus ante sodales lectus blandit eu, tempor diam pede cursus vitae, ultricies eu, faucibus quis, porttitor eros cursus lectus, pellentesque eget, bibendum a, gravida ullamcorper quam. Nullam viverra consectetuer. Quisque cursus et, porttitor risus. Aliquam sem. In hendrerit nulla quam nunc, accumsan congue. Lorem ipsum primis in nibh vel risus. Sed vel lectus. Ut sagittis, ipsum dolor quam.</p>
         </div>
+      </div>
     </section>
 
     <footer id="sticky">

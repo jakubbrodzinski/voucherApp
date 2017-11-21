@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,6 +19,7 @@ import pwr.groupproject.vouchers.configuration.handlers.CustomLoginFailureHandle
 
 @EnableWebSecurity
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     UserDetailsService userDetailsService;
@@ -25,11 +27,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.requiresChannel().antMatchers("/*").requiresSecure()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/*").permitAll()
-                .antMatchers("/token/*").permitAll()
-                .antMatchers("/my_account/*").hasRole("COMPANY")
+                .and().authorizeRequests()
+                .antMatchers("/my_account/*/*").hasRole("COMPANY")
                 .and()
                 .formLogin().loginPage("/sign_in").usernameParameter("username").passwordParameter("password")
                 .failureHandler(authenticationFailureHandler()).successForwardUrl("/my_account/home")

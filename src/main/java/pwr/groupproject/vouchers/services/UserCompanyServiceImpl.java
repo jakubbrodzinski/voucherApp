@@ -7,6 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.webflow.action.EventFactorySupport;
@@ -16,6 +17,7 @@ import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
 import pwr.groupproject.vouchers.bean.model.Address;
 import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
+import pwr.groupproject.vouchers.bean.model.security.UserProfile;
 import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
 import pwr.groupproject.vouchers.dao.UserCompanyDao;
 
@@ -46,6 +48,8 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         company.setCompanyName(newUserCompanyForm.getCompanyName());
 
         UserCompany userCompany=new UserCompany();
+        UserProfile companyAuthority=userCompanyDao.getUserProfileByName("COMPANY");
+        userCompany.getUserProfiles().add(companyAuthority);
         userCompany.setUsername(newUserCompanyForm.getUserName());
         userCompany.setPassword(shaPasswordEncoder.encodePassword(newUserCompanyForm.getPassword(),null));
         userCompany.setCompany(company);
@@ -80,7 +84,6 @@ public class UserCompanyServiceImpl implements UserCompanyService {
 
 
     @Override
-    @PreAuthorize("hasRole('COMPANY')")
     public void changePassword(String userName, String newHashedPassword) {
         UserCompany userCompany=userCompanyDao.getUserByUserName(userName);
         userCompany.setPassword(newHashedPassword);

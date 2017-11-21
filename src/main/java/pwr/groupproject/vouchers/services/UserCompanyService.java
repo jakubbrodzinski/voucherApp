@@ -1,6 +1,7 @@
 package pwr.groupproject.vouchers.services;
 
 import org.springframework.binding.message.MessageContext;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.webflow.execution.Event;
 import pwr.groupproject.vouchers.bean.form.NewUserCompanyForm;
 import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
@@ -14,6 +15,7 @@ public interface UserCompanyService {
     UserCompany getUserCompanyByCompanyId(int companyId);
     void deleteUserCompany(int userCompanyId);
 
+    @PreAuthorize("hasRole('COMPANY')")
     void changePassword(String userName,String newHashedPassword);
     void changePassword(ResetPasswordForm resetPasswordForm);
 

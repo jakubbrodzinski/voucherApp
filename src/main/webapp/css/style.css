@@ -1,0 +1,208 @@
+body {
+	margin:0;
+}
+
+.container ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.container li {
+    float: right;
+}
+
+.container li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: "sans-serif";
+}
+
+.container li a:hover {
+    text-decoration: underline;
+}
+
+header.masthead {
+  padding-top: 100px;
+  padding-bottom: 50px;
+  text-align: center;
+  color: white;
+  background: #18BC9C; 
+}
+
+header.masthead img {
+    display: block;
+    margin: 0 auto 20px; 
+}
+  
+header.masthead .intro-text .name {
+    font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 2em;
+    font-weight: 700;
+    display: block;
+    text-transform: uppercase; 
+}
+
+header.masthead .intro-text .skills {
+    font-size: 1.25em;
+    font-weight: 300; 
+}
+
+@media (min-width: 768px) {
+  header.masthead {
+    padding-top: 160px;
+    padding-bottom: 100px; 
+  }
+  header.masthead .intro-text .name {
+      font-size: 4.75em; 
+  }
+  header.masthead .intro-text .skills {
+      font-size: 1.75em; 
+  } 
+}
+
+.img-centered {
+  margin: 0 auto; 
+}
+
+img {
+	height: 20%;
+	width: 20%;
+}
+
+hr { 
+  border: 0;
+  border-top: 3px dashed #8c8c8c; 
+  text-align:center;
+} 
+hr:after { 
+  content: '\002702'; 
+  display: inline-block; 
+  position: relative; 
+  top: -20px; 
+  padding: 0 3px; 
+  background: #18BC9C; 
+  color: #8c8c8c; 
+  font-size: 33px; 
+}
+
+h2{
+  font-family: "CrazyPooch";
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 4em;
+  color: #18bc9c;
+
+}
+
+
+
+#about1{
+	width: 50%;
+	float: left;
+}
+
+#about1 p{
+	text-align: center;
+	padding: 30px 100px;
+	color: #8c8c8c;
+}
+
+#about2{
+	width:50%;
+	float:right;
+}
+
+#about2 p{
+	text-align: center;
+    padding: 30px 100px;
+    color: #8c8c8c;
+}
+
+h3{
+	text-align: center;
+	color: #18bc9c;
+}
+
+body {
+  margin:0; /*gets rid of white space around body*/
+}
+
+#sticky {
+  padding:20px;
+  padding-bottom:4px;
+  background:black;
+  color:white;
+  font-weight:bold;
+  font-size:18px;  
+  
+  text-align:center; 
+}
+
+#sticky * {
+  margin:0;
+  padding:0;
+}
+
+#sticky .container {
+  display:inline-block; 
+  width:20%; 
+  vertical-align:top;
+}
+
+
+#sticky .container nav span {
+  display:inline-block;
+  margin-bottom:8px;
+}
+
+#sticky li {
+  list-style:none;
+}
+
+
+
+#sticky .cta button {
+  margin-top:16px;
+  padding:12px 20px;
+  background:white;
+  font-weight:bold;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  position:relative;
+}
+
+#sticky .copyrights {
+		width: 100%;
+}
+
+.container:after{
+  content: "";
+  display: block;
+  clear: both;
+}
+
+#sticky h4{
+	margin-top: 45px;
+}
+
+@font-face {
+	font-family:"CRAZY RAS";
+	src:url("../fonts/CRAZY_RAS.ttf") format("truetype");
+	font-weight:normal;
+	font-style:normal;
+}
+
+@font-face{
+	font-family:"CrazyPooch";
+    src:url("../fonts/CrazyPooch.ttf");
+}

@@ -14,11 +14,11 @@ public interface VoucherDao {
     Voucher getVoucherById(int Id);
 
     void addVoucher(Voucher voucher);
-    void updateVoucher(Voucher voucher);
+    Voucher updateVoucher(Voucher voucher);
     void deleteVoucher(Voucher voucher);
 
     VoucherCode getVoucherCode(int voucherCodeId);
-    void updateVoucherCode(VoucherCode voucherCode);
+    VoucherCode updateVoucherCode(VoucherCode voucherCode);
     void deleteVoucherCode(VoucherCode voucherCode);
 
     void addVoucherCodeDate(VoucherCodeDate voucherCodeDate);

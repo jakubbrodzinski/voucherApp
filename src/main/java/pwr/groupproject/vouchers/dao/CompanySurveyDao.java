@@ -7,8 +7,9 @@ import pwr.groupproject.vouchers.bean.model.Survey;
 import java.util.Collection;
 
 public interface CompanySurveyDao {
+    public Company getUsersCompany(int userCompanyId);
     Company getCompanyById(int id);
-    Company getCompanyWithSurveys(int id);
+    Company getCompanyWithSurveys(Company company);
     Company getCompanyWithSurveysAndQuestions(int id);
 
     Survey getSurveyById(int id);
@@ -27,13 +28,13 @@ public interface CompanySurveyDao {
 
     void addAnsweredSurvey(AnsweredSurvey answeredSurvey);
     void deleteAnsweredSurvey(AnsweredSurvey answeredSurvey);
-    void updateAnsweredSurvey(AnsweredSurvey answeredSurvey);
+    AnsweredSurvey updateAnsweredSurvey(AnsweredSurvey answeredSurvey);
 
     void addSurvey(Survey survey);
-    void updateSurvey(Survey survey);
+    Survey updateSurvey(Survey survey);
     void deleteSurvey(Survey survey);
 
-    void updateCompany(Company company);
+    Company updateCompany(Company company);
     void deleteCompany(Company company);
     void addCompany(Company company);
 }

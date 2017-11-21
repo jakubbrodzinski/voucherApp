@@ -102,6 +102,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         tokenService.confirmResetingPassword(resetPasswordForm.getResetPasswordToken());
     }
 
+
     @Override
     public Event validateUserCompany(NewUserCompanyForm userCompanyForm,MessageContext messageContext) {
         MessageBuilder error = new MessageBuilder().error();

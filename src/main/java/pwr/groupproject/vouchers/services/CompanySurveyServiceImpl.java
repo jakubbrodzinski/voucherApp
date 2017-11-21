@@ -140,18 +140,18 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public void updateVoucher(Voucher voucher){
-        voucherDao.updateVoucher(voucher);
+    public Voucher updateVoucher(Voucher voucher){
+        return voucherDao.updateVoucher(voucher);
     }
 
     @Override
-    public void updateVoucherCode(VoucherCode voucherCode){
-        voucherDao.updateVoucherCode(voucherCode);
+    public VoucherCode updateVoucherCode(VoucherCode voucherCode){
+        return voucherDao.updateVoucherCode(voucherCode);
     }
 
     @Override
-    public void updateCompany(Company company) {
-        companySurveyDao.updateCompany(company);
+    public Company updateCompany(Company company) {
+        return companySurveyDao.updateCompany(company);
     }
 
     @Override
@@ -165,9 +165,15 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public Company getCompanyWithSurveys(Company company) {
-        return companySurveyDao.getCompanyWithSurveys(company.getId());
+    public Company getCompanyWithSurveys(UserCompany userCompany) {
+        return companySurveyDao.getCompanyWithSurveys(getUsersCompany(userCompany));
     }
+
+    @Override
+    public Company getUsersCompany(UserCompany userCompany) {
+        return companySurveyDao.getUsersCompany(userCompany.getId());
+    }
+
 
     @Override
     public Company getCompanyWithSurveysAndQuestions(Company company){

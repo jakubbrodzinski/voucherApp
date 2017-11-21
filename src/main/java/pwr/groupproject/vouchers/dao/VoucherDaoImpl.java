@@ -40,8 +40,8 @@ public class VoucherDaoImpl implements VoucherDao {
     }
 
     @Override
-    public void updateVoucher(Voucher voucher) {
-        entityManager.merge(voucher);
+    public Voucher updateVoucher(Voucher voucher) {
+        return entityManager.merge(voucher);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class VoucherDaoImpl implements VoucherDao {
     }
 
     @Override
-    public void updateVoucherCode(VoucherCode voucherCode) {
-        entityManager.merge(voucherCode);
+    public VoucherCode updateVoucherCode(VoucherCode voucherCode) {
+        return entityManager.merge(voucherCode);
     }
 
     @Override

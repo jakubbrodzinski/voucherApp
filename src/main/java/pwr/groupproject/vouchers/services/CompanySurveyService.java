@@ -36,11 +36,11 @@ public interface CompanySurveyService {
     void deleteCompany(int companyId);
 
     @PreAuthorize("hasRole('COMPANY')")
-    void updateVoucher(Voucher voucher);
+    Voucher  updateVoucher(Voucher voucher);
     @PreAuthorize("hasRole('COMPANY')")
-    void updateVoucherCode(VoucherCode voucherCode);
+    VoucherCode updateVoucherCode(VoucherCode voucherCode);
     @PreAuthorize("hasRole('COMPANY')")
-    void updateCompany(Company company);
+    Company updateCompany(Company company);
 
     @PreAuthorize("hasRole('COMPANY')")
     Collection<AnsweredSurvey> getAllAnsweredSurveys(int surveyId);
@@ -48,7 +48,9 @@ public interface CompanySurveyService {
     @PreAuthorize("hasRole('COMPANY')")
     AnsweredSurvey getResultDetails(int answeredSurveyId);
 
-    Company getCompanyWithSurveys(Company company);
+    @PreAuthorize("hasRole('COMPANY')")
+    Company getUsersCompany(UserCompany userCompany);
+    Company getCompanyWithSurveys(UserCompany userCompany);
     Company getCompanyWithSurveysAndQuestions(Company company);
     Collection<Survey> getAllActiveSurveys(int companyId);
     Collection<Company> getAllActiveCompanies();

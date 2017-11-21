@@ -67,5 +67,4 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
     public UserProfile getUserProfileByName(String userProfile) {
         return entityManager.createQuery("FROM "+UserProfile.class.getName()+" WHERE type='"+userProfile+"'",UserProfile.class).getSingleResult();
     }
-
 }

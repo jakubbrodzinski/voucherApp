@@ -3,6 +3,7 @@ package pwr.groupproject.vouchers.dao;
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Component;
 import pwr.groupproject.vouchers.bean.model.*;
+import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,13 +16,18 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
     private EntityManager entityManager;
 
     @Override
+    public Company getUsersCompany(int userCompanyId) {
+        return entityManager.createQuery("SELECT uc.company FROM "+UserCompany.class.getName()+ " uc WHERE uc.Id="+userCompanyId,Company.class).getSingleResult();
+    }
+
+
+    @Override
     public Company getCompanyById(int id) {
         return entityManager.find(Company.class, id);
     }
 
     @Override
-    public Company getCompanyWithSurveys(int id) {
-        Company company = entityManager.find(Company.class, id);
+    public Company getCompanyWithSurveys(Company company) {
         Hibernate.initialize(company.getCompanysSurveys());
         return company;
     }
@@ -96,8 +102,8 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
     }
 
     @Override
-    public void updateAnsweredSurvey(AnsweredSurvey answeredSurvey) {
-        entityManager.merge(answeredSurvey);
+    public AnsweredSurvey updateAnsweredSurvey(AnsweredSurvey answeredSurvey) {
+        return entityManager.merge(answeredSurvey);
     }
 
     @Override
@@ -106,8 +112,8 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
     }
 
     @Override
-    public void updateSurvey(Survey survey) {
-        entityManager.merge(survey);
+    public Survey updateSurvey(Survey survey) {
+        return entityManager.merge(survey);
     }
 
     @Override
@@ -116,8 +122,8 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
     }
 
     @Override
-    public void updateCompany(Company company) {
-        entityManager.merge(company);
+    public Company updateCompany(Company company) {
+        return entityManager.merge(company);
     }
 
     @Override

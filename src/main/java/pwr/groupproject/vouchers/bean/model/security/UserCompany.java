@@ -18,7 +18,7 @@ public class UserCompany implements UserDetails{
     @Column(length = 50)
     private String userName;
     private String encodedPassword;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "companyId")
     private Company company;
     @ManyToMany(fetch = FetchType.EAGER)

@@ -1,5 +1,6 @@
 package pwr.groupproject.vouchers.dao;
 
+import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.bean.model.security.UserProfile;
 

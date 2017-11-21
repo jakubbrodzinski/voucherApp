@@ -1,26 +1,43 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <div th:insert="/fragments/dashboard.html :: dashboard"></div>
-<div th:text="${'Company Name:' +company.companyName}"></div>
-<form th:action="@{/my_account/account_panel/companyName}" method="post">
-    <input type="text" name="companyName">
-    <input type="submit" value="Set Company Name">
+<br>
+<div th:text="${'Change companys address'}">Change address form:</div>
+<form th:action="@{/my_account/account_panel/companyaddress}" th:object="${addressForm}" method="post">
+    <div><span th:text="${'Postal code: '}"></span><input type="text" th:field="*{postalCode}"/></div>
+    <div th:replace="fragments/fields_input.html :: field-errors('${addressForm.postalCode}')"></div>
+    <div><span th:text="${'City: '}"></span><input type="text" th:field="*{city}"/></div>
+    <div th:replace="fragments/fields_input.html :: field-errors('${addressForm.city}')"></div>
+    <div><span th:text="${'Address details: '}"></span><input type="text" th:field="*{addressDetails}"/></div>
+    <div th:replace="fragments/fields_input.html :: field-errors('${addressForm.addressDetails}')"></div>
+    <div><input type="submit" name="submit" value="Confirm"/>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/></div>
 </form>
-<div th:text="${'Company Address: '+company.companyAddress}"></div>
-<form th:action="@{/my_account/account_panel/companyAddress}" method="post">
-    postal code :<input type="text" name="postalCode">
-    city :<input type="text" name="city">
-    address details: <input type="text" name="addressDetails">
-    <input type="submit" value="Set Address">
+<br>
+<div th:text="${'Change companys details'}">Change address form:</div>
+<form th:action="@{/my_account/account_panel/companydetails}" th:object="${companyForm}" method="post">
+    <div><input type="text" th:field="*{companyName}"/></div>
+    <div th:replace="fragments/fields_input.html :: field-errors('${companyForm.companyName}')"></div>
+    <div><input type="submit" name="submit" value="Confirm"/>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/></div>
+</form>
+<br>
+<div th:text="${'Change password'}">Change address form:</div>
+<form th:action="@{/my_account/account_panel/password}" th:object="${passwordForm}" method="post">
+    <div><span th:text="${'Old password: '}"></span><input type="text" th:field="*{oldPassword}"/></div>
+    <div th:replace="fragments/fields_input.html :: field-errors('${passwordForm.oldPassword}')"></div>
+    <div><span th:text="${'New Password: '}"></span><input type="text" th:field="*{password}"/></div>
+    <div th:replace="fragments/fields_input.html :: field-errors('${passwordForm.password}')"></div>
+    <div><span th:text="${'Repeated New Password: '}"></span><input type="text" th:field="*{repeatedPassword}"/></div>
+    <div th:replace="fragments/fields_input.html :: field-errors('${passwordForm.repeatedPassword}')"></div>
+    <input type="submit" name="submit" value="Confirm"/>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 </form>
 
-<form th:action="@{/my_account/account_panel/delete}" method="post">
-    <input type="submit" value="delete Account">
-</form>
 </body>
 </html>

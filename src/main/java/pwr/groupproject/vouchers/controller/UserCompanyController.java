@@ -1,13 +1,21 @@
 package pwr.groupproject.vouchers.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
+import pwr.groupproject.vouchers.bean.form.AddressForm;
+import pwr.groupproject.vouchers.bean.form.CompanyDetailsForm;
+import pwr.groupproject.vouchers.bean.form.PasswordForm;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.enums.DiscountType;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
@@ -31,6 +39,10 @@ public class UserCompanyController {
     private CompanySurveyService companySurveyService;
     @Autowired
     private UserCompanyService userCompanyService;
+    @Autowired
+    private ShaPasswordEncoder passwordEncoder;
+    @Autowired
+    private MessageSource messageSource;
 
     //region Home Management
     @RequestMapping("/home")
@@ -39,41 +51,116 @@ public class UserCompanyController {
     }
     //endregion
 
-    //region Account Management
-    @RequestMapping("/account_panel")
+    /**region Account Management*/
+    @RequestMapping(value = "/account_panel",method = RequestMethod.GET)
     public String accountPanel(Model model, @AuthenticationPrincipal UserCompany userCompany) {
-        model.addAttribute("company", userCompany.getCompany());
+        Company company= companySurveyService.getUsersCompany(userCompany);
+        prepareAccountPanelModel(model,company);
+        model.addAttribute("companyName", company.getCompanyName());
         return "my_account/account_panel.html";
     }
 
-    @RequestMapping(value = "/account_panel/companyName", method = RequestMethod.POST)
-    public String changeCompanyName(Model model, @AuthenticationPrincipal UserCompany userCompany, @RequestParam(name = "companyName", required = true) String companyName) {
+    @RequestMapping(value = "/account_panel/companydetails", method = RequestMethod.POST)
+    public String changeCompanyName(Model model, @AuthenticationPrincipal UserCompany userCompany, @Validated @ModelAttribute(name="companyForm") CompanyDetailsForm companyDetailsForm, BindingResult bindingResult, @ModelAttribute(name="addressForm") AddressForm addressForm, @ModelAttribute(name="passwordForm") PasswordForm passwordForm) {
         Company company = companySurveyService.getUsersCompany(userCompany);
-        company.setCompanyName(companyName);
+
+        if(bindingResult.hasErrors()){
+            Address currentAddress=company.getCompanyAddress();
+            addressForm.setAddressDetails(currentAddress.getAddressDetails());
+            addressForm.setCity(currentAddress.getCity());
+            addressForm.setPostalCode(currentAddress.getPostalCode());
+
+            model.addAttribute("addressForm",addressForm);
+            model.addAttribute("passwordForm",passwordForm);
+            return "my_account/account_panel.html";
+        }
+
+        company.setCompanyName(companyDetailsForm.getCompanyName());
         System.out.println(company.getCompanyName());
         companySurveyService.updateCompany(company);
-        return "redirect:/my_account/account_panel";
+
+        model.addAttribute("companyName", company.getCompanyName());
+        prepareAccountPanelModel(model,company);
+        return "my_account/account_panel.html";
     }
 
 
-    @RequestMapping(value = "/account_panel/companyAddress", method = RequestMethod.POST)
-    public String changeCompanyAddress(Model model, @AuthenticationPrincipal UserCompany userCompany, @RequestParam(name = "addressDetails", required = true) String addressDetails, @RequestParam(name = "city", required = true) String city, @RequestParam(name = "postalCode", required = true) String postalCode) {
-        Address address = new Address();
-        address.setPostalCode(postalCode);
-        address.setCity(city);
-        address.setAddressDetails(addressDetails);
+    @RequestMapping(value = "/account_panel/companyaddress", method = RequestMethod.POST)
+    public String changeCompanyAddress(Model model, @AuthenticationPrincipal UserCompany userCompany, @ModelAttribute(name="companyForm") CompanyDetailsForm companyDetailsForm, @Validated @ModelAttribute(name="addressForm") AddressForm addressForm,BindingResult bindingResult, @ModelAttribute(name="passwordForm") PasswordForm passwordForm) {
         Company company = companySurveyService.getUsersCompany(userCompany);
-        company.setCompanyAddress(address);
+
+        if(bindingResult.hasErrors()){
+            companyDetailsForm.setCompanyName(company.getCompanyName());
+
+            model.addAttribute("passwordForm",passwordForm);
+            model.addAttribute("companyForm",companyDetailsForm);
+            return "my_account/account_panel.html";
+        }
+
+        Address currentAddress=company.getCompanyAddress();
+        currentAddress.setPostalCode(addressForm.getPostalCode());
+        currentAddress.setCity(addressForm.getCity());
+        currentAddress.setAddressDetails(addressForm.getAddressDetails());
         companySurveyService.updateCompany(company);
-        return "redirect:/my_account/account_panel";
+
+        model.addAttribute("companyName", company.getCompanyName());
+        prepareAccountPanelModel(model,company);
+        return "my_account/account_panel.html";
     }
+
+    @RequestMapping(value = "/account_panel/password", method = RequestMethod.POST)
+    public String changePassword(Model model, @AuthenticationPrincipal UserCompany userCompany, @ModelAttribute(name="companyForm") CompanyDetailsForm companyDetailsForm, @ModelAttribute(name="addressForm") AddressForm addressForm, @Validated @ModelAttribute(name="passwordForm") PasswordForm passwordForm,BindingResult bindingResult) {
+        Company company = companySurveyService.getUsersCompany(userCompany);
+
+        String hashedNewPassword=passwordEncoder.encodePassword(passwordForm.getPassword(),null);
+        if(!bindingResult.hasErrors() && !hashedNewPassword.equals(userCompany.getPassword())){
+            bindingResult.rejectValue("oldPassword", "wrong.old.password", messageSource.getMessage("message.wrong.old.password", null, LocaleContextHolder.getLocale()));
+        }
+        if(bindingResult.hasErrors()){
+            Address currentAddress=company.getCompanyAddress();
+            addressForm.setAddressDetails(currentAddress.getAddressDetails());
+            addressForm.setCity(currentAddress.getCity());
+            addressForm.setPostalCode(currentAddress.getPostalCode());
+
+            companyDetailsForm.setCompanyName(company.getCompanyName());
+
+            model.addAttribute("addressForm",addressForm);
+            model.addAttribute("companyForm",companyDetailsForm);
+            return "my_account/account_panel.html";
+        }
+
+        userCompanyService.changePassword(userCompany.getUsername(),hashedNewPassword);
+
+        model.addAttribute("companyName", company.getCompanyName());
+        prepareAccountPanelModel(model,company);
+        return "my_account/account_panel.html";
+    }
+
+
+
 
     @RequestMapping(value = "/account_panel/delete", method = RequestMethod.POST)
     public String deleteAccount(@AuthenticationPrincipal UserCompany userCompany, Model model) {
         companySurveyService.deleteCompany(userCompany.getCompany().getId());
         return "redirect:/";
     }
-    //endregion
+
+    private void prepareAccountPanelModel(Model model,Company company){
+        Address currentAddress=company.getCompanyAddress();
+        AddressForm addressForm=new AddressForm();
+        addressForm.setAddressDetails(currentAddress.getAddressDetails());
+        addressForm.setCity(currentAddress.getCity());
+        addressForm.setPostalCode(currentAddress.getPostalCode());
+
+        CompanyDetailsForm companyDetailsForm=new CompanyDetailsForm();
+        companyDetailsForm.setCompanyName(company.getCompanyName());
+        PasswordForm passwordForm=new PasswordForm();
+
+        model.addAttribute("addressForm",addressForm);
+        model.addAttribute("companyForm",companyDetailsForm);
+        model.addAttribute("passwordForm",passwordForm);
+    }
+    /**endregion*/
 
     //region Survey Management
     //region Viewing Surveys

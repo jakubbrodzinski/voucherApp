@@ -17,7 +17,7 @@ public class Company implements Serializable {
     private Address companyAddress;
     @Column(length = 50)
     private String companyName;
-    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "company")
+    @OneToMany(cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.DETACH},orphanRemoval = true, mappedBy = "company")
     private Collection<Survey> companysSurveys = new ArrayList<>();
 
     public int getId() {

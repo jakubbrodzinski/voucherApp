@@ -15,7 +15,7 @@ public class VoucherCode {
     @JoinColumn(name = "voucherId")
     private Voucher voucher;
     private int ammountOfUses=1;
-    @OneToMany(mappedBy = "voucherCode",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "voucherCode",cascade = CascadeType.REMOVE,orphanRemoval = true)
     private Collection<VoucherCodeDate> voucherCodeDates=new ArrayList<>();
 
     public String getVoucherCode() {

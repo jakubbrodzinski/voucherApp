@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
-import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.configuration.HibernateConfiguration;
 import pwr.groupproject.vouchers.dao.*;
 
@@ -221,7 +220,7 @@ public class CompanySurveyServiceTest {
         company.getCompanysSurveys().add(survey2);
         company.getCompanysSurveys().add(survey3);
 
-        companySurveyDao.createCompany(company);
+        companySurveyDao.addCompany(company);
         Collection<Survey> activeSurveys=companySurveyService.getAllActiveSurveys(company.getId());
 
         Assert.assertEquals(activeSurveys.size(),2);
@@ -279,8 +278,8 @@ public class CompanySurveyServiceTest {
         company2.getCompanysSurveys().add(survey2);
         survey2.setCompany(company2);
 
-        companySurveyDao.createCompany(company2);
-        companySurveyDao.createCompany(company1);
+        companySurveyDao.addCompany(company2);
+        companySurveyDao.addCompany(company1);
 
         Assert.assertEquals(1,companySurveyService.getAllActiveCompanies().size());
     }

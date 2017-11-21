@@ -16,6 +16,8 @@ import pwr.groupproject.vouchers.services.MailService;
 import pwr.groupproject.vouchers.services.TokenService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 
+import javax.annotation.security.PermitAll;
+
 
 @Controller
 @RequestMapping(TokenController.ROOT_MAPPING)

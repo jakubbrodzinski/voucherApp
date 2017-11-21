@@ -15,9 +15,9 @@ public class Survey {
     private String surveyName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     private Collection<Question> questions = new ArrayList<>();
-    @OneToOne(mappedBy = "survey", cascade = CascadeType.ALL, optional = true)
+    @OneToOne(mappedBy = "survey", cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.DETACH},orphanRemoval = true, optional = true,fetch = FetchType.EAGER)
     private Voucher voucher;
-    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "survey", cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.DETACH},orphanRemoval = true)
     private Collection<AnsweredSurvey> answeredSurveys = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "companyId")

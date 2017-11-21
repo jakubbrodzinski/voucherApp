@@ -19,6 +19,7 @@ import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.bean.model.security.UserProfile;
 import pwr.groupproject.vouchers.bean.model.security.VerificationToken;
+import pwr.groupproject.vouchers.dao.CompanySurveyDao;
 import pwr.groupproject.vouchers.dao.UserCompanyDao;
 
 @Service
@@ -35,6 +36,8 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     private TokenService tokenService;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private CompanySurveyDao companySurveyDao;
 
     @Override
     public boolean addUser(NewUserCompanyForm newUserCompanyForm){
@@ -54,6 +57,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         userCompany.setPassword(shaPasswordEncoder.encodePassword(newUserCompanyForm.getPassword(),null));
         userCompany.setCompany(company);
         this.userCompanyDao.addUserCompany(userCompany);
+        companySurveyDao.addCompany(userCompany.getCompany());
 
         VerificationToken verificationToken=tokenService.generateNewActivationToken(userCompany);
         mailService.sendVerificationTokenEmail(verificationToken.getToken(),verificationToken.getExpirationDate(),userCompany.getUsername());

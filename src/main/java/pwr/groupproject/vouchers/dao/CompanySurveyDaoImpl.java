@@ -126,7 +126,7 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
     }
 
     @Override
-    public void createCompany(Company company) {
+    public void addCompany(Company company) {
         entityManager.persist(company);
     }
 }

@@ -19,7 +19,7 @@ public class Voucher {
     private Date startDate;
     private Date endDate;
     //orphanRemoval = true
-    @OneToMany(mappedBy = "voucher",fetch = FetchType.EAGER,cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "voucher",fetch = FetchType.EAGER,cascade = {CascadeType.DETACH,CascadeType.REFRESH,CascadeType.MERGE,CascadeType.REMOVE},orphanRemoval = true)
     private Set<VoucherCode> codes = new HashSet<>();
     @Enumerated
     private DiscountType discountType;

@@ -46,6 +46,7 @@ public class VoucherDaoImpl implements VoucherDao {
 
     @Override
     public void deleteVoucher(Voucher voucher) {
+        voucher.getSurvey().setVoucher(null);
         entityManager.remove(voucher);
     }
 

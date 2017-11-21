@@ -35,5 +35,5 @@ public interface CompanySurveyDao {
 
     void updateCompany(Company company);
     void deleteCompany(Company company);
-    void createCompany(Company company);
+    void addCompany(Company company);
 }

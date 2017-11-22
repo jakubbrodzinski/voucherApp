@@ -6,7 +6,6 @@ import pwr.groupproject.vouchers.bean.form.annotations.PasswordValidationConstra
 
 @PasswordValidationConstraint(filedOne = "password",filedTwo = "repeatedPassword")
 public class PasswordForm {
-    @Length(min = 6)
     private String oldPassword;
     @Length(min=6)
     private String password;

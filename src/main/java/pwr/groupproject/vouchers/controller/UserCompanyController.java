@@ -51,16 +51,15 @@ public class UserCompanyController {
     }
     //endregion
 
-    /**region Account Management*/
+    //region Account Management
     @RequestMapping(value = "/account_panel",method = RequestMethod.GET)
     public String accountPanel(Model model, @AuthenticationPrincipal UserCompany userCompany) {
         Company company= companySurveyService.getUsersCompany(userCompany);
         prepareAccountPanelModel(model,company);
-        model.addAttribute("companyName", company.getCompanyName());
         return "my_account/account_panel.html";
     }
 
-    @RequestMapping(value = "/account_panel/companydetails", method = RequestMethod.POST)
+    @RequestMapping(value = "/account_panel/companyDetails", method = RequestMethod.POST)
     public String changeCompanyName(Model model, @AuthenticationPrincipal UserCompany userCompany, @Validated @ModelAttribute(name="companyForm") CompanyDetailsForm companyDetailsForm, BindingResult bindingResult, @ModelAttribute(name="addressForm") AddressForm addressForm, @ModelAttribute(name="passwordForm") PasswordForm passwordForm) {
         Company company = companySurveyService.getUsersCompany(userCompany);
 
@@ -76,16 +75,14 @@ public class UserCompanyController {
         }
 
         company.setCompanyName(companyDetailsForm.getCompanyName());
-        System.out.println(company.getCompanyName());
         companySurveyService.updateCompany(company);
 
-        model.addAttribute("companyName", company.getCompanyName());
         prepareAccountPanelModel(model,company);
         return "my_account/account_panel.html";
     }
 
 
-    @RequestMapping(value = "/account_panel/companyaddress", method = RequestMethod.POST)
+    @RequestMapping(value = "/account_panel/companyAddress", method = RequestMethod.POST)
     public String changeCompanyAddress(Model model, @AuthenticationPrincipal UserCompany userCompany, @ModelAttribute(name="companyForm") CompanyDetailsForm companyDetailsForm, @Validated @ModelAttribute(name="addressForm") AddressForm addressForm,BindingResult bindingResult, @ModelAttribute(name="passwordForm") PasswordForm passwordForm) {
         Company company = companySurveyService.getUsersCompany(userCompany);
 
@@ -103,7 +100,6 @@ public class UserCompanyController {
         currentAddress.setAddressDetails(addressForm.getAddressDetails());
         companySurveyService.updateCompany(company);
 
-        model.addAttribute("companyName", company.getCompanyName());
         prepareAccountPanelModel(model,company);
         return "my_account/account_panel.html";
     }
@@ -112,8 +108,8 @@ public class UserCompanyController {
     public String changePassword(Model model, @AuthenticationPrincipal UserCompany userCompany, @ModelAttribute(name="companyForm") CompanyDetailsForm companyDetailsForm, @ModelAttribute(name="addressForm") AddressForm addressForm, @Validated @ModelAttribute(name="passwordForm") PasswordForm passwordForm,BindingResult bindingResult) {
         Company company = companySurveyService.getUsersCompany(userCompany);
 
-        String hashedNewPassword=passwordEncoder.encodePassword(passwordForm.getPassword(),null);
-        if(!bindingResult.hasErrors() && !hashedNewPassword.equals(userCompany.getPassword())){
+        String hashedOldPassword=passwordEncoder.encodePassword(passwordForm.getOldPassword(),null);
+        if(!bindingResult.hasErrors() && !hashedOldPassword.equals(userCompany.getPassword())){
             bindingResult.rejectValue("oldPassword", "wrong.old.password", messageSource.getMessage("message.wrong.old.password", null, LocaleContextHolder.getLocale()));
         }
         if(bindingResult.hasErrors()){
@@ -129,9 +125,9 @@ public class UserCompanyController {
             return "my_account/account_panel.html";
         }
 
+        String hashedNewPassword=passwordEncoder.encodePassword(passwordForm.getPassword(),null);
         userCompanyService.changePassword(userCompany.getUsername(),hashedNewPassword);
 
-        model.addAttribute("companyName", company.getCompanyName());
         prepareAccountPanelModel(model,company);
         return "my_account/account_panel.html";
     }
@@ -154,13 +150,14 @@ public class UserCompanyController {
 
         CompanyDetailsForm companyDetailsForm=new CompanyDetailsForm();
         companyDetailsForm.setCompanyName(company.getCompanyName());
+
         PasswordForm passwordForm=new PasswordForm();
 
         model.addAttribute("addressForm",addressForm);
         model.addAttribute("companyForm",companyDetailsForm);
         model.addAttribute("passwordForm",passwordForm);
     }
-    /**endregion*/
+    //endregion
 
     //region Survey Management
     //region Viewing Surveys

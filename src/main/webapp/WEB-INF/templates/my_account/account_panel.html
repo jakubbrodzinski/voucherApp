@@ -8,7 +8,7 @@
 <div th:insert="/fragments/dashboard.html :: dashboard"></div>
 <br>
 <div th:text="${'Change companys address'}">Change address form:</div>
-<form th:action="@{/my_account/account_panel/companyaddress}" th:object="${addressForm}" method="post">
+<form th:action="@{/my_account/account_panel/companyAddress}" th:object="${addressForm}" method="post">
     <div><span th:text="${'Postal code: '}"></span><input type="text" th:field="*{postalCode}"/></div>
     <div th:replace="fragments/fields_input.html :: field-errors('${addressForm.postalCode}')"></div>
     <div><span th:text="${'City: '}"></span><input type="text" th:field="*{city}"/></div>
@@ -20,7 +20,7 @@
 </form>
 <br>
 <div th:text="${'Change companys details'}">Change address form:</div>
-<form th:action="@{/my_account/account_panel/companydetails}" th:object="${companyForm}" method="post">
+<form th:action="@{/my_account/account_panel/companyDetails}" th:object="${companyForm}" method="post">
     <div><input type="text" th:field="*{companyName}"/></div>
     <div th:replace="fragments/fields_input.html :: field-errors('${companyForm.companyName}')"></div>
     <div><input type="submit" name="submit" value="Confirm"/>

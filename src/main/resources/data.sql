@@ -37,7 +37,6 @@ INSERT INTO ANSWERS(Id, answer, answeredSurveyId, questionId)
     (9, "A", 1, 9), (10, "B", 1, 10), (11, "C", 1, 11), (12, "D", 1, 12),
     (13, "A", 1, 13), (14, "B", 1, 14), (15, "C", 1, 15), (16, "D", 1, 16);
 
-
 INSERT INTO VOUCHER(Id, discountAmount, discountType, startDate, endDate, details,surveyId)
 VALUES
   (1, 10, 1, curdate(), curdate(), "details1", 1),(2, 10, 1, curdate(), curdate(), "details1", 2),(3, 10, 1, curdate(), curdate(), "details1", 3);;

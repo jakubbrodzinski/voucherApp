@@ -16,6 +16,7 @@ import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
 import pwr.groupproject.vouchers.bean.form.AddressForm;
 import pwr.groupproject.vouchers.bean.form.CompanyDetailsForm;
 import pwr.groupproject.vouchers.bean.form.PasswordForm;
+import pwr.groupproject.vouchers.bean.form.VoucherForm;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.enums.DiscountType;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
@@ -312,29 +313,35 @@ public class UserCompanyController {
     //region Adding Voucher
     @RequestMapping(value = "/surveys/{id}/addVoucher", method = RequestMethod.GET)
     public String voucher(@PathVariable("id") int surveyId, Model model) {
+        if(companySurveyService.getSurveyById(surveyId)==null){
+            return "error.html";
+        }
         model.addAttribute("surveyId", surveyId);
         model.addAttribute("discountType", DiscountType.values());
+        model.addAttribute("voucherForm",new VoucherForm());
+
         return "my_account/vouchers/add_voucher";
     }
 
     @RequestMapping(value = "/surveys/{id}/addVoucher", method = RequestMethod.POST)
-    public String addVoucher(@PathVariable("id") int surveyId, @RequestParam(name = "discountType", required = true) DiscountType discountType, @RequestParam(name = "discountAmount", required = true) Integer discountAmount, @RequestParam(name = "description", required = true) String description, @RequestParam(name = "startDate", required = true) String startDate, @RequestParam(name = "endDate", required = true) String endDate) {
+    public String addVouchersForm(Model model,@PathVariable("id") int surveyId, @AuthenticationPrincipal UserCompany userCompany, @ModelAttribute(name="companyForm") CompanyDetailsForm companyDetailsForm, @Validated @ModelAttribute(name="voucherForm") VoucherForm voucherForm,BindingResult bindingResult, @ModelAttribute(name="passwordForm") PasswordForm passwordForm){
+
+        if(companySurveyService.getSurveyById(surveyId)==null){
+            return "error.html";
+        }
+        if(voucherForm.getStartDate()!=null && voucherForm.getEndDate()!=null && voucherForm.getStartDate().after(voucherForm.getEndDate())){
+            bindingResult.reject("startDate");
+        }if(bindingResult.hasErrors()){
+            model.addAttribute("surveyId", surveyId);
+            model.addAttribute("discountType", DiscountType.values());
+            return "my_account/vouchers/add_voucher";
+        }
         Voucher voucher = new Voucher();
-        voucher.setDiscountType(discountType);
-        voucher.setDiscountAmount(discountAmount);
-        voucher.setVoucherDescription(description);
-        System.out.println(startDate + "   " + endDate);
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            voucher.setStartDate(formatter.parse(startDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        try {
-            voucher.setEndDate(formatter.parse(endDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        voucher.setDiscountType(voucherForm.getDiscountType());
+        voucher.setDiscountAmount(voucherForm.getDiscountAmount());
+        voucher.setVoucherDescription(voucherForm.getVoucherDescription());
+        voucher.setStartDate(voucherForm.getStartDate());
+        voucher.setEndDate(voucherForm.getEndDate());
         companySurveyService.addVoucher(voucher, surveyId);
         return "redirect:/my_account/surveys";
     }

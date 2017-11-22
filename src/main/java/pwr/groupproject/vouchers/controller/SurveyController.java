@@ -9,6 +9,7 @@ import pwr.groupproject.vouchers.bean.model.Question;
 import pwr.groupproject.vouchers.bean.model.Survey;
 import pwr.groupproject.vouchers.bean.dto.QuestionDto;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
+import pwr.groupproject.vouchers.services.UserCompanyService;
 
 import java.util.Collection;
 
@@ -20,6 +21,8 @@ public class SurveyController {
 
     @Autowired
     private CompanySurveyService companySurveyService;
+    @Autowired
+    UserCompanyService userCompanyService;
 
     @RequestMapping(value = "/companies")
     public String companyList(Model model){
@@ -29,7 +32,16 @@ public class SurveyController {
     }
     @RequestMapping(value = "/companySurveys")
     public String voucherList(@RequestParam(name = "companyId", required = true) Integer companyId, Model model){
+        /*check if company exists optional
+        if(userCompanyService.getUserCompanyByCompanyId(companyId)==null){
+            return "/error.html";
+        }*/
+
         Collection<Survey> surveys = companySurveyService.getAllActiveSurveys(companyId);
+        if(surveys.size()==0){
+            //company does not exist or doesn't have any surveys
+            return "/error.html";
+        }
         model.addAttribute("surveys",surveys);
         return "/user/chooseSurvey.html";
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -52,10 +52,13 @@
         </form>
     </div>
     <br>
-    <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/addCode}" method="post">
-        code:<input type="text" name="code"><br>
-        amount:<input type="number" name="numberOfCodes"><br>
-        <input type="submit" value="Add code">
+    <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/addCode}" th:object="${voucherCodeForm}" method="post">
+        code:<input type="text" th:field="*{voucherCode}"><br>
+        <div th:replace="fragments/fields_input.html :: field-errors('${voucherCodeForm.voucherCode}')"></div>
+        amount:<input type="number" th:field="*{amountOfUses}"><br>
+        <div th:replace="fragments/fields_input.html :: field-errors('${voucherCodeForm.amountOfUses}')"></div>
+        <div><input type="submit" name="submit" value="Add Code"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/></div>
     </form>
 </div>
 <div th:unless="${voucher!=null}" th:remove="tag">ni ma nic</div>

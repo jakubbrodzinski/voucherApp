@@ -21,9 +21,6 @@ import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 
 import javax.servlet.http.HttpServletResponse;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 @Controller
 @RequestMapping(UserCompanyController.ROOT_MAPPING)
@@ -202,68 +199,37 @@ public class UserCompanyController {
     //region Concrete Voucher Management
     @RequestMapping(value = "/surveys/{id}/voucher", method = RequestMethod.GET)
     public String manageSurveysVoucher(@PathVariable("id") int surveyId, Model model, @AuthenticationPrincipal UserCompany userCompany) {
-        try {
-            Survey survey = companySurveyService.checkIfSurveyExists(surveyId, userCompany);
-            prepareVoucherPanelModel(model, survey,true);
-            model.addAttribute("voucherCodeForm", new VoucherCodeForm());
+        if(!checkForSurveyExistence(surveyId,userCompany)){
+            return "error.html";
+        }
+        prepareVoucherPanelModel(model, companySurveyService.getSurveyById(surveyId),true,true);
+        return "/my_account/vouchers/manage_voucher.html";
+    }
+
+    @RequestMapping(value = "/surveys/{id}/voucher/editVoucher", method = RequestMethod.POST)
+    public String changeVoucherDetails(Model model,@AuthenticationPrincipal UserCompany userCompany,@PathVariable("id") int surveyId, @Validated @ModelAttribute(name="voucherForm") VoucherForm voucherForm,BindingResult bindingResult) {
+        if(!checkForSurveyExistence(surveyId,userCompany)){
+            return "error.html";
+        }
+        if(voucherForm.getStartDate()!=null && voucherForm.getEndDate()!=null && voucherForm.getStartDate().after(voucherForm.getEndDate())){
+            bindingResult.reject("startDate");
+        }if(bindingResult.hasErrors()){
+            prepareVoucherPanelModel(model,companySurveyService.getSurveyById(surveyId),true,false);
             return "/my_account/vouchers/manage_voucher.html";
-        } catch (WrongSurveyIdException ex) {
-            ex.printStackTrace();
-            return "/error.html";
         }
-    }
-
-    @RequestMapping(value = "/surveys/{id}/voucher/details", method = RequestMethod.POST)
-    public String changeVoucherDetails(@PathVariable("id") int surveyId, @RequestParam(name = "details", required = true) String details) {
         Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
-        voucher.setVoucherDescription(details);
+        voucher.setDiscountType(voucherForm.getDiscountType());
+        voucher.setDiscountAmount(voucherForm.getDiscountAmount());
+        voucher.setVoucherDescription(voucherForm.getVoucherDescription());
+        voucher.setStartDate(voucherForm.getStartDate());
+        voucher.setEndDate(voucherForm.getEndDate());
         companySurveyService.updateVoucher(voucher);
-        return "redirect:/my_account/surveys";
+        Survey survey = companySurveyService.getSurveyById(surveyId);
+        prepareVoucherPanelModel(model, survey,true,true);
+        return "/my_account/vouchers/manage_voucher.html";
     }
 
-    @RequestMapping(value = "/surveys/{id}/voucher/discountType", method = RequestMethod.POST)
-    public String changeVoucherDiscountType(@PathVariable("id") int surveyId, @RequestParam(name = "discountType", required = true) DiscountType discountType) {
-        Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
-        voucher.setDiscountType(discountType);
-        companySurveyService.updateVoucher(voucher);
-        return "redirect:/my_account/surveys";
-    }
-
-    @RequestMapping(value = "/surveys/{id}/voucher/discountAmount", method = RequestMethod.POST)
-    public String changeVoucherDiscountAmount(@PathVariable("id") int surveyId, @RequestParam(name = "discountAmount", required = true) Integer discountAmount) {
-        Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
-        voucher.setDiscountAmount(discountAmount);
-        companySurveyService.updateVoucher(voucher);
-        return "redirect:/my_account/surveys";
-    }
-
-    @RequestMapping(value = "/surveys/{id}/voucher/startDate", method = RequestMethod.POST)
-    public String changeVoucherStartDate(@PathVariable("id") int surveyId, @RequestParam(name = "startDate", required = true) String startDate) {
-        Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            voucher.setStartDate(formatter.parse(startDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        companySurveyService.updateVoucher(voucher);
-        return "redirect:/my_account/surveys";
-    }
-
-    @RequestMapping(value = "/surveys/{id}/voucher/endDate", method = RequestMethod.POST)
-    public String changeVoucherEndDate(@PathVariable("id") int surveyId, @RequestParam(name = "endDate", required = true) String endDate) {
-        Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            voucher.setEndDate(formatter.parse(endDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        companySurveyService.updateVoucher(voucher);
-        return "redirect:/my_account/surveys";
-    }
-
-    private void prepareVoucherPanelModel(Model model, Survey survey,boolean addVoucherCodeForm) {
+    private void prepareVoucherPanelModel(Model model, Survey survey,boolean addVoucherCodeForm, boolean addVoucherForm) {
         model.addAttribute("surveyName", survey.getSurveyName());
         model.addAttribute("voucher", survey.getVoucher());
         model.addAttribute("surveyId", survey.getId());
@@ -271,8 +237,18 @@ public class UserCompanyController {
         if(addVoucherCodeForm) {
             model.addAttribute("voucherCodeForm", new VoucherCodeForm());
         }
+        if(addVoucherForm) {
+            Voucher voucher = survey.getVoucher();
+            VoucherForm voucherForm = new VoucherForm();
+            voucherForm.setDiscountAmount(voucher.getDiscountAmount());
+            voucherForm.setDiscountType(voucher.getDiscountType());
+            voucherForm.setEndDate(voucher.getEndDate());
+            voucherForm.setStartDate(voucher.getStartDate());
+            voucherForm.setVoucherDescription(voucher.getVoucherDescription());
+            model.addAttribute("voucherForm", voucherForm);
+        }
     }
-    private boolean checkForSurveyExistance(int surveyId, UserCompany userCompany){
+    private boolean checkForSurveyExistence(int surveyId, UserCompany userCompany){
         try {
             if (companySurveyService.checkIfSurveyExists(surveyId, userCompany) == null) {
                 return false;
@@ -288,33 +264,36 @@ public class UserCompanyController {
 
     //region Codes Management
     @RequestMapping(value = "/surveys/{id}/voucher/changeCode", method = RequestMethod.POST)
-    public String changeVoucherCode(@PathVariable("id") int surveyId,@AuthenticationPrincipal UserCompany userCompany, @RequestParam(name = "numberOfCodes", required = true) Integer numberOfCodes, @RequestParam(name = "codeId", required = true) Integer codeId) {
-        if(!checkForSurveyExistance(surveyId,userCompany)){
+    public String changeVoucherCode(Model model, @PathVariable("id") int surveyId,@AuthenticationPrincipal UserCompany userCompany, @RequestParam(name = "codeId", required = true) Integer codeId, @RequestParam(name = "numberOfCodes", required = true) Integer numberOfCodes) {
+        if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
         }
         Survey survey = companySurveyService.getSurveyById(surveyId);
-        for (VoucherCode code : survey.getVoucher().getCodes()) {
-            if (code.getId() == codeId) {
-                code.setAmmountOfUses(numberOfCodes);
-                companySurveyService.updateVoucherCode(code);
-                break;
+        if(numberOfCodes>=0) {
+            for (VoucherCode code : survey.getVoucher().getCodes()) {
+                if (code.getId() == codeId) {
+                    code.setAmmountOfUses(numberOfCodes);
+                    companySurveyService.updateVoucherCode(code);
+                    break;
+                }
             }
         }
-        return "redirect:/my_account/surveys";
+        prepareVoucherPanelModel(model,survey,true,true);
+        return "/my_account/vouchers/manage_voucher.html";
     }
 
     @RequestMapping(value = "/surveys/{id}/voucher/addCode", method = RequestMethod.POST)
     public String addVoucherCode(Model model,@AuthenticationPrincipal UserCompany userCompany, @PathVariable("id") int surveyId, @Validated @ModelAttribute(name="voucherCodeForm") VoucherCodeForm voucherCodeForm, BindingResult bindingResult) {
-        if(!checkForSurveyExistance(surveyId,userCompany)){
+        if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
         }
         Survey survey = companySurveyService.getSurveyById(surveyId);
         if(bindingResult.hasErrors()){
-            prepareVoucherPanelModel(model,survey,false);
+            prepareVoucherPanelModel(model,survey,false,true);
             return "/my_account/vouchers/manage_voucher.html";
         }
         else{
-            prepareVoucherPanelModel(model,survey,true);
+            prepareVoucherPanelModel(model,survey,true,true);
         }
         VoucherCode voucherCode = new VoucherCode();
         voucherCode.setVoucherCode(voucherCodeForm.getVoucherCode());
@@ -325,7 +304,7 @@ public class UserCompanyController {
 
     @RequestMapping(value = "/surveys/{id}/voucher/deleteCode", method = RequestMethod.POST)
     public String deleteVoucherCode(Model model,@AuthenticationPrincipal UserCompany userCompany, @PathVariable("id") int surveyId, @RequestParam(name = "codeId", required = true) Integer codeId) {
-        if(!checkForSurveyExistance(surveyId,userCompany)){
+        if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
         }
         for (VoucherCode code : companySurveyService.getSurveyById(surveyId).getVoucher().getCodes()) {
@@ -334,16 +313,17 @@ public class UserCompanyController {
                 break;
             }
         }
-        Survey survey = companySurveyService.getSurveyById(surveyId);
-        prepareVoucherPanelModel(model, survey, true);
-        return "/my_account/vouchers/manage_voucher.html";
+        //Survey survey = companySurveyService.getSurveyById(surveyId);
+        //prepareVoucherPanelModel(model, survey, true,true);
+        //return "/my_account/vouchers/manage_voucher.html";
+        return "redirect:/my_account/surveys/"+surveyId+"/voucher";
     }
     //endregion
 
     //region Adding Voucher
     @RequestMapping(value = "/surveys/{id}/addVoucher", method = RequestMethod.GET)
     public String voucher(@AuthenticationPrincipal UserCompany userCompany, @PathVariable("id") int surveyId, Model model) {
-        if(!checkForSurveyExistance(surveyId,userCompany)){
+        if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
         }
         model.addAttribute("surveyId", surveyId);
@@ -356,7 +336,7 @@ public class UserCompanyController {
     @RequestMapping(value = "/surveys/{id}/addVoucher", method = RequestMethod.POST)
     public String addVouchersForm(Model model,@AuthenticationPrincipal UserCompany userCompany,@PathVariable("id") int surveyId, @Validated @ModelAttribute(name="voucherForm") VoucherForm voucherForm,BindingResult bindingResult){
 
-        if(!checkForSurveyExistance(surveyId,userCompany)){
+        if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
         }
         if(voucherForm.getStartDate()!=null && voucherForm.getEndDate()!=null && voucherForm.getStartDate().after(voucherForm.getEndDate())){

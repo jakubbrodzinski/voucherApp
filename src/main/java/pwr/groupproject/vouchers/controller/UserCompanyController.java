@@ -265,7 +265,7 @@ public class UserCompanyController {
             return "error.html";
         }
         VoucherCode voucherCode=companySurveyService.getVoucherCodeById(codeId);
-        if(voucherCode.getVoucher().getSurvey().getId()==surveyId){
+        if(numberOfCodes>=0 && voucherCode.getVoucher().getSurvey().getId()==surveyId){
             voucherCode.setAmmountOfUses(numberOfCodes);
             companySurveyService.updateVoucherCode(voucherCode);
         }
@@ -305,8 +305,7 @@ public class UserCompanyController {
             companySurveyService.deleteVoucherCode(codeId);
         Survey survey = companySurveyService.getSurveyById(surveyId);
         prepareVoucherPanelModel(model, survey, true,true);
-        //return "/my_account/vouchers/manage_voucher.html";
-        return "redirect:/my_account/surveys/"+surveyId+"/voucher";
+        return "/my_account/vouchers/manage_voucher.html";
     }
     //endregion
 

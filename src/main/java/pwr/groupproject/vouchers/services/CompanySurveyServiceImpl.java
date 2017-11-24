@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
+import pwr.groupproject.vouchers.bean.form.VoucherForm;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.dao.CompanySurveyDao;
@@ -140,13 +141,23 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public Voucher updateVoucher(Voucher voucher){
+    public Voucher updateVoucher(Voucher voucher,VoucherForm voucherForm){
+        voucher.setDiscountType(voucherForm.getDiscountType());
+        voucher.setDiscountAmount(voucherForm.getDiscountAmount());
+        voucher.setVoucherDescription(voucherForm.getVoucherDescription());
+        voucher.setStartDate(voucherForm.getStartDate());
+        voucher.setEndDate(voucherForm.getEndDate());
         return voucherDao.updateVoucher(voucher);
     }
 
     @Override
     public VoucherCode updateVoucherCode(VoucherCode voucherCode){
         return voucherDao.updateVoucherCode(voucherCode);
+    }
+
+    @Override
+    public VoucherCode getVoucherCodeById(int voucherCodeId) {
+        return  voucherDao.getVoucherCode(voucherCodeId);
     }
 
     @Override

@@ -3,6 +3,7 @@ package pwr.groupproject.vouchers.services;
 import org.springframework.security.access.prepost.PreAuthorize;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
+import pwr.groupproject.vouchers.bean.form.VoucherForm;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
@@ -36,9 +37,11 @@ public interface CompanySurveyService {
     void deleteCompany(int companyId);
 
     @PreAuthorize("hasRole('COMPANY')")
-    Voucher  updateVoucher(Voucher voucher);
+    Voucher  updateVoucher(Voucher voucher,VoucherForm voucherForm);
     @PreAuthorize("hasRole('COMPANY')")
     VoucherCode updateVoucherCode(VoucherCode voucherCode);
+    @PreAuthorize("hasRole('COMPANY')")
+    VoucherCode getVoucherCodeById(int voucherCodeId);
     @PreAuthorize("hasRole('COMPANY')")
     Company updateCompany(Company company);
 

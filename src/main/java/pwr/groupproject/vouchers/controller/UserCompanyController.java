@@ -218,12 +218,8 @@ public class UserCompanyController {
             return "/my_account/vouchers/manage_voucher.html";
         }
         Voucher voucher = companySurveyService.getSurveyById(surveyId).getVoucher();
-        voucher.setDiscountType(voucherForm.getDiscountType());
-        voucher.setDiscountAmount(voucherForm.getDiscountAmount());
-        voucher.setVoucherDescription(voucherForm.getVoucherDescription());
-        voucher.setStartDate(voucherForm.getStartDate());
-        voucher.setEndDate(voucherForm.getEndDate());
-        companySurveyService.updateVoucher(voucher);
+        companySurveyService.updateVoucher(voucher,voucherForm);
+
         Survey survey = companySurveyService.getSurveyById(surveyId);
         prepareVoucherPanelModel(model, survey,true,true);
         return "/my_account/vouchers/manage_voucher.html";
@@ -268,16 +264,13 @@ public class UserCompanyController {
         if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
         }
-        Survey survey = companySurveyService.getSurveyById(surveyId);
-        if(numberOfCodes>=0) {
-            for (VoucherCode code : survey.getVoucher().getCodes()) {
-                if (code.getId() == codeId) {
-                    code.setAmmountOfUses(numberOfCodes);
-                    companySurveyService.updateVoucherCode(code);
-                    break;
-                }
-            }
+        VoucherCode voucherCode=companySurveyService.getVoucherCodeById(codeId);
+        if(voucherCode.getVoucher().getSurvey().getId()==surveyId){
+            voucherCode.setAmmountOfUses(numberOfCodes);
+            companySurveyService.updateVoucherCode(voucherCode);
         }
+        Survey survey = companySurveyService.getSurveyById(surveyId);
+
         prepareVoucherPanelModel(model,survey,true,true);
         return "/my_account/vouchers/manage_voucher.html";
     }
@@ -307,14 +300,11 @@ public class UserCompanyController {
         if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
         }
-        for (VoucherCode code : companySurveyService.getSurveyById(surveyId).getVoucher().getCodes()) {
-            if (code.getId() == codeId) {
-                companySurveyService.deleteVoucherCode(codeId);
-                break;
-            }
-        }
-        //Survey survey = companySurveyService.getSurveyById(surveyId);
-        //prepareVoucherPanelModel(model, survey, true,true);
+        VoucherCode voucherCode=companySurveyService.getVoucherCodeById(codeId);
+        if(voucherCode.getVoucher().getSurvey().getId()==surveyId)
+            companySurveyService.deleteVoucherCode(codeId);
+        Survey survey = companySurveyService.getSurveyById(surveyId);
+        prepareVoucherPanelModel(model, survey, true,true);
         //return "/my_account/vouchers/manage_voucher.html";
         return "redirect:/my_account/surveys/"+surveyId+"/voucher";
     }

@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<form th:action="@{/surveys}" method="get">
-    <select name="surveyId">
-        <option th:each="survey : ${surveys}" th:value = "${survey.id}" th:utext="${survey.surveyName} + ' ' + ${survey.voucher.voucherDescription}"></option>
-    </select>
-    <input type="submit" th:value="send">
-</form>
+<body class="defaultColor">
+<div class="container">
+    <h1 class="text-center mx-auto mt-5 mb-5 text-light">Choose Survey</h1>
+    <th:block th:each="survey : ${surveys}">
+        <form th:action="@{/surveys}" method="get">
+            <input type="hidden" class="btn btn-lg btn-outline-light btn-block mt-4" name="surveyId" th:value ="${survey.Id}">
+            <input type="submit" class="btn btn-lg btn-outline-light btn-block mt-4" th:value="${survey.surveyName} + ' ' + ${survey.voucher.voucherDescription}">
+        </form>
+    </th:block>
+</div>
 </body>
 </html>

@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body class="defaultColor">
 <div th:insert="/fragments/dashboard.html :: dashboard"></div>
+<div class="container">
 <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/addVoucher}" th:object="${voucherForm}" method="post">
     Discount Type:
     <th:block th:each="discount : ${discountType}">
@@ -28,5 +32,6 @@
     <div><input type="submit" name="submit" value="Confirm"/>
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/></div>
 </form>
+</div>
 </body>
 </html>

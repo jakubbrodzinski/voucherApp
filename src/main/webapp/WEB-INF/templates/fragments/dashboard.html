@@ -7,16 +7,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <div th:fragment="dashboard">
-        <a th:href="@{/my_account/home}">Home</a>
-        <a th:href="@{/my_account/account_panel}">Account Panel</a>
-        <a th:href="@{/my_account/surveys}">Manage surveys</a>
-        <a th:href="@{/my_account/statistics}">Statistics</a>
+    <nav th:fragment="dashboard" class="navbar fixed-top navbar-expand-md navbar-dark bg-dark d-flex flex-row-reverse">
         <form method="post" th:action="@{/my_account/logout}">
-            <a href="#" onclick="this.parentNode.submit();">Logout</a>
+            <a class="navbar-brand" href="#" onclick="this.parentNode.submit();">Logout</a>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         </form>
-    </div>
+        <a class="navbar-brand" th:href="@{/my_account/statistics}">Statistics</a>
+        <a class="navbar-brand" th:href="@{/my_account/surveys}">Manage surveys</a>
+        <a class="navbar-brand" th:href="@{/my_account/account_panel}">Account Panel</a>
+        <a class="navbar-brand" th:href="@{/my_account/home}">Home</a>
+    </nav>
     <nav th:fragment="userDashboard" class="navbar fixed-top navbar-expand-md navbar-dark bg-dark d-flex flex-row-reverse">
         <a class="navbar-brand" th:href="@{sign_in}">Sign in</a>
         <a class="navbar-brand" th:href="@{sign_up}">Sign up</a>

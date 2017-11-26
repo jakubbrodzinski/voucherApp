@@ -3,59 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
-<div th:insert="/fragments/dashboard.html :: dashboard"></div>
-<div th:text="${'vouchers for '+surveyName+' survey'}"></div>
-<div th:if="${voucher!=null}" th:remove="tag">
+<body class="defaultColor">
+<nav th:insert="/fragments/dashboard.html :: dashboard"></nav>
+<div class="container text-center text-light">
+<h2 class=" mx-auto pt-5 mt-5 mb-5" th:text="${'Voucher for '+surveyName+' survey'}"></h2>
+    <div class="row">
+        <div class="col" style="padding-right:20px; border-right: 1px solid #ccc;">
+            <h3>Edit Voucher:</h3>
+    <div th:if="${voucher!=null}" th:remove="tag"></div>
     <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/editVoucher}" th:object="${voucherForm}" method="post">
-        Discount Type:
+        <h5>Discount Type:</h5>
         <th:block th:each="discount : ${discountType}">
-            <br><input type="radio" name="discountType" th:text="${discount}" th:field="*{discountType}" th:value="${discount}">
+            <label class="custom-control custom-radio">
+                <input  class="custom-control-input" type="radio" name="discountType" th:field="*{discountType}" th:value="${discount}">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description" th:utext="${discount}">Check this custom checkbox</span>
+            </label>
         </th:block>
         <div th:replace="fragments/fields_input.html :: field-errors('${voucherForm.discountType}')"></div>
-        <br>
-        Discount Amount: <input type="number" th:field="*{discountAmount}">
+        <h5 class="mt-2">Discount Amount:</h5>
+        <input class="form-control" type="number" th:field="*{discountAmount}">
         <div th:replace="fragments/fields_input.html :: field-errors('${voucherForm.discountAmount}')"></div>
-        <br>
-        Voucher Description: <input type="text" th:field="*{voucherDescription}">
+        <h5 class="mt-2">Voucher Description:</h5>
+        <input class="form-control" type="text" th:field="*{voucherDescription}">
         <div th:replace="fragments/fields_input.html :: field-errors('${voucherForm.voucherDescription}')"></div>
-        <br>
-        Start Date: <input type="date" th:field="*{startDate}">
+        <h5 class="mt-2">Start Date:</h5>
+        <input class="form-control" type="date" th:field="*{startDate}">
         <div th:replace="fragments/fields_input.html :: field-errors('${voucherForm.startDate}')"></div>
-        <br>
-        End Date: <input type="date" th:field="*{endDate}">
+        <h5 class="mt-2"> End Date:</h5>
+        <input class="form-control" type="date" th:field="*{endDate}">
         <div th:replace="fragments/fields_input.html :: field-errors('${voucherForm.endDate}')"></div>
-        <br>
-        <div><input type="submit" name="submit" value="Confirm"/>
+        <div><input class="form-control mt-4" type="submit" name="submit" value="Confirm"/>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/></div>
     </form>
-    <div th:text="${'VoucherCodes :'}" ></div>
-    <br>
+        </div>
+        <div class="col" style="padding-right:20px; border-right: 1px solid #ccc;">
+    <h3 th:text="${'Edit Voucher Codes :'}" ></h3>
     <div th:each="code : ${voucher.codes}">
-        <br>
-        <div th:text="${'code: '+code.voucherCode}">code</div>
+        <h5 class="mt-2" th:text="${'Code: '+code.voucherCode}">code</h5>
         <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/changeCode}"  method="post">
-            <input type="number" th:value="${code.ammountOfUses}" name="numberOfCodes">
             <input type="hidden" name="codeId" th:value ="${code.getId()}">
-            <input type="submit" value="Set Amount">
+            <div class="input-group">
+            <input class="form-control" type="number" th:value="${code.ammountOfUses}" name="numberOfCodes">
+                <span class="input-group-btn">
+            <input class="btn btn-secondary" type="submit" value="Set Amount">
+                    </span>
+            </div>
         </form>
         <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/deleteCode}" method="post">
             <input type="hidden" name="codeId" th:value ="${code.getId()}">
-            <input type="submit" value="iksik">
+            <input class="form-control mt-2 mb-5" type="submit" value="iksik">
         </form>
     </div>
-    <br>
+        </div>
+        <div class="col">
+            <h3>Add Code:</h3>
     <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/addCode}" th:object="${voucherCodeForm}" method="post">
-        code:<input type="text" th:field="*{voucherCode}"><br>
+        <h5 class="mt-2">Code:</h5>
+        <input class="form-control" type="text" th:field="*{voucherCode}"><br>
         <div th:replace="fragments/fields_input.html :: field-errors('${voucherCodeForm.voucherCode}')"></div>
-        amount:<input type="number" th:field="*{amountOfUses}"><br>
+        <h5>Amount:</h5>
+        <input class="form-control" type="number" th:field="*{amountOfUses}"><br>
         <div th:replace="fragments/fields_input.html :: field-errors('${voucherCodeForm.amountOfUses}')"></div>
-        <div><input type="submit" name="submit" value="Add Code"/>
+        <div><input class="form-control mt-2" type="submit" name="submit" value="Add Code"/>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/></div>
     </form>
+        </div>
 </div>
 <div th:unless="${voucher!=null}" th:remove="tag">ni ma nic</div>
-<br>
+</div>
+</div>
 </body>
 </html>

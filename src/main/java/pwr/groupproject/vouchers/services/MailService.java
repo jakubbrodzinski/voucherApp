@@ -10,5 +10,5 @@ import java.util.Date;
 public interface MailService {
     boolean sendVerificationTokenEmail(String activationToken, Date expirationDate, String userName);
     boolean sendPasswordResetEmail(String passwordResetToken, String userName);
-    boolean sendVoucherCodeEmail(VoucherCode voucher, User user);
+    boolean sendVoucherCodeEmail(VoucherCode voucher, String email);
 }

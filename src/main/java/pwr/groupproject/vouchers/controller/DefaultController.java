@@ -35,9 +35,7 @@ public class DefaultController {
     public String testmail() {
         VoucherCode voucherCode=new VoucherCode();
         voucherCode.setVoucherCode("codecodecode");
-        User user=new User();
-        user.seteMail("jakubby@gmail.com");
-        mailService.sendVoucherCodeEmail(voucherCode,user);
+        mailService.sendVoucherCodeEmail(voucherCode,"jakubby@gmail.com");
         mailService.sendPasswordResetEmail("token","jakubby@gmail.com");
         mailService.sendVerificationTokenEmail("token",new Date(),"jakubby@gmail.com");
         return "index";

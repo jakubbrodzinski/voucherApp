@@ -51,13 +51,13 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public boolean sendVoucherCodeEmail(VoucherCode voucher, User user) {
+    public boolean sendVoucherCodeEmail(VoucherCode voucher, String email) {
         final Context ctx=new Context();
         ctx.setVariable("voucherCode",voucher.getVoucherCode());
         ctx.setVariable("companyName","companyName");
         String eMailTitle=messageSource.getMessage("voucher.code.email.title",null, LocaleContextHolder.getLocale());
 
-        return this.send(user.geteMail(),eMailTitle,ctx,"voucherCodeEmail");
+        return this.send(email,eMailTitle,ctx,"voucherCodeEmail");
     }
 
     private boolean send(String destinationEmail, String subject,Context ctx,String eMailTemplate) {

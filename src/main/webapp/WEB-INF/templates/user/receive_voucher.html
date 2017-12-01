@@ -3,6 +3,10 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}" />
+<script th:src="@{js/jquery-3.2.1.min.js}"></script>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -14,20 +18,33 @@
     <div class="container defaultColor">
         <div class="card text-center">
             <div class="card-header">
-                Receive a voucher
-                <i class="fa fa-camera-retro"></i>
+                You have completed a survey!
             </div>
             <div class="card-body">
-                <h4 class="card-title">You have completed a survey!</h4>
+                <h4 class="card-title" id="asd">You have successfully completed a survey!</h4>
+                <span>
+                    <p>Mind to tell us a few things about yourself? </p>
+                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#multiCollapseStats" aria-expanded="false" aria-controls="multiCollapseStats">Toggle both elements</button>
+                </span>
+                <div class="row">
+                    <div class="col">
+                        <div class="collapse multi-collapse" id="multiCollapseStats">
+                            <div class="card card-body">
+                                Halo
+                                <span>
+                                    <p>Age:</p>
+                                    <input type="number" min="13" max="120" step="1" />
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">Receive</a>
+                <a href="#" class="btn btn-primary">Receive <i class="fa fa-gift"></i></a>
             </div>
         </div>
     </div>
 </body>
-
-<script th:src="@{/js/bootstrap.min.js}"></script>
-<script th:src="@{js/jquery-3.2.1.min.js}"></script>
 
 </html>
 

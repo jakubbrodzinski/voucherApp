@@ -131,4 +131,9 @@ public class DefaultController {
         companySurveyService.deleteVoucherCode(4);
         return "OK";
     }
+
+    @RequestMapping(value = "/testVoucher", method = RequestMethod.GET)
+    public String testVoucher() {
+        return "/user/receive_voucher";
+    }
 }

@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-
+<link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}" />
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -13,22 +10,24 @@
     <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
-<body>
-    <div class="container-fluid">
+<body class="defaultColor">
+    <div class="container defaultColor">
         <div class="card text-center">
             <div class="card-header">
                 Receive a voucher
+                <i class="fa fa-camera-retro"></i>
             </div>
             <div class="card-body">
                 <h4 class="card-title">You have completed a survey!</h4>
                 <p class="card-text"></p>
                 <a href="#" class="btn btn-primary">Receive</a>
             </div>
-            <div class="card-footer text-muted">
-                2 days ago
-            </div>
         </div>
     </div>
 </body>
 
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{js/jquery-3.2.1.min.js}"></script>
+
 </html>
+

@@ -13,6 +13,7 @@ import java.util.Collection;
 
 public interface CompanySurveyService {
     Survey getSurveyById(int surveyId);
+    Survey getSurveyByIdWithQuestion(int surveyId);
 
     @PreAuthorize("hasRole('COMPANY')")
     Survey checkIfSurveyExists(int surveyId, UserCompany userCompany) throws WrongSurveyIdException;

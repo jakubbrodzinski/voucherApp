@@ -17,6 +17,7 @@ import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Collection;
 
 @Controller
@@ -70,9 +71,14 @@ public class SurveyController {
     @RequestMapping(value = "fill_survey", method = RequestMethod.GET)
     public String renderSurvey(@RequestParam(name = "surveyId") Integer surveyId, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
         VoucherCodeDate voucherCodeDate;
+        HttpSession httpSession=httpServletRequest.getSession(true);
+        Object vCodeId=httpSession.getAttribute("vCode");
         try {
+            if(vCodeId!=null){
+                companySurveyService.unBlockVoucherCode((Integer)vCodeId);
+            }
             voucherCodeDate = companySurveyService.blockVoucherCodeForSurvey(surveyId);
-            httpServletRequest.getSession(true).setAttribute("vCode", voucherCodeDate.getId());
+            httpSession.setAttribute("vCode", voucherCodeDate.getId());
         } catch (NoAvaibleVouchersException e) {
             redirectAttributes.addAttribute("err", "2");
             return "redirect:" + "/companies";

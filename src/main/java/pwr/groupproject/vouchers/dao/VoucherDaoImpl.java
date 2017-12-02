@@ -77,8 +77,8 @@ public class VoucherDaoImpl implements VoucherDao {
     }
 
     @Override
-    public void deleteVoucherCodeDateByCodeId(int voucherCodeId) {
-        entityManager.createQuery("DELETE FROM "+VoucherCodeDate.class.getName()+ " WHERE VoucherCodeDate .voucherCode='"+voucherCodeId+"'");
+    public void deleteVoucherCodeDate(VoucherCodeDate voucherCodeDate){
+        entityManager.remove(voucherCodeDate);
     }
 
     @Override

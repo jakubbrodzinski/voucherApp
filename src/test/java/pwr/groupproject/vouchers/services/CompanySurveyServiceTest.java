@@ -9,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
+import pwr.groupproject.vouchers.bean.exceptions.WrongCompanyIdException;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 import pwr.groupproject.vouchers.configuration.HibernateConfiguration;
@@ -102,7 +103,7 @@ public class CompanySurveyServiceTest {
 
         companySurveyDao.addSurvey(survey);
         try {
-            Assert.assertNotNull(companySurveyService.getVoucherCodeForSurvey(survey.getId()));
+            Assert.assertNotNull(companySurveyService.blockVoucherCodeForSurvey(survey.getId()));
             throw new Throwable();
         }catch(NoAvaibleVouchersException e){
             e.printStackTrace();
@@ -136,7 +137,7 @@ public class CompanySurveyServiceTest {
 
         companySurveyDao.addSurvey(survey);
 
-        companySurveyService.getVoucherCodeForSurvey(survey.getId());
+        companySurveyService.blockVoucherCodeForSurvey(survey.getId());
     }
 
     /*  SCENARIO:
@@ -221,7 +222,13 @@ public class CompanySurveyServiceTest {
         company.getCompanysSurveys().add(survey3);
 
         companySurveyDao.addCompany(company);
-        Collection<Survey> activeSurveys=companySurveyService.getAllActiveSurveys(company.getId());
+        Collection<Survey> activeSurveys ;
+        try {
+            activeSurveys = companySurveyService.getAllActiveSurveys(company.getId());
+        }catch(WrongCompanyIdException e){
+            Assert.assertEquals(0,1);
+            return;
+        }
 
         Assert.assertEquals(activeSurveys.size(),2);
         int[] arr=activeSurveys.stream().mapToInt(Survey::getId).sorted().toArray();

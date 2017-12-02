@@ -24,7 +24,7 @@ public interface VoucherDao {
     void addVoucherCodeDate(VoucherCodeDate voucherCodeDate);
     VoucherCodeDate getVoucherCodeDateById(int voucherCodeDateId);
 
-    void deleteVoucherCodeDateByCodeId(int voucherCodeId);
+    void deleteVoucherCodeDate(VoucherCodeDate voucherCodeDate);
     void unBlockAllBlockedVouchersForLongerThan(int hours,int minutes);
 
 }

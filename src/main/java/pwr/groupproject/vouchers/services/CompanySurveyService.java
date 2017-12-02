@@ -2,6 +2,7 @@ package pwr.groupproject.vouchers.services;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
+import pwr.groupproject.vouchers.bean.exceptions.WrongCompanyIdException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
 import pwr.groupproject.vouchers.bean.form.VoucherForm;
 import pwr.groupproject.vouchers.bean.model.*;
@@ -15,8 +16,6 @@ public interface CompanySurveyService {
     @PreAuthorize("hasRole('COMPANY')")
     Survey checkIfSurveyExists(int surveyId, UserCompany userCompany) throws WrongSurveyIdException;
     void addAnsweredSurvey(AnsweredSurvey answeredSurvey);
-    VoucherCode getVoucherCodeForSurvey(int surveyId) throws NoAvaibleVouchersException;
-    void unBlockVoucherCode(int voucherCodeId);
 
     @PreAuthorize("hasRole('COMPANY')")
     void addSurvey(SurveyDto surveyDto, UserCompany userCompany );
@@ -55,9 +54,14 @@ public interface CompanySurveyService {
     Company getUsersCompany(UserCompany userCompany);
     Company getCompanyWithSurveys(UserCompany userCompany);
     Company getCompanyWithSurveysAndQuestions(Company company);
-    Collection<Survey> getAllActiveSurveys(int companyId);
+    Collection<Survey> getAllActiveSurveys(int companyId) throws WrongCompanyIdException;
     Collection<Company> getAllActiveCompanies();
 
     void unBlockAllBlockedVouchersForLongerThan(int hours, int minutes);
+    VoucherCodeDate blockVoucherCodeForSurvey(int surveyId) throws NoAvaibleVouchersException;
+    void unBlockVoucherCode(int voucherCodeDateId);
+    VoucherCodeDate getVoucherCodeDateById(int id);
+    VoucherCode deployVoucherCode(int voucherCodeDateId);
+    void deleteVoucherCodeDate(int id);
 
 }

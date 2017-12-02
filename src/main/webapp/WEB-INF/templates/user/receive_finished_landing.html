@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}" />
+<script th:src="@{js/jquery-3.2.1.min.js}"></script>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Check your e-mail</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+</head>
+<body class="defaultColor">
+    <div class="container">
+
+
+
+        <div class="row align-items-center">
+            <div class="col-5">
+                <h3 class="display-3">We sent you a voucher. Check your mailbox!</h3>
+            </div>
+            <div class="col">
+
+            </div>
+            <div class="col">
+                <div class="row align-items-center">
+                    <div class="col mx-auto">
+                        <i class="fa fa-lg fa-envelope-o fa-5x redHeart text-center"></i>
+                    </div>
+                    <div class="w-100 mt-5 mb-5"></div>
+                    <div class="col ml-5">
+                        <a class="btn btn-danger btn-lg" th:href="@{/}">Go to the main page</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<style>
+    html,
+    body {
+        height: 100%
+    }
+    .container {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .redHeart {
+        font-size: 300px;
+    }
+</style>

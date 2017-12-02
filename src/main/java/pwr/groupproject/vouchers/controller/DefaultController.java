@@ -136,4 +136,10 @@ public class DefaultController {
     public String testVoucher() {
         return "/user/receive_voucher";
     }
+
+
+    @RequestMapping(value = "/landingVoucher", method = RequestMethod.GET)
+    public String landVoucher() {
+        return "/user/receive_finished_landing";
+    }
 }

@@ -142,4 +142,15 @@ public class DefaultController {
     public String landVoucher() {
         return "/user/receive_finished_landing";
     }
+
+    @RequestMapping(value = "testSurvey", method = RequestMethod.GET)
+    public String testSurvey(@RequestParam(name = "surveyId") Integer surveyId, Model model) {
+        model.addAttribute("surveyId", surveyId);
+        Survey survey = companySurveyService.getSurveyById(surveyId);
+        Collection<Question> questions = survey.getQuestions();
+        model.addAttribute("surveyName", survey.getSurveyName());
+        model.addAttribute("surveyCompany", survey.getCompany().getCompanyName());
+        model.addAttribute("questions", questions);
+        return "/user/survey.html";
+    }
 }

@@ -43,8 +43,15 @@ public class SurveyController {
         return "/user/companies_list.html";
     }
 
-    @RequestMapping(value = "/comps_surveys")
-    public String voucherList(@RequestParam(name = "companyId") Integer companyId, Model model, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = "/comps_surveys",method = RequestMethod.GET)
+    public String voucherList(@RequestParam(name = "companyId") Integer companyId,@RequestParam(name="unblock",required = false)Integer unBlockParam, Model model, RedirectAttributes redirectAttributes,HttpServletRequest httpServletRequest) {
+        if(unBlockParam!=null && unBlockParam==1){
+            Integer vCodeId=(Integer) httpServletRequest.getSession(false).getAttribute("vCode");
+            if(vCodeId!=null){
+                companySurveyService.unBlockVoucherCode(vCodeId);
+                httpServletRequest.getSession(false).setAttribute("vCode",null);
+            }
+        }
         Collection<Survey> surveys;
         try {
             surveys = companySurveyService.getAllActiveSurveys(companyId);

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
+import pwr.groupproject.vouchers.bean.exceptions.WrongCompanyIdException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
 import pwr.groupproject.vouchers.bean.form.VoucherForm;
 import pwr.groupproject.vouchers.bean.model.*;
@@ -47,24 +48,48 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public VoucherCode getVoucherCodeForSurvey(int surveyId) throws NoAvaibleVouchersException {
+    public VoucherCodeDate blockVoucherCodeForSurvey(int surveyId) throws NoAvaibleVouchersException {
         Set<VoucherCode> voucherCodes = companySurveyDao.getSurveyById(surveyId).getVoucher().getCodes();
         VoucherCode voucherCode = voucherCodes.stream().filter(code -> code.getAmmountOfUses() > 0).findFirst().orElseThrow(NoAvaibleVouchersException::new);
         voucherCode.setAmmountOfUses(voucherCode.getAmmountOfUses() - 1);
+        voucherCode.setAmmountofBlocked(voucherCode.getAmmountofBlocked()+1);
 
         VoucherCodeDate voucherCodeDate = new VoucherCodeDate();
         voucherCodeDate.setUseDate(new Date());
         voucherCodeDate.setVoucherCode(voucherCode);
         voucherDao.addVoucherCodeDate(voucherCodeDate);
 
+        return voucherCodeDate;
+    }
+
+    @Override
+    public void unBlockVoucherCode(int voucherCodeDateId) {
+        VoucherCodeDate voucherCodeDate=voucherDao.getVoucherCodeDateById(voucherCodeDateId);
+
+        VoucherCode voucherCode=voucherCodeDate.getVoucherCode();
+        voucherCode.setAmmountOfUses(voucherCode.getAmmountOfUses()+1);
+        voucherCode.setAmmountofBlocked(voucherCode.getAmmountofBlocked()-1);
+        voucherDao.updateVoucherCode(voucherCode);
+
+        deleteVoucherCodeDate(voucherCodeDateId);
+    }
+
+    @Override
+    public VoucherCodeDate getVoucherCodeDateById(int id) {
+        return voucherDao.getVoucherCodeDateById(id);
+    }
+
+    @Override
+    public VoucherCode deployVoucherCode(int voucherCodeDateId) {
+        VoucherCode voucherCode=getVoucherCodeDateById(voucherCodeDateId).getVoucherCode();
+        deleteVoucherCodeDate(voucherCodeDateId);
         return voucherCode;
     }
 
     @Override
-    public void unBlockVoucherCode(int voucherCodeId) {
-        VoucherCode voucherCode = voucherDao.getVoucherCode(voucherCodeId);
-        voucherCode.setAmmountOfUses(voucherCode.getAmmountOfUses() + 1);
-        voucherDao.deleteVoucherCodeDateByCodeId(voucherCodeId);
+    public void deleteVoucherCodeDate(int voucherCodeDateId) {
+        VoucherCodeDate v=voucherDao.getVoucherCodeDateById(voucherCodeDateId);
+        voucherDao.deleteVoucherCodeDate(v);
     }
 
     @Override
@@ -192,8 +217,13 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public Collection<Survey> getAllActiveSurveys(int companyId) {
-        return companySurveyDao.getAvailableSurveys(companyId);
+    public Collection<Survey> getAllActiveSurveys(int companyId) throws WrongCompanyIdException {
+        unBlockAllBlockedVouchersForLongerThan(0,20);
+        try {
+            return companySurveyDao.getAvailableSurveys(companyId);
+        }catch (IllegalArgumentException e){
+            throw new WrongCompanyIdException();
+        }
     }
 
     @Override

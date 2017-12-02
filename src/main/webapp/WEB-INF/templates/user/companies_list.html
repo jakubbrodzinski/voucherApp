@@ -8,14 +8,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body class="defaultColor">
+Tutaj nalezy jakos ladnie zaprezentowac error jezeli takowy wystapi
+<th:block th:if="${err!=null}"><div th:text="${err}"></div></th:block>
 <nav th:insert="/fragments/dashboard.html :: userDashboard"></nav>
 <div class="container">
-    <h1 class="text-center mx-auto pt-5 mt-5 mb-5 text-light">Choose Survey</h1>
-    <th:block th:each="survey : ${surveys}">
-        <form th:action="@{/surveys}" method="get">
-            <input type="hidden" class="btn btn-lg btn-outline-light btn-block mt-4" name="surveyId" th:value ="${survey.Id}">
-            <input type="submit" class="btn btn-lg btn-outline-light btn-block mt-4" th:value="${survey.surveyName} + ' ' + ${survey.voucher.voucherDescription}">
-        </form>
+    <h1 class="text-center mx-auto pt-5 mt-5 mb-5 text-light">Choose Company</h1>
+    <th:block th:each="company : ${companies}">
+    <form th:action="@{/comps_surveys}" method="get">
+        <input type="hidden" class="btn btn-lg btn-outline-light btn-block mt-4" name="companyId" th:value ="${company.Id}">
+        <input type="submit" class="btn btn-lg btn-outline-light btn-block mt-4" th:value="${company.companyName}">
+    </form>
     </th:block>
 </div>
 </body>

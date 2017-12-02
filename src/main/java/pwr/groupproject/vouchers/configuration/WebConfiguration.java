@@ -2,6 +2,7 @@ package pwr.groupproject.vouchers.configuration;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
@@ -24,7 +25,10 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
+import pwr.groupproject.vouchers.bean.model.VoucherCode;
+import pwr.groupproject.vouchers.configuration.filter.VoucherCodeFilter;
 
+import javax.servlet.Filter;
 import java.util.Locale;
 
 @Configuration
@@ -35,6 +39,19 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     private SpringWebFlowConfiguration webFlowConfig;
 
     private ApplicationContext applicationContext;
+
+    @Bean
+    public FilterRegistrationBean voucherFilterRegistration(){
+        FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(voucherFilter());
+        return filterRegistrationBean;
+    }
+
+    @Bean
+    public Filter voucherFilter(){
+        return new VoucherCodeFilter();
+    }
+
 
     @Bean
     public ViewResolver viewResolver() {

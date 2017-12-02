@@ -14,9 +14,10 @@ public class VoucherCode {
     @ManyToOne
     @JoinColumn(name = "voucherId")
     private Voucher voucher;
-    private int ammountOfUses=1;
-    @OneToMany(mappedBy = "voucherCode",cascade = CascadeType.REMOVE,orphanRemoval = true)
-    private Collection<VoucherCodeDate> voucherCodeDates=new ArrayList<>();
+    private int ammountOfUses = 1;
+    private int ammountofBlocked = 0;
+    @OneToMany(mappedBy = "voucherCode", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Collection<VoucherCodeDate> voucherCodeDates = new ArrayList<>();
 
     public String getVoucherCode() {
         return voucherCode;
@@ -58,6 +59,14 @@ public class VoucherCode {
         this.voucherCodeDates = voucherCodeDates;
     }
 
+    public int getAmmountofBlocked() {
+        return ammountofBlocked;
+    }
+
+    public void setAmmountofBlocked(int ammountofBlocked) {
+        this.ammountofBlocked = ammountofBlocked;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,5 +80,16 @@ public class VoucherCode {
     @Override
     public int hashCode() {
         return voucherCode != null ? voucherCode.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "VoucherCode{" +
+                "Id=" + Id +
+                ", voucherCode='" + voucherCode + '\'' +
+                ", voucher=" + voucher +
+                ", ammountOfUses=" + ammountOfUses +
+                ", voucherCodeDates=" + voucherCodeDates +
+                '}';
     }
 }

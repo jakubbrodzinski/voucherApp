@@ -6,14 +6,12 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.LocaleContextResolver;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongCompanyIdException;
 import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.Question;
 import pwr.groupproject.vouchers.bean.model.Survey;
-import pwr.groupproject.vouchers.bean.dto.QuestionDto;
 import pwr.groupproject.vouchers.bean.model.VoucherCodeDate;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
@@ -24,15 +22,17 @@ import java.util.Collection;
 @Controller
 @RequestMapping(SurveyController.ROOT_MAPPING)
 public class SurveyController {
+    static final String ROOT_MAPPING = "/";
+    private final CompanySurveyService companySurveyService;
+    private final UserCompanyService userCompanyService;
+    private final MessageSource messageSource;
 
-    public static final String ROOT_MAPPING = "/";
-
     @Autowired
-    private CompanySurveyService companySurveyService;
-    @Autowired
-    private UserCompanyService userCompanyService;
-    @Autowired
-    private MessageSource messageSource;
+    public SurveyController(CompanySurveyService companySurveyService, UserCompanyService userCompanyService, MessageSource messageSource) {
+        this.companySurveyService = companySurveyService;
+        this.userCompanyService = userCompanyService;
+        this.messageSource = messageSource;
+    }
 
     @RequestMapping(value = "/companies")
     public String getActiveCompanies(Model model, @RequestParam(value = "err", required = false) Integer errCode) {
@@ -61,11 +61,11 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "fill_survey", method = RequestMethod.GET)
-    public String renderSurvey(@RequestParam(name = "surveyId", required = true) Integer surveyId, Model model, RedirectAttributes redirectAttributes,HttpServletRequest httpServletRequest) {
+    public String renderSurvey(@RequestParam(name = "surveyId") Integer surveyId, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
         VoucherCodeDate voucherCodeDate;
         try {
             voucherCodeDate = companySurveyService.blockVoucherCodeForSurvey(surveyId);
-            httpServletRequest.getSession(true).setAttribute("vCode",voucherCodeDate.getId());
+            httpServletRequest.getSession(true).setAttribute("vCode", voucherCodeDate.getId());
         } catch (NoAvaibleVouchersException e) {
             redirectAttributes.addAttribute("err", "2");
             return "redirect:" + "/companies";
@@ -78,11 +78,12 @@ public class SurveyController {
         model.addAttribute("questions", questions);
         return "/user/survey.html";
     }
-    @RequestMapping(value="fill_survey",method = RequestMethod.POST)
+
+    @RequestMapping(value = "fill_survey", method = RequestMethod.POST)
     @ResponseBody
-    public String testDeployingVoucher(HttpServletRequest httpServletRequest){
-        Integer vCodeId=(Integer) httpServletRequest.getSession().getAttribute("vCode");
-        httpServletRequest.getSession().setAttribute("vCode",null);
+    public String testDeployingVoucher(HttpServletRequest httpServletRequest) {
+        Integer vCodeId = (Integer) httpServletRequest.getSession().getAttribute("vCode");
+        httpServletRequest.getSession().setAttribute("vCode", null);
         return companySurveyService.deployVoucherCode(vCodeId).toString();
     }
 

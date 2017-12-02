@@ -18,8 +18,8 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
     @Override
     public UserCompany getUserByUserName(String userName) {
         try {
-            return entityManager.createQuery("FROM "+UserCompany.class.getName()+" uc WHERE uc.userName='"+userName+"'",UserCompany.class).getSingleResult();
-        }catch(NoResultException e){
+            return entityManager.createQuery("FROM " + UserCompany.class.getName() + " uc WHERE uc.userName='" + userName + "'", UserCompany.class).getSingleResult();
+        } catch (NoResultException e) {
             e.printStackTrace();
             return null;
         }
@@ -37,18 +37,18 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
 
     @Override
     public UserCompany getUserCompany(int userId) {
-        return entityManager.find(UserCompany.class,userId);
+        return entityManager.find(UserCompany.class, userId);
     }
 
     @Override
     public boolean ifEmailIsUsed(String eMail) {
-        TypedQuery<Long> query= entityManager.createQuery("SELECT count(*) FROM "+ UserCompany.class.getName()+" uc WHERE uc.userName='"+eMail+"'",Long.class);
+        TypedQuery<Long> query = entityManager.createQuery("SELECT count(*) FROM " + UserCompany.class.getName() + " uc WHERE uc.userName='" + eMail + "'", Long.class);
         return query.getSingleResult() != 0;
     }
 
     @Override
     public boolean ifCompanyNameIsUsed(String companyName) {
-        TypedQuery<Long> query= entityManager.createQuery("SELECT count(*) FROM "+ Company.class.getName()+" c WHERE c.companyName='"+companyName+"'",Long.class);
+        TypedQuery<Long> query = entityManager.createQuery("SELECT count(*) FROM " + Company.class.getName() + " c WHERE c.companyName='" + companyName + "'", Long.class);
         return query.getSingleResult() != 0;
     }
 
@@ -59,12 +59,12 @@ public class UserCompanyDaoImpl implements UserCompanyDao {
 
     @Override
     public UserCompany getUserCompanyByCompanyId(int companyId) {
-        TypedQuery<UserCompany> query=entityManager.createQuery("FROM "+UserCompany.class.getName()+" uc WHERE uc.company='"+companyId+"'",UserCompany.class);
+        TypedQuery<UserCompany> query = entityManager.createQuery("FROM " + UserCompany.class.getName() + " uc WHERE uc.company='" + companyId + "'", UserCompany.class);
         return query.getSingleResult();
     }
 
     @Override
     public UserProfile getUserProfileByName(String userProfile) {
-        return entityManager.createQuery("FROM "+UserProfile.class.getName()+" WHERE type='"+userProfile+"'",UserProfile.class).getSingleResult();
+        return entityManager.createQuery("FROM " + UserProfile.class.getName() + " WHERE type='" + userProfile + "'", UserProfile.class).getSingleResult();
     }
 }

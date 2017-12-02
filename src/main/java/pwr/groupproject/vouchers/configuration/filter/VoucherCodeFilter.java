@@ -2,13 +2,11 @@ package pwr.groupproject.vouchers.configuration.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pwr.groupproject.vouchers.bean.model.VoucherCode;
 import pwr.groupproject.vouchers.bean.model.VoucherCodeDate;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -17,8 +15,12 @@ import java.util.Date;
 
 @Component
 public class VoucherCodeFilter implements Filter {
+    private final CompanySurveyService companySurveyService;
+
     @Autowired
-    private CompanySurveyService companySurveyService;
+    public VoucherCodeFilter(CompanySurveyService companySurveyService) {
+        this.companySurveyService = companySurveyService;
+    }
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

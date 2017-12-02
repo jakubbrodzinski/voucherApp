@@ -12,15 +12,19 @@ import pwr.groupproject.vouchers.dao.UserCompanyDao;
 
 @Service
 public class CustomUserDetailsServiceImpl implements UserDetailsService {
+    private final UserCompanyDao userCompanyDao;
+
     @Autowired
-    UserCompanyDao userCompanyDao;
+    public CustomUserDetailsServiceImpl(UserCompanyDao userCompanyDao) {
+        this.userCompanyDao = userCompanyDao;
+    }
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserCompany userCompany= this.userCompanyDao.getUserByUserName(username);
-        if(userCompany==null)
-            throw new UsernameNotFoundException("NOT FOUND LOGIN: \""+username+"\"");
+        UserCompany userCompany = this.userCompanyDao.getUserByUserName(username);
+        if (userCompany == null)
+            throw new UsernameNotFoundException("NOT FOUND LOGIN: \"" + username + "\"");
         else
             return userCompany;
 

@@ -11,17 +11,22 @@ import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 public interface UserCompanyService {
     boolean addUser(NewUserCompanyForm newUserCompanyForm);
+
     @PreAuthorize("hasRole('COMPANY')")
     UserCompany getUserCompanyById(int userCompanyId);
+
     @PreAuthorize("hasRole('COMPANY')")
     UserCompany getUserByUserName(String userName);
+
     @PreAuthorize("hasRole('COMPANY')")
     UserCompany getUserCompanyByCompanyId(int companyId);
+
     @PreAuthorize("hasRole('COMPANY')")
     void deleteUserCompany(int userCompanyId);
 
     @PreAuthorize("hasRole('COMPANY')")
-    void changePassword(String userName,String newHashedPassword);
+    void changePassword(String userName, String newHashedPassword);
+
     void changePassword(ResetPasswordForm resetPasswordForm);
 
     Event validateUserCompany(NewUserCompanyForm userCompanyForm, MessageContext messageContext);

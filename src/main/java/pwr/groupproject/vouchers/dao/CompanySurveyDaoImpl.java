@@ -17,7 +17,7 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
 
     @Override
     public Company getUsersCompany(int userCompanyId) {
-        return entityManager.createQuery("SELECT uc.company FROM "+UserCompany.class.getName()+ " uc WHERE uc.Id="+userCompanyId,Company.class).getSingleResult();
+        return entityManager.createQuery("SELECT uc.company FROM " + UserCompany.class.getName() + " uc WHERE uc.Id=" + userCompanyId, Company.class).getSingleResult();
     }
 
 
@@ -67,29 +67,29 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
 
     @Override
     public Collection<AnsweredSurvey> getCompanysAllAnsweredSurveys(int companyId) {
-        return entityManager.createQuery("SELECT ans FROM "+AnsweredSurvey.class.getName()+" ans JOIN "+Survey.class.getName()+" s ON ans.survey=s.Id WHERE s.company='"+companyId+"'",AnsweredSurvey.class).getResultList();
+        return entityManager.createQuery("SELECT ans FROM " + AnsweredSurvey.class.getName() + " ans JOIN " + Survey.class.getName() + " s ON ans.survey=s.Id WHERE s.company='" + companyId + "'", AnsweredSurvey.class).getResultList();
     }
 
     @Override
     public Collection<AnsweredSurvey> getAllResultsOfSurvey(int surveyId) {
-        return entityManager.createQuery("FROM "+AnsweredSurvey.class.getName() + " WHERE survey='"+surveyId+"'",AnsweredSurvey.class).getResultList();
+        return entityManager.createQuery("FROM " + AnsweredSurvey.class.getName() + " WHERE survey='" + surveyId + "'", AnsweredSurvey.class).getResultList();
     }
 
     @Override
     public Collection<Survey> getCompanysAllSurveys(int companyId) {
-        return entityManager.createQuery("FROM "+Survey.class.getName()+" WHERE company='"+companyId+"'",Survey.class).getResultList();
+        return entityManager.createQuery("FROM " + Survey.class.getName() + " WHERE company='" + companyId + "'", Survey.class).getResultList();
     }
 
     @Override
     public Collection<Survey> getAvailableSurveys(int companyId) {
-        entityManager.find(Company.class,companyId);
-        return entityManager.createQuery("SELECT DISTINCT s FROM "+ Survey.class.getName()+" s JOIN "+Voucher.class.getName()+" v ON s.Id=v.survey JOIN "+VoucherCode.class.getName()+" vc ON v.Id=vc.voucher WHERE s.company="+companyId+" AND vc.ammountOfUses>0",Survey.class).getResultList();
+        entityManager.find(Company.class, companyId);
+        return entityManager.createQuery("SELECT DISTINCT s FROM " + Survey.class.getName() + " s JOIN " + Voucher.class.getName() + " v ON s.Id=v.survey JOIN " + VoucherCode.class.getName() + " vc ON v.Id=vc.voucher WHERE s.company=" + companyId + " AND vc.ammountOfUses>0", Survey.class).getResultList();
 
     }
 
     @Override
     public Collection<Company> getAllActiveCompanies() {
-        return entityManager.createQuery("SELECT DISTINCT s.company FROM "+ Survey.class.getName()+" s JOIN "+Voucher.class.getName()+" v ON s.Id=v.survey JOIN "+VoucherCode.class.getName()+" vc ON v.Id=vc.voucher WHERE vc.ammountOfUses>0",Company.class).getResultList();
+        return entityManager.createQuery("SELECT DISTINCT s.company FROM " + Survey.class.getName() + " s JOIN " + Voucher.class.getName() + " v ON s.Id=v.survey JOIN " + VoucherCode.class.getName() + " vc ON v.Id=vc.voucher WHERE vc.ammountOfUses>0", Company.class).getResultList();
     }
 
     @Override

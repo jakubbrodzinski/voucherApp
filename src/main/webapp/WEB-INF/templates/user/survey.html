@@ -7,6 +7,10 @@
     <title th:text="'Survey for ' + ${surveyCompany} + ' number '+ ${surveyId}">Template title</title>
 </head>
 <body>
+<form th:action="@{/fill_survey}"  method="post">
+    <div><input type="submit" name="submit" value="Confirm"/>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/></div>
+</form>
     <p th:text="${surveyName} + ' by ' + ${surveyCompany}">Template survey description</p>
     <form th:action="@{/surveys}" method="post">
         <div th:each="question : ${questions}">

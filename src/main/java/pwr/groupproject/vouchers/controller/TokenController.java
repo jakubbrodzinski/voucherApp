@@ -16,20 +16,20 @@ import pwr.groupproject.vouchers.services.MailService;
 import pwr.groupproject.vouchers.services.TokenService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 
-import javax.annotation.security.PermitAll;
-
-
 @Controller
 @RequestMapping(TokenController.ROOT_MAPPING)
 public class TokenController {
-    public static final String ROOT_MAPPING = "/token";
+    static final String ROOT_MAPPING = "/token";
+    private final MailService mailService;
+    private final TokenService tokenService;
+    private final UserCompanyService userCompanyService;
 
     @Autowired
-    private MailService mailService;
-    @Autowired
-    private TokenService tokenService;
-    @Autowired
-    private UserCompanyService userCompanyService;
+    public TokenController(MailService mailService, TokenService tokenService, UserCompanyService userCompanyService) {
+        this.mailService = mailService;
+        this.tokenService = tokenService;
+        this.userCompanyService = userCompanyService;
+    }
 
     @RequestMapping(value = "/reset_password", method = RequestMethod.GET)
     public String resetPassowrd(@RequestParam("t") String token, Model model) {

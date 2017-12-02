@@ -13,34 +13,45 @@ import java.util.Collection;
 
 public interface CompanySurveyService {
     Survey getSurveyById(int surveyId);
+
     @PreAuthorize("hasRole('COMPANY')")
     Survey checkIfSurveyExists(int surveyId, UserCompany userCompany) throws WrongSurveyIdException;
+
     void addAnsweredSurvey(AnsweredSurvey answeredSurvey);
 
     @PreAuthorize("hasRole('COMPANY')")
-    void addSurvey(SurveyDto surveyDto, UserCompany userCompany );
+    void addSurvey(SurveyDto surveyDto, UserCompany userCompany);
+
     @PreAuthorize("hasRole('COMPANY')")
     void addVoucher(Voucher voucher, int surveyId);
+
     @PreAuthorize("hasRole('COMPANY')")
-    void addVoucherCode(VoucherCode voucherCode,int voucherId);
+    void addVoucherCode(VoucherCode voucherCode, int voucherId);
+
     @PreAuthorize("hasRole('COMPANY')")
     void createCompany(Company company);
 
     @PreAuthorize("hasRole('COMPANY')")
     void deleteSurvey(int surveyId);
+
     @PreAuthorize("hasRole('COMPANY')")
     void deleteVoucher(int voucherId);
+
     @PreAuthorize("hasRole('COMPANY')")
     void deleteVoucherCode(int voucherCodeId);
+
     @PreAuthorize("hasRole('COMPANY')")
     void deleteCompany(int companyId);
 
     @PreAuthorize("hasRole('COMPANY')")
-    Voucher  updateVoucher(Voucher voucher,VoucherForm voucherForm);
+    Voucher updateVoucher(Voucher voucher, VoucherForm voucherForm);
+
     @PreAuthorize("hasRole('COMPANY')")
     VoucherCode updateVoucherCode(VoucherCode voucherCode);
+
     @PreAuthorize("hasRole('COMPANY')")
     VoucherCode getVoucherCodeById(int voucherCodeId);
+
     @PreAuthorize("hasRole('COMPANY')")
     Company updateCompany(Company company);
 
@@ -52,16 +63,25 @@ public interface CompanySurveyService {
 
     @PreAuthorize("hasRole('COMPANY')")
     Company getUsersCompany(UserCompany userCompany);
+
     Company getCompanyWithSurveys(UserCompany userCompany);
+
     Company getCompanyWithSurveysAndQuestions(Company company);
+
     Collection<Survey> getAllActiveSurveys(int companyId) throws WrongCompanyIdException;
+
     Collection<Company> getAllActiveCompanies();
 
     void unBlockAllBlockedVouchersForLongerThan(int hours, int minutes);
+
     VoucherCodeDate blockVoucherCodeForSurvey(int surveyId) throws NoAvaibleVouchersException;
+
     void unBlockVoucherCode(int voucherCodeDateId);
+
     VoucherCodeDate getVoucherCodeDateById(int id);
+
     VoucherCode deployVoucherCode(int voucherCodeDateId);
+
     void deleteVoucherCodeDate(int id);
 
 }

@@ -9,22 +9,29 @@ import java.util.Collection;
 
 public interface VoucherDao {
     Collection<Voucher> getAllVouchers();
+
     Collection<Voucher> getAllVouchersByCompany(Company company);
 
     Voucher getVoucherById(int Id);
 
     void addVoucher(Voucher voucher);
+
     Voucher updateVoucher(Voucher voucher);
+
     void deleteVoucher(Voucher voucher);
 
     VoucherCode getVoucherCode(int voucherCodeId);
+
     VoucherCode updateVoucherCode(VoucherCode voucherCode);
+
     void deleteVoucherCode(VoucherCode voucherCode);
 
     void addVoucherCodeDate(VoucherCodeDate voucherCodeDate);
+
     VoucherCodeDate getVoucherCodeDateById(int voucherCodeDateId);
 
     void deleteVoucherCodeDate(VoucherCodeDate voucherCodeDate);
-    void unBlockAllBlockedVouchersForLongerThan(int hours,int minutes);
+
+    void unBlockAllBlockedVouchersForLongerThan(int hours, int minutes);
 
 }

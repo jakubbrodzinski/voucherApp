@@ -20,10 +20,13 @@ import java.util.Properties;
 @Configuration
 @PropertySource("classpath:/app_properties/mailsender.properties")
 public class MailSenderConfiguration {
-
     private static final String EMAIL_TEMPLATE_ENCODING = "UTF-8";
+    private final Environment env;
+
     @Autowired
-    private Environment env;
+    public MailSenderConfiguration(Environment env) {
+        this.env = env;
+    }
 
     @Bean
     public JavaMailSender mailSender() {

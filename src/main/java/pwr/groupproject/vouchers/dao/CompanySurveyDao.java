@@ -7,7 +7,7 @@ import pwr.groupproject.vouchers.bean.model.Survey;
 import java.util.Collection;
 
 public interface CompanySurveyDao {
-    public Company getUsersCompany(int userCompanyId);
+    Company getUsersCompany(int userCompanyId);
     Company getCompanyById(int id);
     Company getCompanyWithSurveys(Company company);
     Company getCompanyWithSurveysAndQuestions(int id);

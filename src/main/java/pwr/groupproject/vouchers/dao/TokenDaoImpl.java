@@ -17,12 +17,12 @@ public class TokenDaoImpl implements TokenDao {
 
     @Override
     public PasswordResetToken getPasswordResetTokenByToken(String resetToken) {
-        return entityManager.createQuery("FROM "+PasswordResetToken.class.getName() + " t WHERE t.token='"+resetToken+"'",PasswordResetToken.class).getSingleResult();
+        return entityManager.createQuery("FROM " + PasswordResetToken.class.getName() + " t WHERE t.token='" + resetToken + "'", PasswordResetToken.class).getSingleResult();
     }
 
     @Override
     public PasswordResetToken getPasswordResetTokenById(int tokenId) {
-        return entityManager.find(PasswordResetToken.class,tokenId);
+        return entityManager.find(PasswordResetToken.class, tokenId);
     }
 
     @Override
@@ -39,14 +39,14 @@ public class TokenDaoImpl implements TokenDao {
     public VerificationToken getVerificationTokenByToken(String verificationToken) {
         try {
             return entityManager.createQuery("FROM " + VerificationToken.class.getName() + " WHERE token='" + verificationToken + "'", VerificationToken.class).getSingleResult();
-        }catch(NoResultException e){
+        } catch (NoResultException e) {
             return null;
         }
     }
 
     @Override
     public VerificationToken getVerificationTokenById(int tokenId) {
-        return entityManager.find(VerificationToken.class,tokenId);
+        return entityManager.find(VerificationToken.class, tokenId);
     }
 
     @Override
@@ -61,13 +61,13 @@ public class TokenDaoImpl implements TokenDao {
 
     @Override
     public void deleteUsersResetTokens(String userName) {
-        List<PasswordResetToken> resultList=entityManager.createQuery("SELECT t FROM "+PasswordResetToken.class.getName() + " t JOIN "+UserCompany.class.getName()+" u ON t.userCompany=u.Id WHERE u.userName='"+userName+"'",PasswordResetToken.class).getResultList();
+        List<PasswordResetToken> resultList = entityManager.createQuery("SELECT t FROM " + PasswordResetToken.class.getName() + " t JOIN " + UserCompany.class.getName() + " u ON t.userCompany=u.Id WHERE u.userName='" + userName + "'", PasswordResetToken.class).getResultList();
         resultList.forEach(this::deleteResetToken);
     }
 
     @Override
     public void deleteUsersVerificationTokens(String userName) {
-        List<VerificationToken> resultList=entityManager.createQuery("SELECT  v FROM "+VerificationToken.class.getName() + " v JOIN "+ UserCompany.class.getName()+ " u ON v.userCompany=u.Id WHERE u.userName='"+userName+"'",VerificationToken.class).getResultList();
+        List<VerificationToken> resultList = entityManager.createQuery("SELECT  v FROM " + VerificationToken.class.getName() + " v JOIN " + UserCompany.class.getName() + " u ON v.userCompany=u.Id WHERE u.userName='" + userName + "'", VerificationToken.class).getResultList();
         resultList.forEach(this::deletVerificationToken);
     }
 }

@@ -5,9 +5,7 @@ import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.webflow.action.EventFactorySupport;
@@ -25,42 +23,46 @@ import pwr.groupproject.vouchers.dao.UserCompanyDao;
 @Service
 @Transactional
 public class UserCompanyServiceImpl implements UserCompanyService {
-    private final int TOKEN_LENGTH=50;
+    private final int TOKEN_LENGTH = 50;
+    private final UserCompanyDao userCompanyDao;
+    private final MessageSource messageSource;
+    private final ShaPasswordEncoder shaPasswordEncoder;
+    private final TokenService tokenService;
+    private final MailService mailService;
+    private final CompanySurveyDao companySurveyDao;
+
     @Autowired
-    private UserCompanyDao userCompanyDao;
-    @Autowired
-    private MessageSource messageSource;
-    @Autowired
-    private ShaPasswordEncoder shaPasswordEncoder;
-    @Autowired
-    private TokenService tokenService;
-    @Autowired
-    private MailService mailService;
-    @Autowired
-    private CompanySurveyDao companySurveyDao;
+    public UserCompanyServiceImpl(UserCompanyDao userCompanyDao, MessageSource messageSource, ShaPasswordEncoder shaPasswordEncoder, TokenService tokenService, MailService mailService, CompanySurveyDao companySurveyDao) {
+        this.userCompanyDao = userCompanyDao;
+        this.messageSource = messageSource;
+        this.shaPasswordEncoder = shaPasswordEncoder;
+        this.tokenService = tokenService;
+        this.mailService = mailService;
+        this.companySurveyDao = companySurveyDao;
+    }
 
     @Override
-    public boolean addUser(NewUserCompanyForm newUserCompanyForm){
-        Address address=new Address();
+    public boolean addUser(NewUserCompanyForm newUserCompanyForm) {
+        Address address = new Address();
         address.setAddressDetails(newUserCompanyForm.getAddressDetails());
         address.setCity(newUserCompanyForm.getCity());
         address.setPostalCode(newUserCompanyForm.getPostalCode());
 
-        Company company=new Company();
+        Company company = new Company();
         company.setCompanyAddress(address);
         company.setCompanyName(newUserCompanyForm.getCompanyName());
 
-        UserCompany userCompany=new UserCompany();
-        UserProfile companyAuthority=userCompanyDao.getUserProfileByName("COMPANY");
+        UserCompany userCompany = new UserCompany();
+        UserProfile companyAuthority = userCompanyDao.getUserProfileByName("COMPANY");
         userCompany.getUserProfiles().add(companyAuthority);
         userCompany.setUsername(newUserCompanyForm.getUserName());
-        userCompany.setPassword(shaPasswordEncoder.encodePassword(newUserCompanyForm.getPassword(),null));
+        userCompany.setPassword(shaPasswordEncoder.encodePassword(newUserCompanyForm.getPassword(), null));
         userCompany.setCompany(company);
         this.userCompanyDao.addUserCompany(userCompany);
         companySurveyDao.addCompany(userCompany.getCompany());
 
-        VerificationToken verificationToken=tokenService.generateNewActivationToken(userCompany);
-        mailService.sendVerificationTokenEmail(verificationToken.getToken(),verificationToken.getExpirationDate(),userCompany.getUsername());
+        VerificationToken verificationToken = tokenService.generateNewActivationToken(userCompany);
+        mailService.sendVerificationTokenEmail(verificationToken.getToken(), verificationToken.getExpirationDate(), userCompany.getUsername());
 
         return true;
     }
@@ -82,41 +84,41 @@ public class UserCompanyServiceImpl implements UserCompanyService {
 
     @Override
     public void deleteUserCompany(int userCompanyId) {
-        UserCompany userCompany=userCompanyDao.getUserCompany(userCompanyId);
+        UserCompany userCompany = userCompanyDao.getUserCompany(userCompanyId);
         userCompanyDao.deleteUserCompany(userCompany);
     }
 
 
     @Override
     public void changePassword(String userName, String newHashedPassword) {
-        UserCompany userCompany=userCompanyDao.getUserByUserName(userName);
+        UserCompany userCompany = userCompanyDao.getUserByUserName(userName);
         userCompany.setPassword(newHashedPassword);
         userCompanyDao.editUser(userCompany);
     }
 
     @Override
     public void changePassword(ResetPasswordForm resetPasswordForm) {
-        UserCompany userCompany=tokenService.getUserCompanyByPasswordResetToken(resetPasswordForm.getResetPasswordToken());
-        userCompany.setPassword(shaPasswordEncoder.encodePassword(resetPasswordForm.getPassword(),null));
+        UserCompany userCompany = tokenService.getUserCompanyByPasswordResetToken(resetPasswordForm.getResetPasswordToken());
+        userCompany.setPassword(shaPasswordEncoder.encodePassword(resetPasswordForm.getPassword(), null));
         userCompanyDao.editUser(userCompany);
         tokenService.confirmResetingPassword(resetPasswordForm.getResetPasswordToken());
     }
 
 
     @Override
-    public Event validateUserCompany(NewUserCompanyForm userCompanyForm,MessageContext messageContext) {
+    public Event validateUserCompany(NewUserCompanyForm userCompanyForm, MessageContext messageContext) {
         MessageBuilder error = new MessageBuilder().error();
-        boolean eMailIsUsed=userCompanyDao.ifEmailIsUsed(userCompanyForm.getUserName());
-        boolean companyNameIsUsed=userCompanyDao.ifCompanyNameIsUsed(userCompanyForm.getCompanyName());
-        if(!eMailIsUsed && !companyNameIsUsed){
+        boolean eMailIsUsed = userCompanyDao.ifEmailIsUsed(userCompanyForm.getUserName());
+        boolean companyNameIsUsed = userCompanyDao.ifCompanyNameIsUsed(userCompanyForm.getCompanyName());
+        if (!eMailIsUsed && !companyNameIsUsed) {
             return new EventFactorySupport().success(this);
-        }else if(eMailIsUsed){
+        } else if (eMailIsUsed) {
             error.source("userName");
-            error.defaultText(messageSource.getMessage("message.userName.isUsed",null, LocaleContextHolder.getLocale()));
+            error.defaultText(messageSource.getMessage("message.userName.isUsed", null, LocaleContextHolder.getLocale()));
             messageContext.addMessage(error.build());
-        }else if(companyNameIsUsed){
+        } else if (companyNameIsUsed) {
             error.source("companyName");
-            error.defaultText(messageSource.getMessage("message.companyName.isUsed",null, LocaleContextHolder.getLocale()));
+            error.defaultText(messageSource.getMessage("message.companyName.isUsed", null, LocaleContextHolder.getLocale()));
             messageContext.addMessage(error.build());
         }
         return new EventFactorySupport().error(this);

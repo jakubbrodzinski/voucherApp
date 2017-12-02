@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class MissingRequestParameterControllerAdvice {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handlMissingParamException(){
+    public String handlMissingParamException() {
         return "/error.html";
     }
 }

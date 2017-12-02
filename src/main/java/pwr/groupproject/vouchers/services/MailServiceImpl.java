@@ -21,47 +21,49 @@ import java.util.Date;
 public class MailServiceImpl implements MailService {
     @Value("${web.app.url}")
     private String APP_URL;
+    private final JavaMailSender mailSender;
+    private final TemplateEngine htmlTemplateEngine;
+    private final TemplateEngine textTemplateEngine;
+    private final MessageSource messageSource;
 
     @Autowired
-    private JavaMailSender mailSender;
-    @Autowired
-    private TemplateEngine htmlTemplateEngine;
-    @Autowired
-    private TemplateEngine textTemplateEngine;
-    @Autowired
-    @Qualifier("mailMessageSource")
-    private MessageSource messageSource;
+    public MailServiceImpl(JavaMailSender mailSender, TemplateEngine htmlTemplateEngine, TemplateEngine textTemplateEngine, @Qualifier("mailMessageSource") MessageSource messageSource) {
+        this.mailSender = mailSender;
+        this.htmlTemplateEngine = htmlTemplateEngine;
+        this.textTemplateEngine = textTemplateEngine;
+        this.messageSource = messageSource;
+    }
 
     @Override
-    public boolean sendVerificationTokenEmail(String activationToken, Date expirationDate, String userName){
+    public boolean sendVerificationTokenEmail(String activationToken, Date expirationDate, String userName) {
         final Context ctx = new Context();
         ctx.setVariable("activationLink", generateActivationLink(activationToken));
-        String eMailTitle=messageSource.getMessage("activate.account.email.title",null, LocaleContextHolder.getLocale());
+        String eMailTitle = messageSource.getMessage("activate.account.email.title", null, LocaleContextHolder.getLocale());
 
-        return this.send(userName,eMailTitle,ctx,"activateAccountEmail");
+        return this.send(userName, eMailTitle, ctx, "activateAccountEmail");
     }
 
     @Override
     public boolean sendPasswordResetEmail(String passwordResetLink, String userName) {
         final Context ctx = new Context();
         ctx.setVariable("resetPasswordLink", generatePasswordResetLink(passwordResetLink));
-        String eMailTitle=messageSource.getMessage("reset.password.email.title",null, LocaleContextHolder.getLocale());
+        String eMailTitle = messageSource.getMessage("reset.password.email.title", null, LocaleContextHolder.getLocale());
 
-        return this.send(userName,eMailTitle,ctx,"resetPasswordEmail");
+        return this.send(userName, eMailTitle, ctx, "resetPasswordEmail");
     }
 
     @Override
     public boolean sendVoucherCodeEmail(VoucherCode voucher, String email) {
-        final Context ctx=new Context();
-        ctx.setVariable("voucherCode",voucher.getVoucherCode());
-        ctx.setVariable("companyName","companyName");
-        String eMailTitle=messageSource.getMessage("voucher.code.email.title",null, LocaleContextHolder.getLocale());
+        final Context ctx = new Context();
+        ctx.setVariable("voucherCode", voucher.getVoucherCode());
+        ctx.setVariable("companyName", "companyName");
+        String eMailTitle = messageSource.getMessage("voucher.code.email.title", null, LocaleContextHolder.getLocale());
 
-        return this.send(email,eMailTitle,ctx,"voucherCodeEmail");
+        return this.send(email, eMailTitle, ctx, "voucherCodeEmail");
     }
 
-    private boolean send(String destinationEmail, String subject,Context ctx,String eMailTemplate) {
-        MimeMessage eMailMessage= mailSender.createMimeMessage();
+    private boolean send(String destinationEmail, String subject, Context ctx, String eMailTemplate) {
+        MimeMessage eMailMessage = mailSender.createMimeMessage();
         MimeMessageHelper eMailMessageHelper;
         try {
             eMailMessageHelper = new MimeMessageHelper(eMailMessage, true);
@@ -72,17 +74,17 @@ public class MailServiceImpl implements MailService {
             eMailMessageHelper.setText(htmlContent, true);
             mailSender.send(eMailMessage);
             return true;
-        }catch (MessagingException e){
+        } catch (MessagingException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    private String generateActivationLink(String activationToken){
-        return APP_URL+"token/activate_account?t="+activationToken;
+    private String generateActivationLink(String activationToken) {
+        return APP_URL + "token/activate_account?t=" + activationToken;
     }
 
-    private String generatePasswordResetLink(String passwordResetToken){
-        return APP_URL+"token/reset_password?t="+passwordResetToken;
+    private String generatePasswordResetLink(String passwordResetToken) {
+        return APP_URL + "token/reset_password?t=" + passwordResetToken;
     }
 }

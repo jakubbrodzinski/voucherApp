@@ -17,35 +17,36 @@ import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.MailService;
 
-import javax.annotation.security.PermitAll;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
 @Controller
 public class DefaultController {
+    private final MailService mailService;
+    private final CompanySurveyService companySurveyService;
 
     @Autowired
-    private MailService mailService;
-
-    @Autowired
-    private CompanySurveyService companySurveyService;
+    public DefaultController(MailService mailService, CompanySurveyService companySurveyService) {
+        this.mailService = mailService;
+        this.companySurveyService = companySurveyService;
+    }
 
     @RequestMapping("/testmail")
     public String testmail() {
-        VoucherCode voucherCode=new VoucherCode();
+        VoucherCode voucherCode = new VoucherCode();
         voucherCode.setVoucherCode("codecodecode");
-        mailService.sendVoucherCodeEmail(voucherCode,"jakubby@gmail.com");
-        mailService.sendPasswordResetEmail("token","jakubby@gmail.com");
-        mailService.sendVerificationTokenEmail("token",new Date(),"jakubby@gmail.com");
+        mailService.sendVoucherCodeEmail(voucherCode, "jakubby@gmail.com");
+        mailService.sendPasswordResetEmail("token", "jakubby@gmail.com");
+        mailService.sendVerificationTokenEmail("token", new Date(), "jakubby@gmail.com");
         return "index";
     }
 
-    @RequestMapping(value = "/xyz",method = RequestMethod.GET)
-    public String hello(Model model){
-        ResetPasswordForm form=new ResetPasswordForm();
+    @RequestMapping(value = "/xyz", method = RequestMethod.GET)
+    public String hello(Model model) {
+        ResetPasswordForm form = new ResetPasswordForm();
         form.setResetPasswordToken("token");
-        model.addAttribute("resetPasswordForm",form);
+        model.addAttribute("resetPasswordForm", form);
         model.addAttribute("tokenStatus", TokenStatus.OK);
         return "/token/reset_password.html";
     }
@@ -56,15 +57,14 @@ public class DefaultController {
         Survey survey = companySurveyService.getSurveyById(1);
         SurveyDto surveyWrapper = new SurveyDto();
         Collection<QuestionDto> questionWrappers = new ArrayList<>();
-        for(Question question : survey.getQuestions()) {
-            if(question.getQuestionType() == QuestionType.SINGLE_CHOICE || question.getQuestionType() == QuestionType.MULTIPLE_CHOICE) {
+        for (Question question : survey.getQuestions()) {
+            if (question.getQuestionType() == QuestionType.SINGLE_CHOICE || question.getQuestionType() == QuestionType.MULTIPLE_CHOICE) {
                 ClosedQuestionDto closedQuestionWrapper = new ClosedQuestionDto();
                 closedQuestionWrapper.setPossibleAnswers(question.getPossibleAnswers());
                 closedQuestionWrapper.setQuestionBody(question.getQuestionBody());
                 closedQuestionWrapper.setQuestionType(question.getQuestionType());
                 questionWrappers.add(closedQuestionWrapper);
-            }
-            else {
+            } else {
                 QuestionDto questionWrapper = new QuestionDto();
                 questionWrapper.setQuestionBody(question.getQuestionBody());
                 questionWrapper.setQuestionType(question.getQuestionType());
@@ -79,37 +79,37 @@ public class DefaultController {
     @RequestMapping(value = "/testJSON2", produces = "application/json")
     @ResponseBody
     public SurveyDto testJSON2() {
-        SurveyDto surveyDto=new SurveyDto();
+        SurveyDto surveyDto = new SurveyDto();
         surveyDto.setSurveyName("name");
-        QuestionDto questionDto=new QuestionDto();
+        QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionBody("xyz?");
         questionDto.setQuestionType(QuestionType.RANGED);
         surveyDto.getQuestions().add(questionDto);
-        return  surveyDto;
+        return surveyDto;
     }
 
     @RequestMapping(value = "/test3", method = RequestMethod.GET)
     @ResponseBody
     public String test3() {
-        SurveyDto surveyDto=new SurveyDto();
+        SurveyDto surveyDto = new SurveyDto();
         surveyDto.setSurveyName("name");
-        QuestionDto questionDto=new QuestionDto();
+        QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionBody("xyz?");
         questionDto.setQuestionType(QuestionType.RANGED);
         surveyDto.getQuestions().add(questionDto);
-        UserCompany userCompany=new UserCompany();
+        UserCompany userCompany = new UserCompany();
         userCompany.setCompany(new Company());
         userCompany.getCompany().setId(1);
-        companySurveyService.addSurvey(surveyDto,userCompany);
+        companySurveyService.addSurvey(surveyDto, userCompany);
         return "OK";
     }
 
     @RequestMapping(value = "/test4", method = RequestMethod.GET)
     @ResponseBody
     public String test4() {
-        SurveyDto surveyDto=new SurveyDto();
+        SurveyDto surveyDto = new SurveyDto();
         surveyDto.setSurveyName("name");
-        ClosedQuestionDto questionDto=new ClosedQuestionDto();
+        ClosedQuestionDto questionDto = new ClosedQuestionDto();
         questionDto.setQuestionBody("xyz?");
         questionDto.setQuestionType(QuestionType.SINGLE_CHOICE);
         questionDto.getPossibleAnswers().setPossibleAnswerA("A");
@@ -117,10 +117,10 @@ public class DefaultController {
         questionDto.getPossibleAnswers().setPossibleAnswerC("C");
         questionDto.getPossibleAnswers().setPossibleAnswerD("D");
         surveyDto.getQuestions().add(questionDto);
-        UserCompany userCompany=new UserCompany();
+        UserCompany userCompany = new UserCompany();
         userCompany.setCompany(new Company());
         userCompany.getCompany().setId(1);
-        companySurveyService.addSurvey(surveyDto,userCompany);
+        companySurveyService.addSurvey(surveyDto, userCompany);
         return "OK";
     }
 

@@ -21,17 +21,17 @@ public class VoucherDaoImpl implements VoucherDao {
 
     @Override
     public Collection<Voucher> getAllVouchers() {
-        return entityManager.createQuery("FROM "+Voucher.class.getName(),Voucher.class).getResultList();
+        return entityManager.createQuery("FROM " + Voucher.class.getName(), Voucher.class).getResultList();
     }
 
     @Override
     public Collection<Voucher> getAllVouchersByCompany(Company company) {
-        return entityManager.createQuery("FROM "+Voucher.class.getName()+" WHERE company='"+company.getId()+"'",Voucher.class).getResultList();
+        return entityManager.createQuery("FROM " + Voucher.class.getName() + " WHERE company='" + company.getId() + "'", Voucher.class).getResultList();
     }
 
     @Override
     public Voucher getVoucherById(int Id) {
-        return entityManager.find(Voucher.class,Id);
+        return entityManager.find(Voucher.class, Id);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class VoucherDaoImpl implements VoucherDao {
 
     @Override
     public VoucherCode getVoucherCode(int voucherCodeId) {
-        return entityManager.find(VoucherCode.class,voucherCodeId);
+        return entityManager.find(VoucherCode.class, voucherCodeId);
     }
 
     @Override
@@ -73,19 +73,19 @@ public class VoucherDaoImpl implements VoucherDao {
 
     @Override
     public VoucherCodeDate getVoucherCodeDateById(int voucherCodeDateId) {
-        return entityManager.find(VoucherCodeDate.class,voucherCodeDateId);
+        return entityManager.find(VoucherCodeDate.class, voucherCodeDateId);
     }
 
     @Override
-    public void deleteVoucherCodeDate(VoucherCodeDate voucherCodeDate){
+    public void deleteVoucherCodeDate(VoucherCodeDate voucherCodeDate) {
         entityManager.remove(voucherCodeDate);
     }
 
     @Override
     public void unBlockAllBlockedVouchersForLongerThan(int hours, int minutes) {
-        List<VoucherCodeDate> voucherCodeDates= entityManager.createQuery("FROM "+VoucherCodeDate.class.getName(),VoucherCodeDate.class).getResultList();
-        LocalDateTime localDateTime= LocalDateTime.now().minusHours(hours).minusMinutes(minutes);
-        Date date= Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        List<VoucherCodeDate> voucherCodeDates = entityManager.createQuery("FROM " + VoucherCodeDate.class.getName(), VoucherCodeDate.class).getResultList();
+        LocalDateTime localDateTime = LocalDateTime.now().minusHours(hours).minusMinutes(minutes);
+        Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
         voucherCodeDates.stream().filter(v -> v.getUseDate().compareTo(date) < 0).forEach(entityManager::remove);
     }

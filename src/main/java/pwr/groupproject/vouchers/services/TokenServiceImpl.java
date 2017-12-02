@@ -20,25 +20,28 @@ import java.util.Date;
 @Service
 @Transactional
 public class TokenServiceImpl implements TokenService {
-    private final int TOKEN_LENGTH=50;
+    private final int TOKEN_LENGTH = 50;
+    private final TokenDao tokenDao;
+    private final UserCompanyDao userCompanyDao;
 
     @Autowired
-    private TokenDao tokenDao;
-    @Autowired
-    private UserCompanyDao userCompanyDao;
+    public TokenServiceImpl(TokenDao tokenDao, UserCompanyDao userCompanyDao) {
+        this.tokenDao = tokenDao;
+        this.userCompanyDao = userCompanyDao;
+    }
 
     @Override
     public void activateAccount(String tokenString) throws VerificationTokenExpired, WrongTokenException {
-        VerificationToken verificationToken=tokenDao.getVerificationTokenByToken(tokenString);
-        if(verificationToken == null)
+        VerificationToken verificationToken = tokenDao.getVerificationTokenByToken(tokenString);
+        if (verificationToken == null)
             throw new WrongTokenException();
 
-        if(verificationToken.getExpirationDate().compareTo(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()))>0){
-            UserCompany userCompany=verificationToken.getUserCompany();
+        if (verificationToken.getExpirationDate().compareTo(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant())) > 0) {
+            UserCompany userCompany = verificationToken.getUserCompany();
             userCompany.setEnabled(true);
             userCompanyDao.editUser(userCompany);
             tokenDao.deletVerificationToken(verificationToken);
-        }else{
+        } else {
             throw new VerificationTokenExpired();
         }
     }
@@ -46,11 +49,11 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public VerificationToken generateNewActivationToken(UserCompany userCompany) {
         tokenDao.deleteUsersVerificationTokens(userCompany.getUsername());
-        VerificationToken verificationToken=new VerificationToken();
+        VerificationToken verificationToken = new VerificationToken();
         verificationToken.setUserCompany(userCompany);
         verificationToken.setToken(RandomString.make(TOKEN_LENGTH));
 
-        LocalDateTime localDateTime= LocalDateTime.now().plusMonths(1);
+        LocalDateTime localDateTime = LocalDateTime.now().plusMonths(1);
         verificationToken.setExpirationDate(Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()));
 
         tokenDao.addVerificationToken(verificationToken);
@@ -60,7 +63,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public PasswordResetToken generateNewPasswordResetToken(UserCompany userCompany) {
         tokenDao.deleteUsersResetTokens(userCompany.getUsername());
-        PasswordResetToken passwordResetToken=new PasswordResetToken();
+        PasswordResetToken passwordResetToken = new PasswordResetToken();
         passwordResetToken.setUserCompany(userCompany);
         passwordResetToken.setToken(RandomString.make(TOKEN_LENGTH));
         tokenDao.addPasswordResetToken(passwordResetToken);
@@ -70,9 +73,8 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public PasswordResetToken validatePasswordResetToken(String passwordResetToken) throws WrongTokenException {
         try {
-            PasswordResetToken passwordResetToken1 = tokenDao.getPasswordResetTokenByToken(passwordResetToken);
-            return passwordResetToken1;
-        }catch(NoResultException ex){
+            return tokenDao.getPasswordResetTokenByToken(passwordResetToken);
+        } catch (NoResultException ex) {
             throw new WrongTokenException();
         }
     }

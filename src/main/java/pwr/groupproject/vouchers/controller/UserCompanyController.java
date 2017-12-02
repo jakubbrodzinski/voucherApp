@@ -26,15 +26,19 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(UserCompanyController.ROOT_MAPPING)
 @PreAuthorize("hasRole('COMPANY')")
 public class UserCompanyController {
-    public static final String ROOT_MAPPING = "/my_account";
+    static final String ROOT_MAPPING = "/my_account";
+    private final CompanySurveyService companySurveyService;
+    private final UserCompanyService userCompanyService;
+    private final ShaPasswordEncoder passwordEncoder;
+    private final MessageSource messageSource;
+
     @Autowired
-    private CompanySurveyService companySurveyService;
-    @Autowired
-    private UserCompanyService userCompanyService;
-    @Autowired
-    private ShaPasswordEncoder passwordEncoder;
-    @Autowired
-    private MessageSource messageSource;
+    public UserCompanyController(CompanySurveyService companySurveyService, UserCompanyService userCompanyService, ShaPasswordEncoder passwordEncoder, MessageSource messageSource) {
+        this.companySurveyService = companySurveyService;
+        this.userCompanyService = userCompanyService;
+        this.passwordEncoder = passwordEncoder;
+        this.messageSource = messageSource;
+    }
 
     //region Home Management
     @RequestMapping("/home")
@@ -260,7 +264,7 @@ public class UserCompanyController {
 
     //region Codes Management
     @RequestMapping(value = "/surveys/{id}/voucher/changeCode", method = RequestMethod.POST)
-    public String changeVoucherCode(Model model, @PathVariable("id") int surveyId,@AuthenticationPrincipal UserCompany userCompany, @RequestParam(name = "codeId", required = true) Integer codeId, @RequestParam(name = "numberOfCodes", required = true) Integer numberOfCodes) {
+    public String changeVoucherCode(Model model, @PathVariable("id") int surveyId, @AuthenticationPrincipal UserCompany userCompany, @RequestParam(name = "codeId") Integer codeId, @RequestParam(name = "numberOfCodes") Integer numberOfCodes) {
         if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
         }
@@ -296,7 +300,7 @@ public class UserCompanyController {
     }
 
     @RequestMapping(value = "/surveys/{id}/voucher/deleteCode", method = RequestMethod.POST)
-    public String deleteVoucherCode(Model model,@AuthenticationPrincipal UserCompany userCompany, @PathVariable("id") int surveyId, @RequestParam(name = "codeId", required = true) Integer codeId) {
+    public String deleteVoucherCode(Model model,@AuthenticationPrincipal UserCompany userCompany, @PathVariable("id") int surveyId, @RequestParam(name = "codeId") Integer codeId) {
         if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
         }

@@ -21,8 +21,12 @@ import pwr.groupproject.vouchers.configuration.handlers.CustomLoginFailureHandle
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    private final UserDetailsService userDetailsService;
+
     @Autowired
-    UserDetailsService userDetailsService;
+    public SpringSecurityConfiguration(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

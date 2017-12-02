@@ -29,17 +29,21 @@ import javax.annotation.security.PermitAll;
 @RequestMapping(AuthController.ROOT_MAPPING)
 @PermitAll
 public class AuthController {
-    public static final String ROOT_MAPPING = "/";
+    static final String ROOT_MAPPING = "/";
+    private final AuthenticationTrustResolver authenticationTrustResolver;
+    private final MailService mailService;
+    private final UserCompanyService userCompanyService;
+    private final MessageSource messageSource;
+    private final TokenService tokenService;
+
     @Autowired
-    private AuthenticationTrustResolver authenticationTrustResolver;
-    @Autowired
-    private MailService mailService;
-    @Autowired
-    private UserCompanyService userCompanyService;
-    @Autowired
-    private MessageSource messageSource;
-    @Autowired
-    private TokenService tokenService;
+    public AuthController(AuthenticationTrustResolver authenticationTrustResolver, MailService mailService, UserCompanyService userCompanyService, MessageSource messageSource, TokenService tokenService) {
+        this.authenticationTrustResolver = authenticationTrustResolver;
+        this.mailService = mailService;
+        this.userCompanyService = userCompanyService;
+        this.messageSource = messageSource;
+        this.tokenService = tokenService;
+    }
 
     @RequestMapping("/")
     public String homePage() {
@@ -78,7 +82,7 @@ public class AuthController {
             bindingResult.rejectValue("userName", "email.dont.exist", messageSource.getMessage("message.wrong.email", null, LocaleContextHolder.getLocale()));
             return "auth/forgot_password.html";
         } else if (!userCompany.isEnabled()) {
-            bindingResult.rejectValue("userName", "account.not.activated",messageSource.getMessage("messages.account.not.activated", null, LocaleContextHolder.getLocale()));
+            bindingResult.rejectValue("userName", "account.not.activated", messageSource.getMessage("messages.account.not.activated", null, LocaleContextHolder.getLocale()));
             return "auth/forgot_password.html";
         } else {
             PasswordResetToken passwordResetToken = tokenService.generateNewPasswordResetToken(userCompany);

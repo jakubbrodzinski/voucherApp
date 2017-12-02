@@ -23,10 +23,14 @@ import java.util.Set;
 @Service
 @Transactional
 public class CompanySurveyServiceImpl implements CompanySurveyService {
+    private final CompanySurveyDao companySurveyDao;
+    private final VoucherDao voucherDao;
+
     @Autowired
-    private CompanySurveyDao companySurveyDao;
-    @Autowired
-    private VoucherDao voucherDao;
+    public CompanySurveyServiceImpl(CompanySurveyDao companySurveyDao, VoucherDao voucherDao) {
+        this.companySurveyDao = companySurveyDao;
+        this.voucherDao = voucherDao;
+    }
 
     @Override
     public Survey getSurveyById(int surveyId) {

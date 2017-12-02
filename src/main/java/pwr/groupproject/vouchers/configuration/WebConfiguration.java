@@ -32,30 +32,26 @@ import javax.servlet.Filter;
 import java.util.Locale;
 
 @Configuration
-public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAware{
-
+public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAware {
     private static final String UTF8 = "UTF-8";
-    @Autowired
     private SpringWebFlowConfiguration webFlowConfig;
-
     private ApplicationContext applicationContext;
 
+    @Autowired
+    public void setWebFlowConfig(SpringWebFlowConfiguration webFlowConfig) {
+        this.webFlowConfig = webFlowConfig;
+    }
+
     @Bean
-    public FilterRegistrationBean voucherFilterRegistration(){
-        FilterRegistrationBean filterRegistrationBean=new FilterRegistrationBean();
-        filterRegistrationBean.setFilter(voucherFilter());
+    public FilterRegistrationBean voucherFilterRegistration(VoucherCodeFilter voucherFilter) {
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(voucherFilter);
         return filterRegistrationBean;
     }
 
     @Bean
-    public Filter voucherFilter(){
-        return new VoucherCodeFilter();
-    }
-
-
-    @Bean
     public ViewResolver viewResolver() {
-        ThymeleafViewResolver resolver=new ThymeleafViewResolver();
+        ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());
         resolver.setCharacterEncoding(UTF8);
         resolver.setCache(false);
@@ -93,7 +89,7 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext=applicationContext;
+        this.applicationContext = applicationContext;
     }
 
     @Override
@@ -106,15 +102,15 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         registry.addInterceptor(localeChangeInterceptor());
     }
 
-    private LocaleChangeInterceptor localeChangeInterceptor(){
-        LocaleChangeInterceptor localeChangeInterceptor=new LocaleChangeInterceptor();
+    private LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         return localeChangeInterceptor;
     }
 
     @Bean
-    public MessageSource messageSource(){
-        ReloadableResourceBundleMessageSource messageSource=new ReloadableResourceBundleMessageSource();
+    public MessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheMillis(0);
         messageSource.setBasename("/message_sources/html/messages");
@@ -122,8 +118,8 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     }
 
     @Bean
-    public MessageSource validationMessages(){
-        ReloadableResourceBundleMessageSource messageSource=new ReloadableResourceBundleMessageSource();
+    public MessageSource validationMessages() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheMillis(0);
         messageSource.setBasenames("/message_sources/validation/messages");
@@ -131,8 +127,8 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     }
 
     @Bean
-    public LocaleResolver localeResolver(){
-        CookieLocaleResolver cookieLocaleResolver=new CookieLocaleResolver();
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.forLanguageTag("pl-PL"));
         cookieLocaleResolver.setCookieName("appLocaleCookie");
         cookieLocaleResolver.setCookieMaxAge(1314000);
@@ -140,8 +136,8 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     }
 
     @Bean
-    public LocalValidatorFactoryBean localValidatorFactoryBean(){
-        LocalValidatorFactoryBean localValidatorFactoryBean=new LocalValidatorFactoryBean();
+    public LocalValidatorFactoryBean localValidatorFactoryBean() {
+        LocalValidatorFactoryBean localValidatorFactoryBean = new LocalValidatorFactoryBean();
         localValidatorFactoryBean.setValidationMessageSource(validationMessages());
         return localValidatorFactoryBean;
     }

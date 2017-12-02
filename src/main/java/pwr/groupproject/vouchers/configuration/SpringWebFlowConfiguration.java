@@ -13,21 +13,25 @@ import org.springframework.webflow.security.SecurityFlowExecutionListener;
 import java.util.Collections;
 
 @Configuration
-public class SpringWebFlowConfiguration extends AbstractFlowConfiguration{
+public class SpringWebFlowConfiguration extends AbstractFlowConfiguration {
+    private final WebConfiguration webMvcConfig;
+
     @Autowired
-    private WebConfiguration webMvcConfig;
+    public SpringWebFlowConfiguration(WebConfiguration webMvcConfig) {
+        this.webMvcConfig = webMvcConfig;
+    }
 
     @Bean
     public FlowExecutor flowExecutor() {
         return getFlowExecutorBuilder(flowRegistry())
-                .addFlowExecutionListener(new SecurityFlowExecutionListener(),"*")
+                .addFlowExecutionListener(new SecurityFlowExecutionListener(), "*")
                 .build();
     }
 
     @Bean
     public FlowDefinitionRegistry flowRegistry() {
         return getFlowDefinitionRegistryBuilder(flowBuilderServices())
-                .addFlowLocation("/WEB-INF/flows/signup-flow.xml","sign_up").build();
+                .addFlowLocation("/WEB-INF/flows/signup-flow.xml", "sign_up").build();
     }
 
     @Bean

@@ -41,6 +41,7 @@ public class VoucherCodeFilter implements Filter {
                     companySurveyService.deleteVoucherCodeDate(vDateId);
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 session.setAttribute("vCode", null);
             }
         }

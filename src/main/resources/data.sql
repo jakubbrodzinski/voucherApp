@@ -18,7 +18,7 @@ INSERT INTO QUESTIONS(id, questionBody, questionType, surveyId)
     
 INSERT INTO QUESTION_POSSIBLEANSWER(possibleAnswerA, possibleAnswerB, possibleAnswerC, possibleAnswerD, QuestionId)
 	VALUES
-    ("A", "B", "C", "D", 1), ("A", "B", "C", "D", 2), ("A", "B", "C", "D", 3), ("A", "B", "C", "D", 4),
+    ("A", "B", "C", "D", 1), ("A", "B", "C", "D", 2), ("A", "B", "C", "D", 3),
     ("A", "B", "C", "D", 5), ("A", "B", "C", "D", 6), ("A", "B", "C", "D", 7), ("A", "B", "C", "D", 8),
     ("A", "B", "C", "D", 9), ("A", "B", "C", "D", 10), ("A", "B", "C", "D", 11), ("A", "B", "C", "D", 12),
     ("A", "B", "C", "D", 13), ("A", "B", "C", "D", 14), ("A", "B", "C", "D", 15), ("A", "B", "C", "D", 16);

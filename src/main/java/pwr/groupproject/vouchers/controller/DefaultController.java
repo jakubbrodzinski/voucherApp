@@ -5,10 +5,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pwr.groupproject.vouchers.bean.dto.AnswerDto;
 import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
 import pwr.groupproject.vouchers.bean.dto.QuestionDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.enums.TokenStatus;
+import pwr.groupproject.vouchers.bean.form.AnsweredSurveyForm;
 import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
@@ -17,9 +19,7 @@ import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.MailService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 
 @Controller
 public class DefaultController {
@@ -151,6 +151,17 @@ public class DefaultController {
         model.addAttribute("surveyName", survey.getSurveyName());
         model.addAttribute("surveyCompany", survey.getCompany().getCompanyName());
         model.addAttribute("questions", questions);
+
+        AnsweredSurveyForm answeredSurveyForm = new AnsweredSurveyForm();
+        AnswerDto[] answers = new AnswerDto[survey.getQuestions().size()];
+        for(int i = 0, size = survey.getQuestions().size(); i < size; i++) {
+            AnswerDto answerDto = new AnswerDto();
+            answerDto.setQuestion(((List<Question>)survey.getQuestions()).get(i));
+            answers[i] = answerDto;
+            System.out.println(answerDto.getQuestion().getQuestionBody());
+        }
+        answeredSurveyForm.setAnswers(answers);
+        model.addAttribute("answeredSurveyForm", answeredSurveyForm);
         return "/user/survey.html";
     }
 }

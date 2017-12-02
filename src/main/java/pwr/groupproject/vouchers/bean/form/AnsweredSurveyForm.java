@@ -4,13 +4,13 @@ import pwr.groupproject.vouchers.bean.dto.AnswerDto;
 
 public class AnsweredSurveyForm {
 
-    private AnswerDto[] answer;
+    private AnswerDto[] answers;
 
-    public AnswerDto[] getAnswer() {
-        return answer;
+    public AnswerDto[] getAnswers() {
+        return answers;
     }
 
-    public void setAnswer(AnswerDto[] answer) {
-        this.answer = answer;
+    public void setAnswers(AnswerDto[] answers) {
+        this.answers = answers;
     }
 }

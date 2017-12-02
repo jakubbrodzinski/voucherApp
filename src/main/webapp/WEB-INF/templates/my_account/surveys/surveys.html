@@ -1,33 +1,36 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body class="defaultColor">
 <div th:insert="/fragments/dashboard.html :: dashboard"></div>
-<form method="get" th:action="@{/my_account/surveys/add}">
-    <input type="submit" value="Create New Survey"/>
-</form>
-<br>
-<th:block th:each="survey : ${surveyList}">
-    <div>
-        <a th:href="@{${'/my_account/surveys/'+survey.Id}}" th:text="${survey.surveyName}">One of you surveys</a>
-    </div>
+<div class="container text-center text-light mx-auto pt-5 mt-5">
+<th:block  th:each="survey : ${surveyList}">
+    <div class=" mx-auto mb-5">
+            <a th:href="@{${'/my_account/surveys/'+survey.Id}}"><h2 class="text-light" th:text="${survey.surveyName}"></h2></a>
+        <div>
+            <a th:href="@{${'/my_account/surveys/'+survey.Id}+'/voucher'}" th:if="${survey.voucher!=null}"><h5 class="text-light" th:text="${'Voucher: ' + survey.voucher.voucherDescription}"></h5></a>
+        </div>
+        <div>
+            <a th:href="@{${'/my_account/surveys/'+survey.Id}+'/addVoucher'}" th:if="${survey.voucher==null}"><h5 class="text-light" th:text="${'Voucher: None. Add one now!'}"></h5></a>
+        </div>
     <th:block th:if="${survey.isActive()}">
-        <div th:text="${'ACTIVE'}"></div>
+        <div  th:text="${'ACTIVE'}"></div>
     </th:block>
     <th:block th:unless="${survey.isActive()}">
-        <div th:text="${'NOT ACTIVE'}"></div>
+        <div  th:text="${'NOT ACTIVE'}"></div>
     </th:block>
-    <div>
-        <a th:href="@{${'/my_account/surveys/'+survey.Id}+'/voucher'}" th:text="${'Edit voucher'}" th:if="${survey.voucher!=null}">One of you surveys</a>
+    <div  th:text="${'Created on: '+survey.creationDate}"></div>
     </div>
-    <div>
-        <a th:href="@{${'/my_account/surveys/'+survey.Id}+'/addVoucher'}" th:text="${'Add voucher'}" th:if="${survey.voucher==null}">One of you surveys</a>
-    </div>
-    <div th:text="${'Created on: '+survey.creationDate}"></div>
-    <br>
 </th:block>
+    <form  method="get" th:action="@{/my_account/surveys/add}">
+        <input class="text-light" type="image" th:width="100" th:src="@{/images/add.png}" th:value="${'Create New Survey'}"/>
+    </form>
+</div>
 </body>
 </html>

@@ -9,27 +9,31 @@
 </head>
 <body class="defaultColor">
 <div th:insert="/fragments/dashboard.html :: dashboard"></div>
-<div class="container">
+<div class="container text-center text-light">
+    <h2 class=" mx-auto pt-5 mt-5 mb-5" th:text="${'Add new voucher'}"></h2>
 <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/addVoucher}" th:object="${voucherForm}" method="post">
-    Discount Type:
+    <h5>Discount Type:</h5>
     <th:block th:each="discount : ${discountType}">
-    <br><input type="radio" name="discountType" th:text="${discount}" th:field="*{discountType}" th:value="${discount}">
+        <label class="custom-control custom-radio">
+            <input  class="custom-control-input" type="radio" name="discountType" th:field="*{discountType}" th:value="${discount}">
+            <span class="custom-control-indicator"></span>
+            <span class="custom-control-description" th:utext="${discount}">Check this custom checkbox</span>
+        </label>
     </th:block>
     <div th:replace="fragments/fields_input.html :: field-errors('${voucherForm.discountType}')"></div>
-    <br>
-    Discount Amount: <input type="number" th:field="*{discountAmount}">
+    <h5 class="mt-2">Discount Amount:</h5>
+    <input class="form-control" type="number" th:field="*{discountAmount}">
     <div th:replace="fragments/fields_input.html :: field-errors('${voucherForm.discountAmount}')"></div>
-    <br>
-    Voucher Description: <input type="text" th:field="*{voucherDescription}">
+    <h5 class="mt-2">Voucher Description:</h5>
+    <input class="form-control" type="text" th:field="*{voucherDescription}">
     <div th:replace="fragments/fields_input.html :: field-errors('${voucherForm.voucherDescription}')"></div>
-    <br>
-    Start Date: <input type="date" th:field="*{startDate}">
+    <h5 class="mt-2">Start Date:</h5>
+    <input class="form-control" type="date" th:field="*{startDate}">
     <div th:replace="fragments/fields_input.html :: field-errors('${voucherForm.startDate}')"></div>
-    <br>
-    End Date: <input type="date" th:field="*{endDate}">
+    <h5 class="mt-2"> End Date:</h5>
+    <input class="form-control" type="date" th:field="*{endDate}">
     <div th:replace="fragments/fields_input.html :: field-errors('${voucherForm.endDate}')"></div>
-    <br>
-    <div><input type="submit" name="submit" value="Confirm"/>
+    <div><input class="form-control mt-4" type="submit" name="submit" value="Confirm"/>
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/></div>
 </form>
 </div>

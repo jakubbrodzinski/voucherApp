@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import pwr.groupproject.vouchers.configuration.handlers.CustomLoginFailureHandler;
 
-
 @EnableWebSecurity
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -30,9 +29,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.requiresChannel().antMatchers("/*").requiresSecure()
+        http.csrf().ignoringAntMatchers("/api/rest/**").and()
+                .requiresChannel().antMatchers("/*").requiresSecure()
                 .and().authorizeRequests()
-                .antMatchers("/my_account/*/*").hasRole("COMPANY")
+                .antMatchers("/my_account/**").hasRole("COMPANY")
                 .and()
                 .formLogin().loginPage("/sign_in").usernameParameter("username").passwordParameter("password")
                 .failureHandler(authenticationFailureHandler()).successForwardUrl("/my_account/home")

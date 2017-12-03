@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import pwr.groupproject.vouchers.bean.dto.CompanyDto;
+import pwr.groupproject.vouchers.bean.dto.rest.CompanyDtoRest;
 import pwr.groupproject.vouchers.bean.dto.rest.SurveyDtoRest;
-import pwr.groupproject.vouchers.bean.dto.SurveyVoucherDto;
+import pwr.groupproject.vouchers.bean.dto.rest.SurveyVoucherDtoRest;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongCompanyIdException;
-import pwr.groupproject.vouchers.bean.model.Question;
 import pwr.groupproject.vouchers.bean.model.Survey;
 import pwr.groupproject.vouchers.bean.model.VoucherCodeDate;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
@@ -35,15 +34,15 @@ public class RestSurveyController {
     }
 
     @RequestMapping(value = "/companies",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,method = RequestMethod.GET)
-    public Collection<CompanyDto> getAllActiveCompanies(){
-        return companySurveyService.getAllActiveCompanies().stream().map(CompanyDto::new).collect(Collectors.toList());
+    public Collection<CompanyDtoRest> getAllActiveCompanies(){
+        return companySurveyService.getAllActiveCompanies().stream().map(CompanyDtoRest::new).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/companies/{compId}",produces = MediaType.APPLICATION_JSON_UTF8_VALUE,method = RequestMethod.GET)
-    public Collection<SurveyVoucherDto> getCompanysActiveSurveys(@PathVariable(name = "compId")Integer compId, HttpServletResponse httpServletResponse){
+    public Collection<SurveyVoucherDtoRest> getCompanysActiveSurveys(@PathVariable(name = "compId")Integer compId, HttpServletResponse httpServletResponse){
         try{
             Collection<Survey> activeSurveys=companySurveyService.getAllActiveSurveys(compId);
-            return activeSurveys.stream().map(SurveyVoucherDto::new).collect(Collectors.toList());
+            return activeSurveys.stream().map(SurveyVoucherDtoRest::new).collect(Collectors.toList());
         }catch(WrongCompanyIdException e){
             httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
@@ -82,7 +81,7 @@ public class RestSurveyController {
             httpSession.setAttribute("vCode",null);
             return "OK";
         }else {
-            return "NOT FOUND";
+            return "NOT_FOUND";
         }
     }
 }

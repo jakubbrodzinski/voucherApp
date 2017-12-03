@@ -4,6 +4,7 @@ import pwr.groupproject.vouchers.bean.dto.AnswerDto;
 import pwr.groupproject.vouchers.bean.model.AnsweredSurvey;
 import pwr.groupproject.vouchers.bean.model.Question;
 import pwr.groupproject.vouchers.bean.model.Survey;
+import pwr.groupproject.vouchers.bean.model.User;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,6 +13,8 @@ public class AnsweredSurveyForm implements Serializable {
 
     private static final long serialVersionUID = -2959738256673744710L;
     private AnswerDto[] answers;
+    private String email;
+    private User user;
 
     public AnsweredSurveyForm() {
         super();
@@ -25,6 +28,9 @@ public class AnsweredSurveyForm implements Serializable {
             answers[i] = answerDto;
         }
         this.answers = answers;
+
+        User user = new User();
+        this.user = user;
     }
 
     public AnswerDto[] getAnswers() {
@@ -33,5 +39,21 @@ public class AnsweredSurveyForm implements Serializable {
 
     public void setAnswers(AnswerDto[] answers) {
         this.answers = answers;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

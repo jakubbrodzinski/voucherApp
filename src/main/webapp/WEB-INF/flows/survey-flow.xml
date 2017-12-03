@@ -19,7 +19,7 @@
         <transition on="cancel" to="cancel" validate="false" bind="false"></transition>
     </view-state>
 
-    <view-state id="step2" view="/user/receive_voucher.html" model="company">
+    <view-state id="step2" view="/user/receive_voucher.html" model="answeredSurveyForm">
         <transition on="Receive" to="success">
 
         </transition>
@@ -27,7 +27,7 @@
         <transition on="previousStep" to="step1" validate="false"></transition>
     </view-state>
 
-    <end-state id="success" view="externalRedirect:/"></end-state>
+    <end-state id="success" view="/user/receive_finished_landing"></end-state>
     <end-state id="cancel" view="externalRedirect:/"></end-state>
 
 </flow>

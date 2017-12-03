@@ -12,7 +12,7 @@
 </head>
 <body>
     <p th:text="${survey.surveyName}">Template survey description</p>
-    <form th:action="@{/testSurvey}" th:object="${answeredSurveyForm}"  method="post">
+    <form th:action="${flowExecutionUrl}" th:object="${answeredSurveyForm}"  method="post">
         <div th:each="question, iter : ${survey.questionsDto}">
             <div th:insert="/fragments/survey_question.html :: inputQuestion(${question}, *{answers})"></div>
         </div>

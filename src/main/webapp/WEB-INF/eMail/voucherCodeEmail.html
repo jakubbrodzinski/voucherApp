@@ -6,6 +6,19 @@
 </head>
 <body>
     <div th:text="#{voucher.code.thankyou(${companyName})}"></div>
-    <div th:text="#{voucher.code.voucher(${voucherCode})}"></div>
+    <div th:switch="${voucher.discountType}">
+        <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.DiscountType).SUM}" th:remove="tag">
+            <div th:utext="#{voucher.code.details(${voucher.discountAmount},'PLN',${voucher.startDate},${voucher.endDate})}"></div>
+        </th:block>
+        <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.DiscountType).PERCENTEGE}" th:remove="tag">
+            <div th:utext="#{voucher.code.details(${voucher.discountAmount},'%',${voucher.startDate},${voucher.endDate})}"></div>
+        </th:block>
+        <th:block th:case="*" th:remove="tag">
+            <div th:utext="#{voucher.code.details(${voucher.discountAmount},'',${voucher.startDate},${voucher.endDate})}"></div>
+        </th:block>
+    </div>
+    <div th:utext="#{voucher.code.desc}"></div>
+    <div th:utext="${voucher.voucherDescription}"></div>
+    <div th:utext="#{voucher.code.voucher(${voucherCode})}"></div>
 </body>
 </html>

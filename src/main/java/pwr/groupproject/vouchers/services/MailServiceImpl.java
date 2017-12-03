@@ -56,6 +56,7 @@ public class MailServiceImpl implements MailService {
     public boolean sendVoucherCodeEmail(VoucherCode voucher, String email) {
         final Context ctx = new Context();
         ctx.setVariable("voucherCode", voucher.getVoucherCode());
+        ctx.setVariable("voucher",voucher.getVoucher());
         ctx.setVariable("companyName", "companyName");
         String eMailTitle = messageSource.getMessage("voucher.code.email.title", null, LocaleContextHolder.getLocale());
 

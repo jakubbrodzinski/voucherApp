@@ -1,7 +1,6 @@
 package pwr.groupproject.vouchers.services;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import pwr.groupproject.vouchers.bean.dto.rest.SurveyDtoRest;
 import org.springframework.webflow.execution.RequestContext;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongCompanyIdException;
@@ -16,12 +15,12 @@ import java.util.Collection;
 
 public interface CompanySurveyService {
     Survey getSurveyById(int surveyId);
+
     Survey getSurveyByIdWithQuestion(int surveyId);
 
     @PreAuthorize("hasRole('COMPANY')")
     Survey checkIfSurveyExists(int surveyId, UserCompany userCompany) throws WrongSurveyIdException;
 
-    void addAnsweredSurvey(AnsweredSurvey answeredSurvey);
     void addAnsweredSurvey(AnsweredSurveyForm answeredSurveyForm, int surveyId);
 
     @PreAuthorize("hasRole('COMPANY')")
@@ -91,6 +90,7 @@ public interface CompanySurveyService {
 
     //Methods for webFlow
     boolean validateSurveyIdWithVoucherCode(Integer surveyId, RequestContext requestContext);
-    VoucherCode confirmAnsweringSurvey(Integer surveyId, AnsweredSurveyForm answeredSurveyForm,RequestContext requestContext);
+
+    VoucherCode confirmAnsweringSurvey(Integer surveyId, AnsweredSurveyForm answeredSurveyForm, RequestContext requestContext);
 
 }

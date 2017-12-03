@@ -100,4 +100,8 @@ public class SurveyController {
         return companySurveyService.deployVoucherCode(vCodeId).toString();
     }
 
+    public void test() {
+        System.out.println("KO");
+    }
+
 }

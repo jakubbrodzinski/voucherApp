@@ -3,6 +3,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
 
+
     <input name="surveyId"/>
 
 
@@ -15,6 +16,7 @@
     <view-state id="step1" view="/user/survey.html" model="answeredSurveyForm">
 
         <transition on="Submit" to="step2">
+            <evaluate expression="surveyController.test()" />
         </transition>
         <transition on="cancel" to="cancel" validate="false" bind="false"></transition>
     </view-state>

@@ -21,6 +21,7 @@ public class AnsweredSurveyForm implements Serializable {
     }
 
     public AnsweredSurveyForm(Survey survey) {
+        System.out.println("ASDAD");
         AnswerDto[] answers = new AnswerDto[survey.getQuestions().size()];
         for(int i = 0, size = survey.getQuestions().size(); i < size; i++) {
             AnswerDto answerDto = new AnswerDto();
@@ -29,7 +30,10 @@ public class AnsweredSurveyForm implements Serializable {
         }
         this.answers = answers;
 
+        this.email = "";
+
         User user = new User();
+        user.setCountry("");
         this.user = user;
     }
 

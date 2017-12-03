@@ -25,13 +25,11 @@ import java.util.Collection;
 public class SurveyController {
     static final String ROOT_MAPPING = "/";
     private final CompanySurveyService companySurveyService;
-    private final UserCompanyService userCompanyService;
     private final MessageSource messageSource;
 
     @Autowired
-    public SurveyController(CompanySurveyService companySurveyService, UserCompanyService userCompanyService, MessageSource messageSource) {
+    public SurveyController(CompanySurveyService companySurveyService, MessageSource messageSource) {
         this.companySurveyService = companySurveyService;
-        this.userCompanyService = userCompanyService;
         this.messageSource = messageSource;
     }
 
@@ -67,38 +65,5 @@ public class SurveyController {
         model.addAttribute("surveys", surveys);
         return "/user/choose_survey.html";
     }
-
-    @RequestMapping(value = "fill_survey", method = RequestMethod.GET)
-    public String renderSurvey(@RequestParam(name = "surveyId") Integer surveyId, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
-        VoucherCodeDate voucherCodeDate;
-        HttpSession httpSession=httpServletRequest.getSession(true);
-        Object vCodeId=httpSession.getAttribute("vCode");
-        try {
-            if(vCodeId!=null){
-                companySurveyService.unBlockVoucherCode((Integer)vCodeId);
-            }
-            voucherCodeDate = companySurveyService.blockVoucherCodeForSurvey(surveyId);
-            httpSession.setAttribute("vCode", voucherCodeDate.getId());
-        } catch (NoAvaibleVouchersException e) {
-            redirectAttributes.addAttribute("err", "2");
-            return "redirect:" + "/companies";
-        }
-        model.addAttribute("surveyId", surveyId);
-        Survey survey = companySurveyService.getSurveyById(surveyId);
-        Collection<Question> questions = survey.getQuestions();
-        model.addAttribute("surveyName", survey.getSurveyName());
-        model.addAttribute("surveyCompany", survey.getCompany().getCompanyName());
-        model.addAttribute("questions", questions);
-        return "/user/survey.html";
-    }
-
-    @RequestMapping(value = "fill_survey", method = RequestMethod.POST)
-    @ResponseBody
-    public String testDeployingVoucher(HttpServletRequest httpServletRequest) {
-        Integer vCodeId = (Integer) httpServletRequest.getSession().getAttribute("vCode");
-        httpServletRequest.getSession().setAttribute("vCode", null);
-        return companySurveyService.deployVoucherCode(vCodeId).toString();
-    }
-
 
 }

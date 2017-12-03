@@ -4,17 +4,17 @@
       xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.4.xsd">
 
 
-    <input name="surveyId"/>
+    <input name="s"/>
 
 
     <on-start>
-        <evaluate expression="new pwr.groupproject.vouchers.bean.dto.rest.SurveyDtoRest(companySurveyServiceImpl.getSurveyByIdWithQuestion(flowScope.surveyId))" result="flowScope.survey" />
+        <evaluate expression="new pwr.groupproject.vouchers.bean.dto.rest.SurveyDtoRest(companySurveyServiceImpl.getSurveyByIdWithQuestion(flowScope.s))" result="flowScope.survey" />
         <evaluate expression="new pwr.groupproject.vouchers.bean.form.AnsweredSurveyForm(flowScope.survey.questionsDto.size())" result="flowScope.answeredSurveyForm" />
 
     </on-start>
 
-    <decision-state id="checkBlocked">
-        <if test="defaultController.testBlock(flowScope.surveyId, flowRequestContext) == 200" then="step1" else="error" />
+    <decision-state id="voucherCodeCheck">
+        <if test="companySurveyServiceImpl.validateSurveyIdWithVoucherCode(flowScope.s,flowRequestContext)" then="step1" else="error" />
     </decision-state>
 
     <view-state id="step1" view="/user/survey.html" model="answeredSurveyForm">
@@ -22,13 +22,15 @@
         <transition on="cancel" to="cancel" validate="false" bind="false"/>
     </view-state>
 
-    <view-state id="step2" view="/user/receive_voucher.html" model="answeredSurveyForm">
-        <transition on="Submit" to="success" validate="true"/>
+    <view-state id="step2" view="/user/user_details.html" model="answeredSurveyForm">
+        <transition on="Submit" to="success" validate="true">
+            <evaluate expression="companySurveyServiceImpl.confirmAnsweringSurvey(s,flowScope.answeredSurveyForm,flowRequestContext)" result="flowScope.voucherCode" result-type="pwr.groupproject.vouchers.bean.model.VoucherCode" />
+        </transition>
         <transition on="cancel" to="cancel" validate="false"/>
         <transition on="previousStep" to="step1" validate="false" />
     </view-state>
 
-    <end-state id="success" view="/user/receive_finished_landing" />
+    <end-state id="success" view="/user/voucher_confirmation" />
     <end-state id="cancel" view="externalRedirect:/" />
     <end-state id="error" view="externalRedirect:/companies?err=2" />
 

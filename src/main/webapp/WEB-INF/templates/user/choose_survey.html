@@ -12,8 +12,8 @@
 <div class="container">
     <h1 class="text-center mx-auto pt-5 mt-5 mb-5 text-light">Choose Survey</h1>
     <th:block th:each="survey : ${surveys}">
-        <form th:action="@{/fill_survey}" method="get">
-            <input type="hidden" class="btn btn-lg btn-outline-light btn-block mt-4" name="surveyId" th:value ="${survey.Id}">
+        <form th:action="@{/comps_surveys/survey}" method="get">
+            <input type="hidden" class="btn btn-lg btn-outline-light btn-block mt-4" name="s" th:value ="${survey.Id}">
             <input type="submit" class="btn btn-lg btn-outline-light btn-block mt-4" th:value="${survey.surveyName} + ' ' + ${survey.voucher.voucherDescription}">
         </form>
     </th:block>

@@ -32,7 +32,7 @@ public class SpringWebFlowConfiguration extends AbstractFlowConfiguration {
     public FlowDefinitionRegistry flowRegistry() {
         return getFlowDefinitionRegistryBuilder(flowBuilderServices())
                 .addFlowLocation("/WEB-INF/flows/signup-flow.xml", "sign_up")
-                .addFlowLocation("/WEB-INF/flows/survey-flow.xml", "testSurveys").build();
+                .addFlowLocation("/WEB-INF/flows/survey-flow.xml", "comps_surveys/survey").build();
     }
 
     @Bean

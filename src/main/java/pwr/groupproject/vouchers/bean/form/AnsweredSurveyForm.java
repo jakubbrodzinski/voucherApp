@@ -13,6 +13,9 @@ public class AnsweredSurveyForm implements Serializable {
 
     private static final long serialVersionUID = -2959738256673744710L;
     private AnswerDto[] answers;
+    private String email;
+    private String country;
+    private int age;
 
 
     public AnsweredSurveyForm() {
@@ -20,7 +23,6 @@ public class AnsweredSurveyForm implements Serializable {
     }
 
     public AnsweredSurveyForm(Survey survey) {
-        System.out.println("ASDAD");
         AnswerDto[] answers = new AnswerDto[survey.getQuestions().size()];
         for(int i = 0, size = survey.getQuestions().size(); i < size; i++) {
             AnswerDto answerDto = new AnswerDto();
@@ -39,4 +41,27 @@ public class AnsweredSurveyForm implements Serializable {
         this.answers = answers;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 }

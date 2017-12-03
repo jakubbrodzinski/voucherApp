@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pwr.groupproject.vouchers.bean.dto.AnswerDto;
 import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
@@ -157,11 +158,21 @@ public class DefaultController {
         for(int i = 0, size = survey.getQuestions().size(); i < size; i++) {
             AnswerDto answerDto = new AnswerDto();
             answerDto.setQuestion(((List<Question>)survey.getQuestions()).get(i));
+            answerDto.setAnswerBody("");
             answers[i] = answerDto;
-            System.out.println(answerDto.getQuestion().getQuestionBody());
         }
         answeredSurveyForm.setAnswers(answers);
         model.addAttribute("answeredSurveyForm", answeredSurveyForm);
+
         return "/user/survey.html";
+    }
+
+    @RequestMapping(value = "testSurvey", method = RequestMethod.POST)
+    public String sendSurvey(@ModelAttribute AnsweredSurveyForm answeredSurveyForm, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            System.out.println(":BLADS");
+        }
+        System.out.println(answeredSurveyForm.getAnswers()[0].getAnswerBody());
+        return "/index.html";
     }
 }

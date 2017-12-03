@@ -6,34 +6,34 @@
     <title>Title</title>
 </head>
 <body>
-    <div th:fragment="inputQuestion(question)">
+    <div th:fragment="inputQuestion(question, answers)">
         <p th:text="${question.questionBody}">Test</p>
         <div th:switch="${question.questionType}">
             <div th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).OPEN}">
-                <input type="text">
+                <input th:field="*{answers[__${iter.index}__].answerBody}" type="text">
             </div>
-            <div th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).MULTIPLE_CHOICE}">
-                <input type="checkbox" th:value="${question.possibleAnswers.possibleAnswerA}">
+            <div th:id="${question.id}" th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).MULTIPLE_CHOICE}">
+                <input th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="${question.possibleAnswers.possibleAnswerA}">
                 <p th:text="${question.possibleAnswers.possibleAnswerA}">PossibleAnswerA</p>
-                <input type="checkbox" th:value="${question.possibleAnswers.possibleAnswerB}">
+                <input th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="${question.possibleAnswers.possibleAnswerB}">
                 <p th:text="${question.possibleAnswers.possibleAnswerB}">PossibleAnswerB</p>
-                <input type="checkbox" th:value="${question.possibleAnswers.possibleAnswerC}">
+                <input th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="${question.possibleAnswers.possibleAnswerC}">
                 <p th:text="${question.possibleAnswers.possibleAnswerC}">PossibleAnswerC</p>
-                <input type="checkbox" th:value="${question.possibleAnswers.possibleAnswerD}">
+                <input th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="${question.possibleAnswers.possibleAnswerD}">
                 <p th:text="${question.possibleAnswers.possibleAnswerD}">PossibleAnswerD</p>
             </div>
-            <div th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).SINGLE_CHOICE}">
-                <input type="radio" th:value="${question.possibleAnswers.possibleAnswerA}">
+            <div th:id="${question.id}" th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).SINGLE_CHOICE}">
+                <input th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="radio" th:value="${question.possibleAnswers.possibleAnswerA}" checked>
                 <span th:text="${question.possibleAnswers.possibleAnswerA}">PossibleAnswerA</span>
-                <input type="radio" th:value="${question.possibleAnswers.possibleAnswerB}">
+                <input th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="radio" th:value="${question.possibleAnswers.possibleAnswerB}">
                 <span th:text="${question.possibleAnswers.possibleAnswerB}">PossibleAnswerB</span>
-                <input type="radio" th:value="${question.possibleAnswers.possibleAnswerC}">
+                <input th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="radio" th:value="${question.possibleAnswers.possibleAnswerC}">
                 <span th:text="${question.possibleAnswers.possibleAnswerC}">PossibleAnswerC</span>
-                <input type="radio" th:value="${question.possibleAnswers.possibleAnswerD}">
+                <input th:field="*{answers[__${iter.index}__].answerBody}"  th:name="${question.id}" type="radio" th:value="${question.possibleAnswers.possibleAnswerD}">
                 <span th:text="${question.possibleAnswers.possibleAnswerD}">PossibleAnswerD</span>
             </div>
             <div th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).RANGED}">
-                <input type="range">
+                <input th:field="*{answers[__${iter.index}__].answerBody}" type="range">
             </div>
         </div>
     </div>

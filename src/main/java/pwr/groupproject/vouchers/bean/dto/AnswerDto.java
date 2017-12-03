@@ -8,7 +8,7 @@ public class AnswerDto implements Serializable {
     private static final long serialVersionUID = 2272322895956201859L;
 
     private Question question;
-    private String answer;
+    private String answerBody;
 
     public Question getQuestion() {
         return question;
@@ -18,11 +18,11 @@ public class AnswerDto implements Serializable {
         this.question = question;
     }
 
-    public String getAnswer() {
-        return answer;
+    public String getAnswerBody() {
+        return answerBody;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setAnswerBody(String answerBody) {
+        this.answerBody = answerBody;
     }
 }

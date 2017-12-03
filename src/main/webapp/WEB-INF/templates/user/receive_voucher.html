@@ -22,7 +22,7 @@
             <div class="card-header">
                 You have completed a survey!
             </div>
-            <form th:action="${flowExecutionUrl}" th:object="${answeredSurveyForm}">
+            <form th:action="${flowExecutionUrl}" th:object="${answeredSurveyForm}" method="post">
             <div class="card-body">
                 <h4 class="card-title">You have successfully completed a survey!</h4>
                 <span>
@@ -36,12 +36,12 @@
 
                             <div class="form-group row mx-auto">
                                 <div class="float-left">
-                                    <input  id="ageInput" type="number" min="13" max="120" step="1" placeholder="Age"/>
+                                    <input th:field="*{user.age}"  id="ageInput" type="number" min="13" max="120" step="1" placeholder="Age"/>
                                 </div>
                             </div>
                             <div class="form-group row mx-auto">
                                 <div class="float-left">
-                                    <select >
+                                    <select th:selected="*{user.country}">
                                         <option disabled selected value> -- select your country -- </option>
                                         <option value="AF">Afghanistan</option>
                                         <option value="AX">Åland Islands</option>
@@ -300,7 +300,7 @@
                            data-toggle="tooltip" data-placement="left" title="We will send you a voucher by e-mail." >
 
                 <p class="card-text"></p>
-                <input type="submit" name="_eventId" value="Receive" class="btn btn-primary">Receive <i class="fa fa-gift"></i></input>
+                <button type="submit" name="_eventId" value="Submit" class="btn btn-primary">Receive <i class="fa fa-gift"></i></button>
             </div>
             </form>
         </div>

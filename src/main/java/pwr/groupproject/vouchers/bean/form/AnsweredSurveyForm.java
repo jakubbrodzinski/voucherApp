@@ -28,8 +28,8 @@ public class AnsweredSurveyForm implements Serializable {
     public AnsweredSurveyForm() {
     }
 
-    public AnsweredSurveyForm(Survey survey) {
-        answers = new AnswerDto[survey.getQuestions().size()];
+    public AnsweredSurveyForm(int qSize) {
+        answers = new AnswerDto[qSize];
         Arrays.setAll(answers, a -> new AnswerDto(""));
     }
 

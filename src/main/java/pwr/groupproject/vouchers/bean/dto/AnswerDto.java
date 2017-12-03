@@ -9,6 +9,13 @@ public class AnswerDto implements Serializable {
 
     private String answerBody;
 
+    public AnswerDto(String answerBody) {
+        this.answerBody = answerBody;
+    }
+
+    public AnswerDto() {
+    }
+
     public String getAnswerBody() {
         return answerBody;
     }

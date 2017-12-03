@@ -1,9 +1,11 @@
 package pwr.groupproject.vouchers.services;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import pwr.groupproject.vouchers.bean.dto.rest.SurveyDtoRest;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongCompanyIdException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
+import pwr.groupproject.vouchers.bean.form.AnsweredSurveyForm;
 import pwr.groupproject.vouchers.bean.form.VoucherForm;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
@@ -19,6 +21,7 @@ public interface CompanySurveyService {
     Survey checkIfSurveyExists(int surveyId, UserCompany userCompany) throws WrongSurveyIdException;
 
     void addAnsweredSurvey(AnsweredSurvey answeredSurvey);
+    void addAnsweredSurvey(AnsweredSurveyForm answeredSurveyForm, int surveyId);
 
     @PreAuthorize("hasRole('COMPANY')")
     void addSurvey(SurveyDto surveyDto, UserCompany userCompany);

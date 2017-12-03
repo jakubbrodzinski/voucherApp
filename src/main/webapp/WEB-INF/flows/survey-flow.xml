@@ -23,7 +23,8 @@
     </view-state>
 
     <view-state id="step2" view="/user/receive_voucher.html" model="answeredSurveyForm">
-        <transition on="Submit" to="success" validate="true"/>
+        <transition on="Submit" to="success" validate="true">
+        </transition>
         <transition on="cancel" to="cancel" validate="false"/>
         <transition on="previousStep" to="step1" validate="false" />
     </view-state>

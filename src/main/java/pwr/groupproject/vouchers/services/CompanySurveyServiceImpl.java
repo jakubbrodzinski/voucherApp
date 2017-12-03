@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pwr.groupproject.vouchers.bean.dto.AnswerDto;
 import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
+import pwr.groupproject.vouchers.bean.dto.rest.SurveyDtoRest;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongCompanyIdException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
+import pwr.groupproject.vouchers.bean.form.AnsweredSurveyForm;
 import pwr.groupproject.vouchers.bean.form.VoucherForm;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
@@ -16,9 +19,7 @@ import pwr.groupproject.vouchers.dao.VoucherDao;
 import pwr.groupproject.vouchers.bean.dto.QuestionDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
@@ -53,6 +54,35 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
 
     @Override
     public void addAnsweredSurvey(AnsweredSurvey answeredSurvey) {
+        companySurveyDao.addAnsweredSurvey(answeredSurvey);
+    }
+
+    @Override
+    public void addAnsweredSurvey(AnsweredSurveyForm answeredSurveyForm, int surveyId) {
+        AnsweredSurvey answeredSurvey = new AnsweredSurvey();
+        Survey survey = companySurveyDao.getSurveyById(surveyId);
+        answeredSurvey.setSurvey(survey);
+
+        List<Answer> answers = new ArrayList<>(answeredSurveyForm.getAnswers().length);
+        List<Question> questions = (List<Question>) survey.getQuestions();
+        AnswerDto[] answerDtos = answeredSurveyForm.getAnswers();
+        for(int i = 0, size = answeredSurveyForm.getAnswers().length; i < size; i++) {
+            Answer answer = new Answer();
+            answer.setAnswer(answerDtos[i].getAnswerBody());
+            answer.setAnsweredSurvey(answeredSurvey);
+            answer.setQuestion(questions.get(i));
+
+            answers.add(answer);
+        }
+        answeredSurvey.setAnswersList(answers);
+
+        User user = new User();
+        user.setCountry(answeredSurveyForm.getCountry());
+        user.setAge(answeredSurveyForm.getAge());
+
+        answeredSurvey.setUser(user);
+
+        answeredSurvey.setDate(new Date());
         companySurveyDao.addAnsweredSurvey(answeredSurvey);
     }
 

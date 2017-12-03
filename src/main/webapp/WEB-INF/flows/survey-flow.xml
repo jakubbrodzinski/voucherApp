@@ -12,6 +12,9 @@
         <evaluate expression="new pwr.groupproject.vouchers.bean.dto.rest.SurveyDtoRest(companySurveyServiceImpl.getSurveyByIdWithQuestion(flowScope.surveyId))" result="flowScope.survey" />
     </on-start>
 
+    <decision-state id="checkBlocked">
+        <if test="defaultController.testBlock(flowScope.surveyId, flowRequestContext) == 200" then="step1" else="error" />
+    </decision-state>
 
     <view-state id="step1" view="/user/survey.html" model="answeredSurveyForm">
 
@@ -28,7 +31,8 @@
         <transition on="previousStep" to="step1" validate="false"></transition>
     </view-state>
 
-    <end-state id="success" view="externalRedirect:/testSurvey"></end-state>
+    <end-state id="success" view="/user/receive_finished_landing"></end-state>
     <end-state id="cancel" view="externalRedirect:/"></end-state>
+    <end-state id="error" view="externalRedirect:/companies?err=2"></end-state>
 
 </flow>

@@ -6,11 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.webflow.execution.RequestContext;
 import pwr.groupproject.vouchers.bean.dto.AnswerDto;
 import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
 import pwr.groupproject.vouchers.bean.dto.QuestionDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.enums.TokenStatus;
+import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.form.AnsweredSurveyForm;
 import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
 import pwr.groupproject.vouchers.bean.model.*;
@@ -20,6 +23,8 @@ import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.MailService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -173,6 +178,22 @@ public class DefaultController {
         }
         System.out.println(answeredSurveyForm.getAnswers()[0].getAnswerBody());
         return "/index.html";
+    }
+
+    public int testBlock(@RequestParam(name = "surveyId") Integer surveyId, RequestContext requestContext) {
+        VoucherCodeDate voucherCodeDate;
+        HttpSession httpSession=((HttpServletRequest)requestContext.getExternalContext().getNativeRequest()).getSession(true);
+        Object vCodeId=httpSession.getAttribute("vCode");
+        try {
+            if(vCodeId!=null){
+                companySurveyService.unBlockVoucherCode((Integer)vCodeId);
+            }
+            voucherCodeDate = companySurveyService.blockVoucherCodeForSurvey(surveyId);
+            httpSession.setAttribute("vCode", voucherCodeDate.getId());
+        } catch (NoAvaibleVouchersException e) {
+            return 300;
+        }
+        return 200;
     }
 
 

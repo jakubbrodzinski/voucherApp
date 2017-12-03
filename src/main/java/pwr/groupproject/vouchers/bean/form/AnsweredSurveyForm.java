@@ -6,31 +6,31 @@ import pwr.groupproject.vouchers.bean.model.Question;
 import pwr.groupproject.vouchers.bean.model.Survey;
 import pwr.groupproject.vouchers.bean.model.User;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 public class AnsweredSurveyForm implements Serializable {
 
     private static final long serialVersionUID = -2959738256673744710L;
     private AnswerDto[] answers;
+    @Email
     private String email;
+    @Pattern(regexp = "[a-zA-Z]*")
     private String country;
+    @Min(1)
     private int age;
 
 
     public AnsweredSurveyForm() {
-        super();
     }
 
     public AnsweredSurveyForm(Survey survey) {
-        AnswerDto[] answers = new AnswerDto[survey.getQuestions().size()];
-        for(int i = 0, size = survey.getQuestions().size(); i < size; i++) {
-            AnswerDto answerDto = new AnswerDto();
-            answerDto.setAnswerBody("");
-            answers[i] = answerDto;
-        }
-        this.answers = answers;
-
+        answers = new AnswerDto[survey.getQuestions().size()];
+        Arrays.setAll(answers, a -> new AnswerDto(""));
     }
 
     public AnswerDto[] getAnswers() {

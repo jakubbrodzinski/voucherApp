@@ -1,5 +1,6 @@
 package pwr.groupproject.vouchers.bean.dto.rest;
 
+import pwr.groupproject.vouchers.bean.dto.rest.QuestionDtoRest;
 import pwr.groupproject.vouchers.bean.model.Question;
 import pwr.groupproject.vouchers.bean.model.Survey;
 

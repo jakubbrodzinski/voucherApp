@@ -1,7 +1,6 @@
 package pwr.groupproject.vouchers.bean.form;
 
-import org.hibernate.validator.constraints.NotBlank;
-
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Pattern;
 

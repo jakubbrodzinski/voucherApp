@@ -1,4 +1,4 @@
-package pwr.groupproject.vouchers.bean.dto;
+package pwr.groupproject.vouchers.bean.dto.rest;
 
 import pwr.groupproject.vouchers.bean.model.Survey;
 import pwr.groupproject.vouchers.bean.model.Voucher;
@@ -6,7 +6,7 @@ import pwr.groupproject.vouchers.bean.model.enums.DiscountType;
 
 import java.io.Serializable;
 
-public class SurveyVoucherDto implements Serializable {
+public class SurveyVoucherDtoRest implements Serializable {
     private static final long serialVersionUID = 5078475576995835046L;
     private int Id;
     private String surveyName;
@@ -14,10 +14,10 @@ public class SurveyVoucherDto implements Serializable {
     private int discountAmmount;
     private String voucherDescription;
 
-    public SurveyVoucherDto() {
+    public SurveyVoucherDtoRest() {
     }
 
-    public SurveyVoucherDto(Survey survey) {
+    public SurveyVoucherDtoRest(Survey survey) {
         this.Id = survey.getId();
         this.surveyName = survey.getSurveyName();
         Voucher voucher = survey.getVoucher();

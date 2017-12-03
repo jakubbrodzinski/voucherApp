@@ -1,19 +1,22 @@
-package pwr.groupproject.vouchers.bean.dto;
+package pwr.groupproject.vouchers.bean.dto.rest;
 
 import pwr.groupproject.vouchers.bean.model.Address;
 import pwr.groupproject.vouchers.bean.model.Company;
 
-public class CompanyDto {
+import java.io.Serializable;
+
+public class CompanyDtoRest implements Serializable {
+    private static final long serialVersionUID = 2363445322855782907L;
     private int Id;
     private String postalCode;
     private String city;
     private String addressDetails;
     private String companyName;
 
-    public CompanyDto() {
+    public CompanyDtoRest() {
     }
 
-    public CompanyDto(Company company) {
+    public CompanyDtoRest(Company company) {
         this.Id = company.getId();
         this.companyName = company.getCompanyName();
         Address address = company.getCompanyAddress();

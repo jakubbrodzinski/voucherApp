@@ -1,10 +1,10 @@
 package pwr.groupproject.vouchers.bean.form;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 import pwr.groupproject.vouchers.bean.form.annotations.PasswordValidationConstraint;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 

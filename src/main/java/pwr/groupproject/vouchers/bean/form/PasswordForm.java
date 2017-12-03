@@ -1,13 +1,14 @@
 package pwr.groupproject.vouchers.bean.form;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 import pwr.groupproject.vouchers.bean.form.annotations.PasswordValidationConstraint;
 
-@PasswordValidationConstraint(filedOne = "password",filedTwo = "repeatedPassword")
+import javax.validation.constraints.NotBlank;
+
+@PasswordValidationConstraint(filedOne = "password", filedTwo = "repeatedPassword")
 public class PasswordForm {
     private String oldPassword;
-    @Length(min=6)
+    @Length(min = 6)
     private String password;
     @NotBlank
     private String repeatedPassword;

@@ -157,7 +157,6 @@ public class DefaultController {
         AnswerDto[] answers = new AnswerDto[survey.getQuestions().size()];
         for(int i = 0, size = survey.getQuestions().size(); i < size; i++) {
             AnswerDto answerDto = new AnswerDto();
-            answerDto.setQuestion(((List<Question>)survey.getQuestions()).get(i));
             answerDto.setAnswerBody("");
             answers[i] = answerDto;
         }

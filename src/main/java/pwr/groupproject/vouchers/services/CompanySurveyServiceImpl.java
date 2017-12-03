@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.webflow.execution.RequestContext;
 import pwr.groupproject.vouchers.bean.dto.ClosedQuestionDto;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongCompanyIdException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
+import pwr.groupproject.vouchers.bean.form.AnsweredSurveyForm;
 import pwr.groupproject.vouchers.bean.form.VoucherForm;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
@@ -16,6 +18,8 @@ import pwr.groupproject.vouchers.dao.VoucherDao;
 import pwr.groupproject.vouchers.bean.dto.QuestionDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
@@ -99,6 +103,31 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     public void deleteVoucherCodeDate(int voucherCodeDateId) {
         VoucherCodeDate v=voucherDao.getVoucherCodeDateById(voucherCodeDateId);
         voucherDao.deleteVoucherCodeDate(v);
+    }
+
+    @Override
+    public boolean validateSurveyIdWithVoucherCode(Integer surveyId, RequestContext requestContext) {
+        VoucherCodeDate voucherCodeDate;
+        HttpSession httpSession=((HttpServletRequest)requestContext.getExternalContext().getNativeRequest()).getSession(true);
+        Object vCodeId=httpSession.getAttribute("vCode");
+        try {
+            if(vCodeId!=null){
+                unBlockVoucherCode((Integer)vCodeId);
+            }
+            voucherCodeDate = blockVoucherCodeForSurvey(surveyId);
+            httpSession.setAttribute("vCode", voucherCodeDate.getId());
+        } catch (NoAvaibleVouchersException e) {
+            return false;
+        }
+        return true;
+    }
+//TO-DO
+    @Override
+    public VoucherCode confirmAnsweringSurvey(Integer surveyId, AnsweredSurveyForm answeredSurveyForm, RequestContext requestContext) {
+        HttpSession httpSession=((HttpServletRequest)requestContext.getExternalContext().getNativeRequest()).getSession(true);
+        Integer vCodeId = (Integer) httpSession.getAttribute("vCode");
+        httpSession.setAttribute("vCode",null);
+        return deployVoucherCode(vCodeId);
     }
 
     @Override

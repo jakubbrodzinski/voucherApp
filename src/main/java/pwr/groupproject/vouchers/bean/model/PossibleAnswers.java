@@ -1,9 +1,12 @@
 package pwr.groupproject.vouchers.bean.model;
 
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 
 @Embeddable
-public class PossibleAnswers {
+public class PossibleAnswers implements Serializable {
+
+    private static final long serialVersionUID = -1241014771227730014L;
     private String possibleAnswerA;
     private String possibleAnswerB;
     private String possibleAnswerC;

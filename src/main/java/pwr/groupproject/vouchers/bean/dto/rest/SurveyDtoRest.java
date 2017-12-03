@@ -39,7 +39,7 @@ public class SurveyDtoRest implements Serializable {
         this.surveyName = surveyName;
     }
 
-    public Collection<QuestionDtoRest> getQuestions() {
+    public Collection<QuestionDtoRest> getQuestionsDto() {
         return questionsDto;
     }
 }

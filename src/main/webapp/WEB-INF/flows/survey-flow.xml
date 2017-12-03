@@ -8,6 +8,7 @@
 
 
     <on-start>
+        <evaluate expression="new pwr.groupproject.vouchers.bean.form.UserForm()" result="flowScope.userForm" />
         <evaluate expression="new pwr.groupproject.vouchers.bean.form.AnsweredSurveyForm(companySurveyServiceImpl.getSurveyByIdWithQuestion(flowScope.surveyId))" result="flowScope.answeredSurveyForm" />
         <evaluate expression="new pwr.groupproject.vouchers.bean.dto.rest.SurveyDtoRest(companySurveyServiceImpl.getSurveyByIdWithQuestion(flowScope.surveyId))" result="flowScope.survey" />
     </on-start>
@@ -23,7 +24,7 @@
         <transition on="cancel" to="cancel" validate="false" bind="false"></transition>
     </view-state>
 
-    <view-state id="step2" view="/user/receive_voucher.html" model="answeredSurveyForm">
+    <view-state id="step2" view="/user/receive_voucher.html" model="userForm">
         <transition on="Submit" to="success">
 
         </transition>

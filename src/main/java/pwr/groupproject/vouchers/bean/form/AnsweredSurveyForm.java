@@ -13,8 +13,7 @@ public class AnsweredSurveyForm implements Serializable {
 
     private static final long serialVersionUID = -2959738256673744710L;
     private AnswerDto[] answers;
-    private String email;
-    private User user;
+
 
     public AnsweredSurveyForm() {
         super();
@@ -30,11 +29,6 @@ public class AnsweredSurveyForm implements Serializable {
         }
         this.answers = answers;
 
-        this.email = "";
-
-        User user = new User();
-        user.setCountry("");
-        this.user = user;
     }
 
     public AnswerDto[] getAnswers() {
@@ -45,19 +39,4 @@ public class AnsweredSurveyForm implements Serializable {
         this.answers = answers;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

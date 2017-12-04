@@ -4,49 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/globalStyle.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
-<a th:href="@{/forgot_password}">forgot password</a>
-<br>
-<form th:action="@{/sign_in}" method="post">
-    <table>
-        <tr>
-            <td><input type="text" id="username" name="username"
-                       th:placeholder="username"/></td>
-        </tr>
-        <tr>
-            <td><input type="password" th:placeholder="password"
-                       id="password" name="password"/></td>
-        </tr>
-        <tr>
-            <td>
-                <th:block th:if="${errorCode}">
-                    <div th:switch="${errorCode}" th:remove="tag">
-                        <div th:case="${T(pwr.groupproject.vouchers.bean.enums.ErrorCode).WRONG_USERNAME}">
-                            <span th:text="#{messages.wrong.login}"></span>
+<body class="defaultColor defaultMaxWidth mx-auto">
+<div th:insert="/fragments/dashboard.html :: userDashboard"></div>
+<div class="container">
+    <div class="card card-login mx-auto" style="margin-top:8rem">
+        <div class="card-header">Login</div>
+        <div class="card-body">
+            <form th:action="@{sign_in}" method="post">
+                <div class="form-group">
+                    <label for="username">Email address</label>
+                    <input class="form-control" id="username" name="username" type="text" placeholder="Enter username">
+                    <th:block th:if="${errorCode}">
+                        <div th:switch="${errorCode}" th:remove="tag">
+                            <div th:case="${T(pwr.groupproject.vouchers.bean.enums.ErrorCode).WRONG_USERNAME}">
+                                <span th:text="#{messages.wrong.login}"></span>
+                            </div>
+                            <div th:case="${T(pwr.groupproject.vouchers.bean.enums.ErrorCode).WRONG_PASSWORD}">
+                                <span th:text="#{messages.wrong.login}"></span>
+                            </div>
+                            <div th:case="${T(pwr.groupproject.vouchers.bean.enums.ErrorCode).NOT_ACTIVATED}">
+                                <span th:text="#{messages.account.not.activated}"></span>
+                            </div>
+                            <div th:case="*">
+                                <span th:text="#{messages.wrong.login}"></span>
+                            </div>
                         </div>
-                        <div th:case="${T(pwr.groupproject.vouchers.bean.enums.ErrorCode).WRONG_PASSWORD}">
-                            <span th:text="#{messages.wrong.login}"></span>
-                        </div>
-                        <div th:case="${T(pwr.groupproject.vouchers.bean.enums.ErrorCode).NOT_ACTIVATED}">
-                            <span th:text="#{messages.account.not.activated}"></span>
-                        </div>
-                        <div th:case="*">
-                            <span th:text="#{messages.wrong.login}"></span>
-                        </div>
-                    </div>
-                </th:block>
-            </td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-            <td><input type="submit" value="Submit"/> <input type="hidden"
-                                                             name="${_csrf.parameterName}"
-                                                             value="${_csrf.token}"/></td>
-            <td><input type="reset" value="Reset"/></td>
-        </tr>
-    </table>
-</form>
+                    </th:block>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input class="form-control" id="password" name="password" type="password" placeholder="Password">
+                </div>
+                <input class="btn btn-primary btn-block" type="submit" value="Login"/>
+                <input type="hidden"
+                       name="${_csrf.parameterName}"
+                       value="${_csrf.token}"/>
+            </form>
+            <div class="text-center">
+                <a class="d-block small mt-3" th:href="@{/forgot_password}">forgot password</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

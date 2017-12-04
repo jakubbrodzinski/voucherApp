@@ -31,6 +31,24 @@
 
     </div>
 </div>
+<div th:fragment="bootStrapInputText(label,fieldname,placeholder)">
+    <div th:switch="${#fields.hasErrors('__${fieldname}__')}">
+        <div th:case="${true}">
+            <div class="form-group">
+                <label th:for="${label}" th:text="${label}">Password</label>
+                <input class="form-control" th:id="${label}" th:name="${label}" type="text" th:placeholder="${placeholder}" th:field="*{__${fieldname}__}">
+            </div>
+                <td th:insert="fragments/fields_input.html :: field-errors(${fieldname})" ></td>
+        </div>
+        <div th:case="${false}">
+            <div class="form-group">
+            <label th:for="${label}" th:text="${label}">Password</label>
+            <input class="form-control" th:id="${label}" th:name="${label}" type="text" th:placeholder="${placeholder}" th:field="*{__${fieldname}__}">
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div th:fragment="inputPassword(label,fieldname)">
     <div th:switch="${#fields.hasErrors('__${fieldname}__')}">
@@ -45,6 +63,25 @@
         <div th:case="${false}">
             <td th:text="${label}+':'" ></td>
             <td><input type="password" th:field="*{__${fieldname}__}" /></td>
+        </div>
+
+    </div>
+</div>
+
+<div th:fragment="bootStrapInputPassword(label,fieldname,placeholder)">
+    <div th:switch="${#fields.hasErrors('__${fieldname}__')}">
+        <div th:case="${true}">
+            <div class="form-group">
+                <label th:for="${label}" th:text="${label}">Password</label>
+                <input class="form-control" th:id="${label}" th:name="${label}" type="password" th:placeholder="${placeholder}" th:field="*{__${fieldname}__}">
+            </div>
+            <td th:insert="fragments/fields_input.html :: field-errors(${fieldname})" ></td>
+        </div>
+        <div th:case="${false}">
+            <div class="form-group">
+            <label th:for="${label}" th:text="${label}">Password</label>
+            <input class="form-control" th:id="${label}" th:name="${label}" type="password" th:placeholder="${placeholder}" th:field="*{__${fieldname}__}">
+            </div>
         </div>
 
     </div>

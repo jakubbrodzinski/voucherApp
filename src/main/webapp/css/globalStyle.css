@@ -1,3 +1,5 @@
 .defaultColor{
     background: #18BC9C;
 }
+.defaultMaxWidth {
+    max-width: 25rem; }

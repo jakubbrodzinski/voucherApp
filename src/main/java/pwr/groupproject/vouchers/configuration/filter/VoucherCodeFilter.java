@@ -30,7 +30,7 @@ public class VoucherCodeFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpSession session = httpServletRequest.getSession();
+        HttpSession session = httpServletRequest.getSession(true);
         Integer vDateId = (Integer) session.getAttribute("vCode");
         if (vDateId != null) {
             try {
@@ -41,7 +41,8 @@ public class VoucherCodeFilter implements Filter {
                     companySurveyService.deleteVoucherCodeDate(vDateId);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                if(!(e instanceof NullPointerException))
+                    e.printStackTrace();
                 session.setAttribute("vCode", null);
             }
         }

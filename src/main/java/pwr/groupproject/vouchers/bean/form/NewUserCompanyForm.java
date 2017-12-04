@@ -21,7 +21,7 @@ public class NewUserCompanyForm implements Serializable {
     @NotBlank(groups = ValidationGroup1.class)
     private String repeatedPassword;
     @NotBlank(groups = ValidationGroup1.class)
-    @Pattern(regexp = "[0-9a-zA-Z -.]",message = "{constraint.company.name}",groups = ValidationGroup1.class)
+    @Pattern(regexp = "[0-9a-zA-Z -.]*",message = "{constraint.company.name}",groups = ValidationGroup1.class)
     private String companyName;
 
     @Pattern(regexp = "\\d\\d-\\d\\d\\d", groups = ValidationGroup2.class)

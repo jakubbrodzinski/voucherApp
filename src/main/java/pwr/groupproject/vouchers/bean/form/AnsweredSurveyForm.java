@@ -1,20 +1,13 @@
 package pwr.groupproject.vouchers.bean.form;
 
-import org.springframework.validation.annotation.Validated;
 import pwr.groupproject.vouchers.bean.dto.AnswerDto;
-import pwr.groupproject.vouchers.bean.model.AnsweredSurvey;
-import pwr.groupproject.vouchers.bean.model.Question;
-import pwr.groupproject.vouchers.bean.model.Survey;
-import pwr.groupproject.vouchers.bean.model.User;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.List;
 
 public class AnsweredSurveyForm implements Serializable {
 
@@ -70,6 +63,6 @@ public class AnsweredSurveyForm implements Serializable {
         this.age = age;
     }
 
-    public interface Group1{}
+    public interface ValidationGroup1{}
 
 }

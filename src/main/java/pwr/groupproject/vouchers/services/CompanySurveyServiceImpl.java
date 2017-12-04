@@ -28,11 +28,13 @@ import java.util.*;
 public class CompanySurveyServiceImpl implements CompanySurveyService {
     private final CompanySurveyDao companySurveyDao;
     private final VoucherDao voucherDao;
+    private final MailService mailService;
 
     @Autowired
-    public CompanySurveyServiceImpl(CompanySurveyDao companySurveyDao, VoucherDao voucherDao) {
+    public CompanySurveyServiceImpl(CompanySurveyDao companySurveyDao, VoucherDao voucherDao,MailService mailService) {
         this.companySurveyDao = companySurveyDao;
         this.voucherDao = voucherDao;
+        this.mailService=mailService;
     }
 
     @Override
@@ -151,7 +153,9 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
         HttpSession httpSession = ((HttpServletRequest) requestContext.getExternalContext().getNativeRequest()).getSession(true);
         Integer vCodeId = (Integer) httpSession.getAttribute("vCode");
         httpSession.setAttribute("vCode", null);
-        return new VoucherCodeDto(deployVoucherCode(vCodeId));
+        VoucherCode voucherCode=deployVoucherCode(vCodeId);
+        mailService.sendVoucherCodeEmail(voucherCode,answeredSurveyForm.getEmail());
+        return new VoucherCodeDto(voucherCode);
     }
 
     @Override

@@ -17,7 +17,7 @@
         <if test="companySurveyServiceImpl.validateSurveyIdWithVoucherCode(flowScope.s,flowRequestContext)" then="step1" else="error" />
     </decision-state>
 
-    <view-state id="step1" view="/user/survey.html" model="answeredSurveyForm" validation-hints="'group1'">
+    <view-state id="step1" view="/user/survey.html" model="answeredSurveyForm" validation-hints="'validationGroup1'">
         <transition on="Submit" to="step2" validate="true"/>
         <transition on="cancel" to="cancel" validate="false" bind="false"/>
     </view-state>

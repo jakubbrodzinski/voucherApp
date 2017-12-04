@@ -2,6 +2,7 @@ package pwr.groupproject.vouchers.services;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.webflow.execution.RequestContext;
+import pwr.groupproject.vouchers.bean.dto.VoucherCodeDto;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongCompanyIdException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
@@ -91,6 +92,6 @@ public interface CompanySurveyService {
     //Methods for webFlow
     boolean validateSurveyIdWithVoucherCode(Integer surveyId, RequestContext requestContext);
 
-    VoucherCode confirmAnsweringSurvey(Integer surveyId, AnsweredSurveyForm answeredSurveyForm, RequestContext requestContext);
+    VoucherCodeDto confirmAnsweringSurvey(Integer surveyId, AnsweredSurveyForm answeredSurveyForm, RequestContext requestContext);
 
 }

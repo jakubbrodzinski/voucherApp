@@ -36,6 +36,7 @@
             <div th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).RANGED}">
                 <input th:field="*{answers[__${iter.index}__].answerBody}" type="range">
             </div>
+            <p class="alert alert-danger" th:if="${#fields.hasErrors('answers[__${iter.index}__].answerBody')}" th:errors="*{answers[__${iter.index}__].answerBody}"></p>
         </div>
     </div>
 </body>

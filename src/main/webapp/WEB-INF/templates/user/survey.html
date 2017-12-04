@@ -11,6 +11,7 @@
     <title th:text="'Survey ' + ${survey.surveyName}">Survey title</title>
 </head>
 <body>
+
     <p th:text="${survey.surveyName}">Template survey description</p>
     <form th:action="${flowExecutionUrl}" th:object="${answeredSurveyForm}"  method="post">
         <div th:each="question, iter : ${survey.questionsDto}">

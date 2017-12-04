@@ -1,6 +1,8 @@
 package pwr.groupproject.vouchers.services;
 
+import org.springframework.binding.message.MessageContext;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 import pwr.groupproject.vouchers.bean.dto.VoucherCodeDto;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
@@ -94,4 +96,5 @@ public interface CompanySurveyService {
 
     VoucherCodeDto confirmAnsweringSurvey(Integer surveyId, AnsweredSurveyForm answeredSurveyForm, RequestContext requestContext);
 
+    Event validateAnsweredSurveyForm(int surveyId, AnsweredSurveyForm answeredSurveyForm, MessageContext messageContext);
 }

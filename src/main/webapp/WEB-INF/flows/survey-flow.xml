@@ -18,7 +18,9 @@
     </decision-state>
 
     <view-state id="step1" view="/user/survey.html" model="answeredSurveyForm" validation-hints="'validationGroup1'">
-        <transition on="Submit" to="step2" validate="true"/>
+        <transition on="Submit" to="step2" validate="true">
+            <evaluate expression="companySurveyServiceImpl.validateAnsweredSurveyForm(s,answeredSurveyForm,messageContext)" />
+        </transition>
         <transition on="cancel" to="cancel" validate="false" bind="false"/>
     </view-state>
 

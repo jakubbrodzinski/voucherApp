@@ -20,10 +20,8 @@
                 <div th:insert="fragments/fields_input.html :: bootStrapInputText(#{label.eMail},'userName','E-mail')"></div>
                 <div th:insert="fragments/fields_input.html :: bootStrapInputPassword(#{label.password},'password','Password')"></div>
                 <div th:insert="fragments/fields_input.html :: bootStrapInputPassword(#{label.rePassword},'repeatedPassword','Repeat password')"></div>
-                <input class="btn btn-primary btn-block mt-4" name="_eventId" type="submit" value="Next Step"/>
-                <input type="hidden"
-                       name="${_csrf.parameterName}"
-                       value="${_csrf.token}"/>
+                <input class="btn btn-primary btn-block mt-4" type="submit" name="_eventId" value="nextStep"/>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             </form>
         </div>
     </div>

@@ -5,28 +5,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{css/globalStyle.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
+<body class="defaultColor defaultMaxWidth mx-auto">
+<div th:insert="/fragments/dashboard.html :: userDashboard"></div>
+<div class="container">
+    <div class="card card-login mx-auto" style="margin-top:8rem">
+        <div class="card-header">Sing Up</div>
+        <div class="card-body">
 <form method="post" th:action="${flowExecutionUrl}" th:object="${company}">
-    <table>
-        <tr>
-            <div th:insert="fragments/fields_input.html :: inputText(#{label.postalCode},'postalCode')"></div>
-        </tr>
-        <tr>
-            <div th:insert="fragments/fields_input.html :: inputText(#{label.town},'city')"></div>
-        </tr>
-        <tr>
-            <div th:insert="fragments/fields_input.html :: inputText(#{label.address},'addressDetails')"></div>
-        </tr>
-        <tr>
-        <td><input type="submit" name="_eventId" value="previousStep"/></td>
-        <td><input type="submit" name="_eventId" value="cancel"/></td>
-        <td>
-            <input type="submit" name="_eventId" value="nextStep"/>
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        </td>
-        </tr>
-    </table>
+            <div th:insert="fragments/fields_input.html :: bootStrapInputText(#{label.postalCode},'postalCode','Postal code')"></div>
+
+            <div th:insert="fragments/fields_input.html :: bootStrapInputText(#{label.town},'city','City')"></div>
+
+            <div th:insert="fragments/fields_input.html :: bootStrapInputText(#{label.address},'addressDetails','Address')"></div>
+
+    <input class="btn btn-primary btn-block mt-4" type="submit" name="_eventId" value="nextStep"/>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input class="btn btn-danger btn-block mt-4" type="submit" name="_eventId" value="previousStep"/>
+
 </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -15,7 +15,6 @@ public interface UserCompanyService {
     @PreAuthorize("hasRole('COMPANY')")
     UserCompany getUserCompanyById(int userCompanyId);
 
-    @PreAuthorize("hasRole('COMPANY')")
     UserCompany getUserByUserName(String userName);
 
     @PreAuthorize("hasRole('COMPANY')")

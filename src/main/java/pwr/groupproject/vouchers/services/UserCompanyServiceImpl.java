@@ -122,6 +122,5 @@ public class UserCompanyServiceImpl implements UserCompanyService {
             messageContext.addMessage(error.build());
         }
         return new EventFactorySupport().error(this);
-        //should be this or userComapnyForm ?
     }
 }

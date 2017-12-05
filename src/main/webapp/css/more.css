@@ -1,0 +1,13 @@
+.card-block{
+    background-color: #18BC9C;
+    border-color: #18BC9C;
+}
+
+.card-outline-*{
+    border-color: #18BC9C;
+}
+
+.box{
+    width: 20rem;
+    margin:0 auto;
+}

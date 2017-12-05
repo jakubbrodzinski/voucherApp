@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}" />
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -13,109 +14,119 @@
     <!-- default header name is X-CSRF-TOKEN -->
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
-<body>
+<body class="defaultColor">
 <!--<div th:insert="/fragments/dashboard.html :: dashboard"></div>-->
     <div class="container-fluid">
+
+
+
         <div class="row">
             <div class="col-8">
-                <h2 class="mx-auto mt-2">Survey creation</h2>
-                <input id="survey_name" class="form-control form-control-lg mx-auto mt-3 mb-3" type="text" placeholder="Enter the survey name">
-                <h4>Add question</h4>
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs nav-justified" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="single_choice_tab" data-toggle="tab" href="#single_choice" role="tab">Single choice</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="multiple_choice_tab" data-toggle="tab" href="#multiple_choice" role="tab">Multiple choice</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="open_tab" data-toggle="tab" href="#open" role="tab">Open</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="ranged_tab" data-toggle="tab" href="#ranged" role="tab">Ranged</a>
-                    </li>
-                </ul>
+                <div class="card mt-5 border-info">
+                    <div class="card-body">
+                        <h3 class="mx-auto mt-2 display-3">Survey creation</h3>
+                        <hr>
+                        <input id="survey_name" class="form-control form-control-lg mx-auto mt-3 mb-3" type="text" placeholder="Enter the survey name">
+                        <h4 class="display-4">Add question</h4>
+                        <hr>
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs nav-justified" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="single_choice_tab" data-toggle="tab" href="#single_choice" role="tab">Single choice</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="multiple_choice_tab" data-toggle="tab" href="#multiple_choice" role="tab">Multiple choice</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="open_tab" data-toggle="tab" href="#open" role="tab">Open</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="ranged_tab" data-toggle="tab" href="#ranged" role="tab">Ranged</a>
+                            </li>
+                        </ul>
 
-                <!-- Tab panes -->
-                <div class="tab-content" id="tab_content">
-                    <div class="tab-pane fade show active" id="single_choice" role="tabpanel">
-                        <div class="card card-block bg-light m-3 p-3" style="height: 11rem">
-                            <input class="form-control form-control-lg mx-auto mb-2 clear-me" type="text" placeholder="Enter the question body">
-                            <div class="form-row m-1">
-                                <div class="col">
-                                    <input type="text" class="form-control clear-me possibleA" placeholder="Answer A">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control clear-me possibleB" placeholder="Answer B">
+                        <!-- Tab panes -->
+                        <div class="tab-content" id="tab_content">
+                            <div class="tab-pane fade show active" id="single_choice" role="tabpanel">
+                                <div class="card card-block bg-light m-3 p-3" style="height: 11rem">
+                                    <input class="form-control form-control-lg mx-auto mb-2 clear-me" type="text" placeholder="Enter the question body">
+                                    <div class="form-row m-1">
+                                        <div class="col">
+                                            <input type="text" class="form-control clear-me possibleA" placeholder="Answer A">
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control clear-me possibleB" placeholder="Answer B">
+                                        </div>
+                                    </div>
+                                    <div class="form-row m-1">
+                                        <div class="col">
+                                            <input type="text" class="form-control clear-me possibleC" placeholder="Answer C">
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control clear-me possibleD" placeholder="Answer D">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-row m-1">
-                                <div class="col">
-                                    <input type="text" class="form-control clear-me possibleC" placeholder="Answer C">
+                            <div class="tab-pane fade" id="multiple_choice" role="tabpanel">
+                                <div class="card card-block bg-light m-3 p-3" style="height: 11rem">
+                                    <input class="form-control form-control-lg mx-auto mb-2 clear-me" type="text" placeholder="Enter the question body">
+                                    <div class="form-row m-1">
+                                        <div class="col">
+                                            <input type="text" class="form-control clear-me possibleA" placeholder="Answer A">
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control clear-me possibleB" placeholder="Answer B">
+                                        </div>
+                                    </div>
+                                    <div class="form-row m-1">
+                                        <div class="col">
+                                            <input type="text" class="form-control clear-me possibleC" placeholder="Answer C">
+                                        </div>
+                                        <div class="col">
+                                            <input type="text" class="form-control clear-me possibleD" placeholder="Answer D">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <input type="text" class="form-control clear-me possibleD" placeholder="Answer D">
+                            </div>
+                            <div class="tab-pane fade" id="open" role="tabpanel">
+                                <div class="card card-block bg-light m-3 p-3 " style="height: 11rem">
+                                    <input class="form-control form-control-lg mx-auto mb-2 mt-4 clear-me" type="text" placeholder="Enter the question body">
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="ranged" role="tabpanel">
+                                <div class="card card-block bg-light m-3 p-3 text-center" style="height: 11rem">
+                                    <input class="form-control form-control-lg mx-auto mb-2 mt-4 clear-me" type="text" placeholder="Enter the question body">
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="multiple_choice" role="tabpanel">
-                        <div class="card card-block bg-light m-3 p-3" style="height: 11rem">
-                            <input class="form-control form-control-lg mx-auto mb-2 clear-me" type="text" placeholder="Enter the question body">
-                            <div class="form-row m-1">
-                                <div class="col">
-                                    <input type="text" class="form-control clear-me possibleA" placeholder="Answer A">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control clear-me possibleB" placeholder="Answer B">
-                                </div>
-                            </div>
-                            <div class="form-row m-1">
-                                <div class="col">
-                                    <input type="text" class="form-control clear-me possibleC" placeholder="Answer C">
-                                </div>
-                                <div class="col">
-                                    <input type="text" class="form-control clear-me possibleD" placeholder="Answer D">
-                                </div>
+                        <button type=" mb-6" class="btn btn-primary float-right" onclick="addQuestion()">Add question</button>
+                        <div class="row mt-5">
+                            <div class="col text-center">
+                                <button type="button" class="btn btn-primary btn-lg" onclick="addSurvey()">Add survey</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="tab-pane fade" id="open" role="tabpanel">
-                        <div class="card card-block bg-light m-3 p-3 " style="height: 11rem">
-                            <input class="form-control form-control-lg mx-auto mb-2 mt-4 clear-me" type="text" placeholder="Enter the question body">
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="ranged" role="tabpanel">
-                        <div class="card card-block bg-light m-3 p-3 text-center" style="height: 11rem">
-                            <input class="form-control form-control-lg mx-auto mb-2 mt-4 clear-me" type="text" placeholder="Enter the question body">
-                        </div>
-                    </div>
-                </div>
-                <button type=" mb-6" class="btn btn-primary float-right" onclick="addQuestion()">Add question</button>
-                <div class="row mt-5">
-                    <div class="col text-center">
-                        <button type="button" class="btn btn-primary btn-lg" onclick="addSurvey()">Add survey</button>
                     </div>
                 </div>
             </div>
             <div class="col-4">
-
-
+                <!--
                 <div class="text-center mt-5 phone">
-
                     <img style="height: 90vh" class="" src="http://www.eye-square.com/wp-content/uploads/revslider/in-context23/52-smartphone-transparent-png-image.png">
                     <div class="phone-screen">
                         <h3 id="previewSurveyName" class="text-center text-primary mt-3 mx-auto"></h3>
                         <ul id="previewListGroup" class="list-group">
 
                         </ul>
-
                     </div>
                 </div>
+                -->
+                <div class="scrollPreview h-100">
+                    <h3 id="previewSurveyName" class="text-center text-primary mt-3 mx-auto"></h3>
+                    <ul id="previewListGroup" class="list-group">
 
-
-
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -366,6 +377,13 @@
         width: 355px;
         left: 120px;
         top: 130px;
+    }
+
+    .scrollPreview {
+        flex: 1 1 0;
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
     }
 </style>
 </html>

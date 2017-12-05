@@ -11,8 +11,8 @@
             <div th:text="ACTIVATED"></div>
             <a th:href="@{/sign_in}">sign in</a>
         </th:block>
-        <th:block th:case="${T(pwr.groupproject.vouchers.bean.enums.TokenStatus).EXPIRED">TOKEN EXPIRED, HAS BEEN RESENT</th:block>
-        <th:block th:case="${T(pwr.groupproject.vouchers.bean.enums.TokenStatus).WRONG">WRONG LINK</th:block>
+        <th:block th:case="${T(pwr.groupproject.vouchers.bean.enums.TokenStatus).EXPIRED}">TOKEN EXPIRED, HAS BEEN RESENT</th:block>
+        <th:block th:case="${T(pwr.groupproject.vouchers.bean.enums.TokenStatus).WRONG}">WRONG LINK</th:block>
         <th:block th:case="*">SOMETHING WENT WRONG. CONTACT US</th:block>
     </div>
 </body>

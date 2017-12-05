@@ -10,7 +10,7 @@
         <transition on="nextStep" to="step2">
             <evaluate expression="userCompanyServiceImpl.validateUserCompany(company,messageContext)" />
         </transition>
-        <transition on="cancel" to="cancel" validate="false" bind="false"></transition>
+        <transition on="cancel" to="cancel" validate="false" bind="false" />
     </view-state>
 
     <view-state id="step2" view="/signup/signup2.html" model="company"
@@ -18,11 +18,11 @@
         <transition on="nextStep" to="success">
             <evaluate expression="userCompanyServiceImpl.addUser(company)" />
         </transition>
-        <transition on="cancel" to="cancel" validate="false"></transition>
-        <transition on="previousStep" to="step1" validate="false"></transition>
+        <transition on="cancel" to="cancel" validate="false" />
+        <transition on="previousStep" to="step1" validate="false" />
     </view-state>
 
-    <end-state id="success" view="externalRedirect:/"></end-state>
-    <end-state id="cancel" view="externalRedirect:/"></end-state>
+    <end-state id="success" view="externalRedirect:/" />
+    <end-state id="cancel" view="externalRedirect:/" />
 
 </flow>

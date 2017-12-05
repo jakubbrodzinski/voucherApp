@@ -24,7 +24,7 @@ public class SurveyDto implements Serializable {
         this.surveyName = survey.getSurveyName();
         List<QuestionDto> questionDtos = new ArrayList<>(survey.getQuestions().size());
         for(Question question : survey.getQuestions()) {
-            ClosedQuestionDto questionDto = new ClosedQuestionDto();
+            QuestionDto questionDto = new QuestionDto();
             questionDto.setQuestionBody(question.getQuestionBody());
             questionDto.setQuestionType(question.getQuestionType());
             PossibleAnswers possibleAnswers = new PossibleAnswers();

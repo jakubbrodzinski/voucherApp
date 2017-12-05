@@ -5,6 +5,7 @@ import pwr.groupproject.vouchers.bean.dto.AnswerDto;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -16,10 +17,11 @@ public class AnsweredSurveyForm implements Serializable {
     @Valid
     private AnswerDto[] answers;
     @Email
+    @NotBlank
     private String email;
     @Pattern(regexp = "[a-zA-Z]+")
     private String country;
-    @Min(value = 13)
+    @Min(value = 15)
     private int age;
 
 

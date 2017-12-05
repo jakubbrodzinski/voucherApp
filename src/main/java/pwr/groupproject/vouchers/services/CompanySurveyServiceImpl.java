@@ -169,6 +169,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
                         error.source("answers["+i+"].answerBody").defaultText("It shouldnt contains characters like #;'/\\{} .");
                         messageContext.addMessage(error.build());
                     }
+                    break;
                 case RANGED:
                     if(Integer.parseInt(answer)<0 || Integer.parseInt(answer)>10 ) {
                         error.source("answers["+i+"].answerBody").defaultText("Range should be between 0 and 10");

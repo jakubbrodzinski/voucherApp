@@ -21,7 +21,7 @@
                         <div class="custom-controls-stacked ml-2">
                             <div class="form-check">
                                 <label class="custom-control custom-checkbox">
-                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="${question.possibleAnswers.possibleAnswerA}">
+                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="A">
                                     <span class="custom-control-indicator"></span>
                                     <span th:text="${question.possibleAnswers.possibleAnswerA}" class="custom-control-description">PossibleAnswerA</span>
                                 </label>
@@ -29,7 +29,7 @@
 
                             <div class="form-check">
                                 <label class="custom-control custom-checkbox">
-                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="${question.possibleAnswers.possibleAnswerB}">
+                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="B">
                                     <span class="custom-control-indicator"></span>
                                     <span th:text="${question.possibleAnswers.possibleAnswerB}" class="custom-control-description">PossibleAnswerB</span>
                                 </label>
@@ -37,7 +37,7 @@
 
                             <div class="form-check">
                                 <label class="custom-control custom-checkbox">
-                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="${question.possibleAnswers.possibleAnswerC}">
+                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="C">
                                     <span class="custom-control-indicator"></span>
                                     <span th:text="${question.possibleAnswers.possibleAnswerC}" class="custom-control-description">PossibleAnswerC</span>
                                 </label>
@@ -45,7 +45,7 @@
 
                             <div class="form-check">
                                 <label class="custom-control custom-checkbox">
-                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="${question.possibleAnswers.possibleAnswerD}">
+                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="checkbox" th:value="D">
                                     <span class="custom-control-indicator"></span>
                                     <span th:text="${question.possibleAnswers.possibleAnswerD}" class="custom-control-description">PossibleAnswerD</span>
                                 </label>
@@ -56,7 +56,7 @@
                         <div class="custom-controls-stacked ml-2">
                             <div class="form-check">
                                 <label class="custom-control custom-radio">
-                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="radio" th:value="${question.possibleAnswers.possibleAnswerA}" checked>
+                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="radio" th:value="A" checked>
                                     <span class="custom-control-indicator"></span>
                                     <span th:text="${question.possibleAnswers.possibleAnswerA}" class="custom-control-description">PossibleAnswerA</span>
                                 </label>
@@ -64,7 +64,7 @@
 
                             <div class="form-check">
                                 <label class="custom-control custom-radio">
-                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="radio" th:value="${question.possibleAnswers.possibleAnswerB}">
+                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="radio" th:value="B">
                                     <span class="custom-control-indicator"></span>
                                     <span th:text="${question.possibleAnswers.possibleAnswerB}" class="custom-control-description">PossibleAnswerB</span>
                                 </label>
@@ -72,7 +72,7 @@
 
                             <div class="form-check">
                                 <label class="custom-control custom-radio">
-                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="radio" th:value="${question.possibleAnswers.possibleAnswerC}">
+                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}" th:name="${question.id}" type="radio" th:value="C">
                                     <span class="custom-control-indicator"></span>
                                     <span th:text="${question.possibleAnswers.possibleAnswerC}" class="custom-control-description">PossibleAnswerC</span>
                                 </label>
@@ -80,7 +80,7 @@
 
                             <div class="form-check">
                                 <label class="custom-control custom-radio">
-                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}"  th:name="${question.id}" type="radio" th:value="${question.possibleAnswers.possibleAnswerD}">
+                                    <input class="custom-control-input" th:field="*{answers[__${iter.index}__].answerBody}"  th:name="${question.id}" type="radio" th:value="D">
                                     <span class="custom-control-indicator"></span>
                                     <span th:text="${question.possibleAnswers.possibleAnswerD}" class="custom-control-description">PossibleAnswerD</span>
                                 </label>

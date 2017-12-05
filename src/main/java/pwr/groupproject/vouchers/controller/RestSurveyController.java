@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import pwr.groupproject.vouchers.bean.dto.AnswerDto;
 import pwr.groupproject.vouchers.bean.dto.rest.*;
+import pwr.groupproject.vouchers.bean.exceptions.InvalidAnswerFormException;
 import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongCompanyIdException;
 import pwr.groupproject.vouchers.bean.model.Survey;
@@ -101,7 +102,14 @@ public class RestSurveyController {
 
         //validating answers
         AnsweredSurveyReplyDtoRest answeredSurveyReplyDtoRest=new AnsweredSurveyReplyDtoRest();
-        TreeMap<Integer, String> errMap=restService.validateAnsweredSurveyDtoRest(answeredSurveyDtoRest,survId);
+        TreeMap<Integer, String> errMap=null;
+        try {
+            errMap = restService.validateAnsweredSurveyDtoRest(answeredSurveyDtoRest, survId);
+        }catch(InvalidAnswerFormException e){
+            httpServletResponse.setStatus(HttpServletResponse.SC_CONFLICT);
+            return null;
+        }
+
         if (errMap.size()==0){
             VoucherCode voucherCode=companySurveyService.deployVoucherCode(vCodeId);
             session.removeAttribute("vCode");

@@ -1,5 +1,6 @@
 package pwr.groupproject.vouchers.bean.dto;
 
+import pwr.groupproject.vouchers.bean.model.PossibleAnswers;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ public class QuestionDto implements Serializable {
 
     private String questionBody;
     private QuestionType questionType;
+    private PossibleAnswers possibleAnswers = new PossibleAnswers();
 
     public String getQuestionBody() {
         return questionBody;
@@ -24,5 +26,13 @@ public class QuestionDto implements Serializable {
 
     public void setQuestionType(QuestionType questionType) {
         this.questionType = questionType;
+    }
+
+    public PossibleAnswers getPossibleAnswers() {
+        return possibleAnswers;
+    }
+
+    public void setPossibleAnswers(PossibleAnswers possibleAnswers) {
+        this.possibleAnswers = possibleAnswers;
     }
 }

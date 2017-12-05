@@ -41,7 +41,7 @@ INSERT INTO VOUCHER(Id, discountAmount, discountType, startDate, endDate, detail
 VALUES
   (1, 10, 1, curdate(), curdate(), "details1", 1),(2, 10, 1, curdate(), curdate(), "details1", 2),(3, 10, 1, curdate(), curdate(), "details1", 3);;
 
-INSERT INTO VOUCHER_CODE(Id,ammountOfUses,ammountOfBlocked,voucherId,voucherCode) VALUES (1,0,0,1,"code1"),(2,1,0,1,"code2"),(3,1,0,2,"code3"),(4,0,0,3,"code4");
+INSERT INTO VOUCHER_CODE(Id,ammountOfUses,ammountOfBlocked,voucherId,voucherCode) VALUES (1,0,0,1,"code1"),(2,5,0,1,"code2"),(3,1,0,2,"code3"),(4,0,0,3,"code4");
 /* to be delted */
 
 delete from hibernate_sequence;

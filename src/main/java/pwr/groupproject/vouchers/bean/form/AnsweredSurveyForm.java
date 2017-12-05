@@ -17,7 +17,7 @@ public class AnsweredSurveyForm implements Serializable {
     private AnswerDto[] answers;
     @Email
     private String email;
-    @Pattern(regexp = "[a-zA-Z]*")
+    @Pattern(regexp = "[a-zA-Z]+")
     private String country;
     @Min(value = 13)
     private int age;

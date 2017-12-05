@@ -20,6 +20,7 @@
     <view-state id="step1" view="/user/survey.html" model="answeredSurveyForm" validation-hints="'validationGroup1'">
         <transition on="Submit" to="step2">
             <evaluate expression="companySurveyServiceImpl.validateAnsweredSurveyForm(s,answeredSurveyForm,messageContext)" />
+            <evaluate expression="companySurveyServiceImpl.addAnsweredSurvey(answeredSurveyForm, s)" />
         </transition>
         <transition on="cancel" to="cancel" validate="false" bind="false"/>
     </view-state>

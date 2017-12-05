@@ -48,7 +48,8 @@ public class SurveyController {
             Integer vCodeId=(Integer) httpServletRequest.getSession(false).getAttribute("vCode");
             if(vCodeId!=null){
                 companySurveyService.unBlockVoucherCode(vCodeId);
-                httpServletRequest.getSession(false).setAttribute("vCode",null);
+                httpServletRequest.getSession(false).removeAttribute("vCode");
+                //httpServletRequest.getSession(false).setAttribute("vCode",null);
             }
         }
         Collection<Survey> surveys;

@@ -214,7 +214,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
         company.getCompanysSurveys().add(newSurvey);
         newSurvey.setCreationDate(new Date());
         newSurvey.setSurveyName(surveyDto.getSurveyName());
-        for (ClosedQuestionDto questionDto : surveyDto.getQuestions()) {
+        for (QuestionDto questionDto : surveyDto.getQuestions()) {
             Question question = new Question();
             question.setSurvey(newSurvey);
             question.setQuestionBody(questionDto.getQuestionBody());
@@ -229,17 +229,6 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
                 possibleAnswers.setPossibleAnswerC(possibleAnswersInput.getPossibleAnswerC());
                 possibleAnswers.setPossibleAnswerD(possibleAnswersInput.getPossibleAnswerD());
             }
-            /*if (questionDto instanceof ClosedQuestionDto) {
-                System.out.println("BYLEM TU");
-                PossibleAnswers possibleAnswers = new PossibleAnswers();
-                question.setPossibleAnswers(possibleAnswers);
-
-                PossibleAnswers possibleAnswersInput = ((ClosedQuestionDto) questionDto).getPossibleAnswers();
-                possibleAnswers.setPossibleAnswerA(possibleAnswersInput.getPossibleAnswerA());
-                possibleAnswers.setPossibleAnswerB(possibleAnswersInput.getPossibleAnswerB());
-                possibleAnswers.setPossibleAnswerC(possibleAnswersInput.getPossibleAnswerC());
-                possibleAnswers.setPossibleAnswerD(possibleAnswersInput.getPossibleAnswerD());
-            }*/
             newSurvey.getQuestions().add(question);
         }
         companySurveyDao.addSurvey(newSurvey);

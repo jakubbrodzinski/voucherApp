@@ -11,8 +11,9 @@
     <title th:text="'Survey ' + ${survey.surveyName}">Survey title</title>
 </head>
 <body class="defaultColor">
+<nav th:insert="/fragments/dashboard.html :: userDashboard"></nav>
     <div class="container">
-        <h2 class="display-2" th:text="${survey.surveyName}">Template survey description</h2>
+        <h2 class="display-2 text-light text-center mt-5" th:text="${survey.surveyName}">Template survey description</h2>
         <form th:action="${flowExecutionUrl}" th:object="${answeredSurveyForm}"  method="post">
             <div th:each="question, iter : ${survey.questionsDto}">
                 <div th:insert="/fragments/survey_question.html :: inputQuestion(${question}, *{answers})"></div>

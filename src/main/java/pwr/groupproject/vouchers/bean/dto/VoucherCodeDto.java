@@ -14,6 +14,7 @@ public class VoucherCodeDto implements Serializable {
     private Date endDate;
     private DiscountType discountType;
     private int discountAmount;
+    private String voucherDescription;
 
     public VoucherCodeDto(){
 
@@ -25,6 +26,7 @@ public class VoucherCodeDto implements Serializable {
         this.endDate = voucherCode.getVoucher().getEndDate();
         this.discountType = voucherCode.getVoucher().getDiscountType();
         this.discountAmount = voucherCode.getVoucher().getDiscountAmount();
+        this.voucherDescription = voucherCode.getVoucher().getVoucherDescription();
     }
 
     public String getVoucherCode() {
@@ -65,5 +67,11 @@ public class VoucherCodeDto implements Serializable {
 
     public void setDiscountAmount(int discountAmount) {
         this.discountAmount = discountAmount;
+    }
+
+    public void setVoucherDescription(String voucherDescription){this.voucherDescription=voucherDescription;}
+
+    public String getVoucherDescription() {
+        return voucherDescription;
     }
 }

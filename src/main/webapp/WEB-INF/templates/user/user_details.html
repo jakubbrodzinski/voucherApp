@@ -15,6 +15,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body class="defaultColor">
+<nav th:insert="/fragments/dashboard.html :: userDashboard"></nav>
     <div class="container defaultColor">
         <div class="row">
             <div class="col-md-9">

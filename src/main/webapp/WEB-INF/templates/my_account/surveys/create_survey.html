@@ -267,6 +267,7 @@
             xhr.setRequestHeader("Content-type", "application/json");
             var data = JSON.stringify(survey);
             xhr.send(data);
+
         }
     }
 
@@ -313,6 +314,8 @@
         var possibleAnswers = question.possibleAnswers;
         return '<li id="' + id +'" class="list-group-item list-group-item-action flex-column align-items-start mx-auto">' +
                 '<i class="fa fa-times float-right mb-3 text-danger" onclick="deleteQuestion(this)"></i>' +
+                '<i class="fa fa-arrow-down float-right mb-3 text-danger mr-3" onclick="moveDownQuestion(this)"></i>' +
+                '<i class="fa fa-arrow-up float-right mb-3 text-danger mr-3" onclick="moveUpQuestion(this)"></i>' +
                 '<div class="d-flex w-100 justify-content-between">' +
                     '<h5 class="mb-1">' + questionName + '</h5>'+
                     '<small> Type: ' + questionType +'</small>' +
@@ -340,6 +343,8 @@
         var questionName = question.questionBody;
         return '<li id="' + id +'" class="list-group-item list-group-item-action flex-column align-items-start mx-auto">' +
             '<i class="fa fa-times float-right mb-3 text-danger"  onclick="deleteQuestion(this)"></i>' +
+            '<i class="fa fa-arrow-down float-right mb-3 text-danger mr-3" onclick="moveDownQuestion(this)"></i>' +
+            '<i class="fa fa-arrow-up float-right mb-3 text-danger mr-3" onclick="moveUpQuestion(this)"></i>' +
             '<div class="d-flex w-100 justify-content-between">' +
             '<h5 class="mb-1">' + questionName + '</h5>'+
             '<small> Type: ' + questionType +'</small>' +
@@ -351,6 +356,36 @@
         var index = $(caller).closest('li').attr('id');
         questions.splice(index, 1);
         $(caller).closest('li').remove();
+    }
+
+    function moveUpQuestion(caller) {
+        var index = $(caller).closest('li').attr('id');
+        if(index > 0) {
+            var newIndex = parseInt(index, 10) - 1;
+            var temp = questions[index];
+            questions[index] = questions[newIndex];
+            questions[newIndex] = temp;
+
+            $(caller).closest('li').attr('id', newIndex);
+            $(caller).parent().prev().attr('id', index);
+
+            $(caller).parent().insertBefore($(caller).parent().prev());
+        }
+    }
+
+    function moveDownQuestion(caller) {
+        var index = $(caller).closest('li').attr('id');
+        if(index < (questions.length - 1)) {
+            var newIndex = parseInt(index, 10) + 1;
+            var temp = questions[newIndex];
+            questions[newIndex] = questions[index];
+            questions[index] = temp;
+            $(caller).closest('li').attr('id', newIndex);
+            $(caller).parent().next().attr('id', index);
+
+            $(caller).parent().insertAfter($(caller).parent().next());
+        }
+
     }
 </script>
 <style>

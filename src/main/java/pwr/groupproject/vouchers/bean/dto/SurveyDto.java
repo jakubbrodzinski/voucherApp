@@ -14,7 +14,7 @@ public class SurveyDto implements Serializable {
     private static final long serialVersionUID = 1822452225511114741L;
 
     private String surveyName;
-    private Collection<ClosedQuestionDto> questions = new ArrayList<>();
+    private Collection<QuestionDto> questions = new ArrayList<>();
 
     public SurveyDto() {
         super();
@@ -22,7 +22,7 @@ public class SurveyDto implements Serializable {
 
     public SurveyDto(Survey survey) {
         this.surveyName = survey.getSurveyName();
-        List<ClosedQuestionDto> questionDtos = new ArrayList<>(survey.getQuestions().size());
+        List<QuestionDto> questionDtos = new ArrayList<>(survey.getQuestions().size());
         for(Question question : survey.getQuestions()) {
             ClosedQuestionDto questionDto = new ClosedQuestionDto();
             questionDto.setQuestionBody(question.getQuestionBody());
@@ -46,11 +46,11 @@ public class SurveyDto implements Serializable {
         this.surveyName = surveyName;
     }
 
-    public Collection<ClosedQuestionDto> getQuestions() {
+    public Collection<QuestionDto> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Collection<ClosedQuestionDto> questions) {
+    public void setQuestions(Collection<QuestionDto> questions) {
         this.questions = questions;
     }
 }

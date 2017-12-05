@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.dto.rest.AnsweredSurveyDtoRest;
+import pwr.groupproject.vouchers.bean.exceptions.InvalidAnswerFormException;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 import pwr.groupproject.vouchers.dao.CompanySurveyDao;
@@ -53,11 +54,13 @@ public class RestServiceImpl implements RestService{
         companySurveyDao.addAnsweredSurvey(answeredSurvey);
     }
 
-    public TreeMap<Integer, String> validateAnsweredSurveyDtoRest(AnsweredSurveyDtoRest answeredSurveyDtoRest, int surveyId){
+    public TreeMap<Integer, String> validateAnsweredSurveyDtoRest(AnsweredSurveyDtoRest answeredSurveyDtoRest, int surveyId) throws InvalidAnswerFormException {
         TreeMap<Integer, String> errors=new TreeMap<>();
 
         Collection<Question> questions=companySurveyService.getSurveyByIdWithQuestion(surveyId).getQuestions();
         Collection<String> answerCollection=answeredSurveyDtoRest.getAnswersMap().values();
+        if(questions.size()!=answerCollection.size())
+            throw new InvalidAnswerFormException();
 
         Iterator<Question> questionIterator=questions.iterator();
         Iterator<String> ansIterator=answerCollection.iterator();

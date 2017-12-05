@@ -7,11 +7,14 @@
 <body>
 <div th:text="${'Name: '+survey.surveyName}">Name: surveyName</div>
 <div th:text="${'Created on: '+survey.creationDate}">1.01.1010 21:37</div>
-<span th:text="${'Spoko pomyslem byłoby tutaj mozliwosc edycji vouchera/ pop-up informujacy zeby przejsc do innego menu zeby edytowac vouchery'}"></span><div th:text="${'Voucher details:'}"></div>
-<div th:text="${'Start date: '+survey.voucher.startDate}">1.01.1010 21:37</span></div>
-<div th:text="${'Discount type: '+survey.voucher.endDate}">1.01.1010 21:37</div>
-<div th:text="${'Discount amount: '+survey.voucher.discountType}">Discount amount</div>
-<div th:text="${'Additional info: '+survey.voucher.voucherDescription}">Additional data here</div>
+<div th:if="${survey.voucher != null}">
+    <span th:text="${'Spoko pomyslem byłoby tutaj mozliwosc edycji vouchera/ pop-up informujacy zeby przejsc do innego menu zeby edytowac vouchery'}"></span><div th:text="${'Voucher details:'}"></div>
+    <div th:text="${'Start date: '+survey.voucher.startDate}">1.01.1010 21:37</span></div>
+    <div th:text="${'Discount type: '+survey.voucher.endDate}">1.01.1010 21:37</div>
+    <div th:text="${'Discount amount: '+survey.voucher.discountType}">Discount amount</div>
+    <div th:text="${'Additional info: '+survey.voucher.voucherDescription}">Additional data here</div>
+</div>
+<div th:unless="${survey.voucher != null}">NO VOUCHER</div>
 <br>
 <div th:each="q : ${survey.questions}">
     <br>

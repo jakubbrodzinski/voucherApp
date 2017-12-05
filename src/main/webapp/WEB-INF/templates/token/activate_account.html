@@ -1,19 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}" />
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-    Activate account site
-    <div th:switch="${activationResult}">
-        <th:block th:case="${T(pwr.groupproject.vouchers.bean.enums.TokenStatus).OK}">
-            <div th:text="ACTIVATED"></div>
-            <a th:href="@{/sign_in}">sign in</a>
-        </th:block>
-        <th:block th:case="${T(pwr.groupproject.vouchers.bean.enums.TokenStatus).EXPIRED}">TOKEN EXPIRED, HAS BEEN RESENT</th:block>
-        <th:block th:case="${T(pwr.groupproject.vouchers.bean.enums.TokenStatus).WRONG}">WRONG LINK</th:block>
-        <th:block th:case="*">SOMETHING WENT WRONG. CONTACT US</th:block>
-    </div>
+<body class="defaultColor">
+<div class="container defaultColor">
+
+        <div class="col-md-9">
+            <div class="card text-center">
+                <div class="card-header" style="font-size: 2rem">
+                    Activate account site
+                </div>
+                <div th:switch="${activationResult}">
+                    <th:block th:case="${T(pwr.groupproject.vouchers.bean.enums.TokenStatus).OK}">
+                        <div style="font-size: 2rem" th:text="ACTIVATED"></div>
+                        <a th:href="@{/sign_in}">sign in</a>
+                    </th:block>
+                    <th:block th:case="${T(pwr.groupproject.vouchers.bean.enums.TokenStatus).EXPIRED}">TOKEN EXPIRED, HAS BEEN RESENT</th:block>
+                    <th:block th:case="${T(pwr.groupproject.vouchers.bean.enums.TokenStatus).WRONG}">WRONG LINK</th:block>
+                    <th:block th:case="*">SOMETHING WENT WRONG. CONTACT US</th:block>
+                </div>
+            </div>
+        </div>
+</div>
 </body>
 </html>
+
+<style>
+    .col-md-9{
+        margin: 0 auto;
+        padding-top: 5rem;
+    }
+</style>

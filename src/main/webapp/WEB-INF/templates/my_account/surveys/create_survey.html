@@ -262,6 +262,17 @@
             var url = "/my_account/surveys/add";
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    if(xhr.responseText === "OK") {
+                        window.location.replace("/my_account/home?success=1");
+                    }
+                    else {
+                        $('#warningModalBody').html('Adding survey not successful. Try again.');
+                        $('#warningModal').modal('show');
+                    }
+                }
+            };
             xhr.open("POST", url, true);
             xhr.setRequestHeader(header, token);
             xhr.setRequestHeader("Content-type", "application/json");

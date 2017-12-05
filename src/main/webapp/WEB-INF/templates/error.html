@@ -1,13 +1,84 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.springframework.org/schema/data/jaxb">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+
+    <meta charset="utf-8">
+
+    <title>NOT EXIST</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}"/>
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
 </head>
-<body>
-Błędny adres strony. (zeby zobaczyc expceiton zakomentuj @Controller Advice)
-<th:block th:if="${errDetails != null}">
-    <div th:text="${errDetails}"></div>
-</th:block>
+
+<html>
+<body class="defaultColor">
+<nav th:insert="/fragments/dashboard.html :: userDashboard"></nav>
+<div th:if="${param.acc!=null}">
+    <th:block th:switch="${param.acc[0]}">
+        <div class="my-5 mx-auto" th:case="${'1'}">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Account created successfully!</strong> Check you e-mail to activate your account.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <div class="my-5 mx-auto" th:case="${ '2'}">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Your account is now activated!</strong> You can sign in any time.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <div class="my-5 mx-auto" th:case="${'3'}">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Sorry!</strong> This link was not correct. You should contact us.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <div class="my-5 mx-auto" th:case="${'4'}">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Sadly your activation link expired.</strong> New link was resent to your e-mail inbox.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </th:block>
+</div>
+<div class="container defaultColor">
+    <img class ="img-fluid" src="../../images/phone.png" style="width: 35%">
+    <h1 class="text-center text-dark" style="font-family: 'Courier New';">Unexpected error occurred, please contact us.</h1>
+    <th:block th:if="${errDetails != null}">
+        <div th:text="${errDetails}"></div>
+    </th:block>
+</div>
 </body>
 </html>
+
+<style>
+    html, body {
+        height: 100%;
+    }
+
+    img {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10rem auto 5rem;
+    }
+    h1{
+        font-size: 2rem;
+        color: black;
+    }
+</style>

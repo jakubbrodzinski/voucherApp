@@ -199,7 +199,8 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     public VoucherCodeDto confirmAnsweringSurvey(Integer surveyId, AnsweredSurveyForm answeredSurveyForm, RequestContext requestContext) {
         HttpSession httpSession = ((HttpServletRequest) requestContext.getExternalContext().getNativeRequest()).getSession(true);
         Integer vCodeId = (Integer) httpSession.getAttribute("vCode");
-        httpSession.setAttribute("vCode", null);
+        httpSession.removeAttribute("vCode");
+        //httpSession.setAttribute("vCode", null);
         VoucherCode voucherCode = deployVoucherCode(vCodeId);
         mailService.sendVoucherCodeEmail(voucherCode, answeredSurveyForm.getEmail());
         return new VoucherCodeDto(voucherCode);

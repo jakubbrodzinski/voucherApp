@@ -37,13 +37,15 @@ public class VoucherCodeFilter implements Filter {
                 VoucherCodeDate voucherCodeDate = companySurveyService.getVoucherCodeDateById(vDateId);
                 LocalDateTime localDateTime = LocalDateTime.now().minusMinutes(20);
                 if (Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant()).compareTo(voucherCodeDate.getUseDate()) > 0) {
-                    session.setAttribute("vCode", null);
+                    session.removeAttribute("vCode");
+                    //session.setAttribute("vCode", null);
                     companySurveyService.deleteVoucherCodeDate(vDateId);
                 }
             } catch (Exception e) {
                 if(!(e instanceof NullPointerException))
                     e.printStackTrace();
-                session.setAttribute("vCode", null);
+                session.removeAttribute("vCode");
+                //session.setAttribute("vCode", null);
             }
         }
         chain.doFilter(request, response);

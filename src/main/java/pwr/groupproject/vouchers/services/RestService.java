@@ -7,5 +7,5 @@ import java.util.TreeMap;
 
 public interface RestService {
     void addAnsweredSurvey(AnsweredSurveyDtoRest answeredSurveyForm, int surveyId);
-    TreeMap<Integer, String> validateAnswerAndDeployVoucher(AnsweredSurveyDtoRest answeredSurveyDtoRest, int surveyId);
+    TreeMap<Integer, String> validateAnsweredSurveyDtoRest(AnsweredSurveyDtoRest answeredSurveyDtoRest, int surveyId);
 }

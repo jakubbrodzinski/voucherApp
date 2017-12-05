@@ -53,7 +53,7 @@ public class RestServiceImpl implements RestService{
         companySurveyDao.addAnsweredSurvey(answeredSurvey);
     }
 
-    public TreeMap<Integer, String> validateAnswerAndDeployVoucher(AnsweredSurveyDtoRest answeredSurveyDtoRest, int surveyId){
+    public TreeMap<Integer, String> validateAnsweredSurveyDtoRest(AnsweredSurveyDtoRest answeredSurveyDtoRest, int surveyId){
         TreeMap<Integer, String> errors=new TreeMap<>();
 
         Collection<Question> questions=companySurveyService.getSurveyByIdWithQuestion(surveyId).getQuestions();

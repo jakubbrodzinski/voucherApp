@@ -85,18 +85,27 @@ public class RestSurveyController {
             return null;
         }
         HttpSession session=httpServletRequest.getSession(true);
+
         //if there is no session
         Integer vCodeId=(Integer) session.getAttribute("vCode");
-        if(vCodeId==null){
+        if(vCodeId==null) {
             httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return null;
         }
+        //if someone blocked voucher for diffrent survey
+        VoucherCodeDate voucherCodeDate=companySurveyService.getVoucherCodeDateById(vCodeId);
+        if(voucherCodeDate.getVoucherCode().getVoucher().getSurvey().getId()!=survId){
+            httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return null;
+        }
+
         //validating answers
         AnsweredSurveyReplyDtoRest answeredSurveyReplyDtoRest=new AnsweredSurveyReplyDtoRest();
-        TreeMap<Integer, String> errMap=restService.validateAnswerAndDeployVoucher(answeredSurveyDtoRest,survId);
+        TreeMap<Integer, String> errMap=restService.validateAnsweredSurveyDtoRest(answeredSurveyDtoRest,survId);
         if (errMap.size()==0){
-            session.setAttribute("vCode", null);
             VoucherCode voucherCode=companySurveyService.deployVoucherCode(vCodeId);
+            session.removeAttribute("vCode");
+            //session.setAttribute("vCode", null);
             Voucher voucher= voucherCode.getVoucher();
             answeredSurveyReplyDtoRest.setErrors(null);
             answeredSurveyReplyDtoRest.setDiscountAmount(voucher.getDiscountAmount());
@@ -106,7 +115,8 @@ public class RestSurveyController {
             answeredSurveyReplyDtoRest.setVoucherDescription(voucher.getVoucherDescription());
             answeredSurveyReplyDtoRest.setVoucherCode(voucherCode.getVoucherCode());
             restService.addAnsweredSurvey(answeredSurveyDtoRest,survId);
-            mailService.sendVoucherCodeEmail(voucherCode, answeredSurveyDtoRest.getEmail());
+            if(answeredSurveyDtoRest.getEmail()!=null)
+                mailService.sendVoucherCodeEmail(voucherCode, answeredSurveyDtoRest.getEmail());
         }else{
             answeredSurveyReplyDtoRest.setErrors(errMap);
         }
@@ -120,7 +130,8 @@ public class RestSurveyController {
         Integer vCode=(Integer) httpSession.getAttribute("vCode");
         if(vCode!=null){
             companySurveyService.unBlockVoucherCode(vCode);
-            httpSession.setAttribute("vCode",null);
+            httpSession.removeAttribute("vCode");
+            //httpSession.setAttribute("vCode",null);
             return "OK";
         }else {
             return "NOT_FOUND";

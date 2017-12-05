@@ -77,6 +77,8 @@ public class RestServiceImpl implements RestService{
                 if(count!=0){
                     errors.put(index,"MULTPL_CHOICE_ERR");
                 }
+            }else if(q.getQuestionType()==QuestionType.OPEN && a.matches(".*[#;'/\\\\{}].*")){
+                errors.put(index,"OPEN_ERR");
             }
 
             index++;

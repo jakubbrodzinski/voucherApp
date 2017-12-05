@@ -165,7 +165,10 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
             String answer=answers[i].getAnswerBody();
             switch(question.getQuestionType()){
                 case OPEN:
-                    break;
+                    if(answer.matches(".*[#;'/\\\\{}].*")){
+                        error.source("answers["+i+"].answerBody").defaultText("It shouldnt contains characters like #;'/\\{} .");
+                        messageContext.addMessage(error.build());
+                    }
                 case RANGED:
                     if(Integer.parseInt(answer)<0 || Integer.parseInt(answer)>10 ) {
                         error.source("answers["+i+"].answerBody").defaultText("Range should be between 0 and 10");
@@ -187,7 +190,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
                     }
             }
         }
-        return new EventFactorySupport().error(this);
+        return messageContext.hasErrorMessages() ? new EventFactorySupport().error(this) : new EventFactorySupport().success(this);
     }
 
     //TO-DO

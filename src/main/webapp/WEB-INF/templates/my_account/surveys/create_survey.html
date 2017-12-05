@@ -110,22 +110,16 @@
                 </div>
             </div>
             <div class="col-4">
-                <!--
-                <div class="text-center mt-5 phone">
-                    <img style="height: 90vh" class="" src="http://www.eye-square.com/wp-content/uploads/revslider/in-context23/52-smartphone-transparent-png-image.png">
-                    <div class="phone-screen">
-                        <h3 id="previewSurveyName" class="text-center text-primary mt-3 mx-auto"></h3>
+                <div class="card mt-5 fixed-panel" style="background-color: #007D65;">
+                    <div class="card-header text-center text-light text-bold" style="background-color: #00A685">
+                        <h4 class="display-4"><strong>Survey preview</strong></h4>
+                    </div>
+                    <div class="card-body">
+                        <h3 id="previewSurveyName" class="text-center text-light my-3 mx-auto"></h3>
                         <ul id="previewListGroup" class="list-group">
 
                         </ul>
                     </div>
-                </div>
-                -->
-                <div class="scrollPreview h-100">
-                    <h3 id="previewSurveyName" class="text-center text-primary mt-3 mx-auto"></h3>
-                    <ul id="previewListGroup" class="list-group">
-
-                    </ul>
                 </div>
             </div>
         </div>
@@ -366,23 +360,9 @@
     .possibleC {}
     .possibleD {}
 
-    .phone {
-        overflow: hidden;
-        position: relative;
-    }
-    .phone-screen {
-        overflow-y: scroll;
-        position: absolute;
-        height: 626px;
-        width: 355px;
-        left: 120px;
-        top: 130px;
-    }
-
-    .scrollPreview {
-        flex: 1 1 0;
-        display: flex;
-        flex-direction: column;
+    .fixed-panel {
+        min-height: 75vh;
+        max-height: 75vh;
         overflow-y: scroll;
     }
 </style>

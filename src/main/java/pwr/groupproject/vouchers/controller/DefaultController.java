@@ -17,6 +17,7 @@ import pwr.groupproject.vouchers.bean.exceptions.NoAvaibleVouchersException;
 import pwr.groupproject.vouchers.bean.form.AnsweredSurveyForm;
 import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
 import pwr.groupproject.vouchers.bean.model.*;
+import pwr.groupproject.vouchers.bean.model.enums.DiscountType;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
@@ -40,9 +41,22 @@ public class DefaultController {
 
     @RequestMapping("/testmail")
     public String testmail() {
+        /*Survey survey=new Survey();
+        survey.setSurveyName("SURV_NAME");
         VoucherCode voucherCode = new VoucherCode();
+        Voucher voucher=new Voucher();
+        voucher.setDiscountAmount(50);
+        voucher.setDiscountType(DiscountType.PERCENTEGE);
+        voucher.setStartDate(new Date());
+        voucher.setEndDate(new Date());
+        voucher.setSurvey(survey);
+        voucherCode.setVoucher(voucher);
         voucherCode.setVoucherCode("codecodecode");
         mailService.sendVoucherCodeEmail(voucherCode, "jakubby@gmail.com");
+        voucher.setDiscountType(DiscountType.OTHER);
+        mailService.sendVoucherCodeEmail(voucherCode, "jakubby@gmail.com");
+        voucher.setDiscountType(DiscountType.SUM);
+        mailService.sendVoucherCodeEmail(voucherCode, "jakubby@gmail.com");*/
         mailService.sendPasswordResetEmail("token", "jakubby@gmail.com");
         mailService.sendVerificationTokenEmail("token", new Date(), "jakubby@gmail.com");
         return "index";

@@ -89,7 +89,7 @@ public class AuthController {
             mailService.sendPasswordResetEmail(passwordResetToken.getToken(), userCompany.getUsername());
         }
 
-        return "auth/forgot_password_sent.html";
+        return "redirect:/?acc=5";
     }
 
     private String getPrincipal() {

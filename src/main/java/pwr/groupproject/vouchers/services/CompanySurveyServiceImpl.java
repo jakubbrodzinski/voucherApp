@@ -187,7 +187,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
                     }
             }
         }
-        return messageContext.hasErrorMessages() ? new EventFactorySupport().error(this) : new EventFactorySupport().success(this);
+        return new EventFactorySupport().error(this);
     }
 
     //TO-DO

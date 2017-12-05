@@ -71,7 +71,7 @@ public class DefaultController {
         return "/token/reset_password.html";
     }
 
-    @RequestMapping(value = "/testJSON", produces = "application/json")
+    /*@RequestMapping(value = "/testJSON", produces = "application/json")
     @ResponseBody
     public SurveyDto testJSON() {
         Survey survey = companySurveyService.getSurveyById(1);
@@ -94,9 +94,9 @@ public class DefaultController {
         surveyWrapper.setQuestions(questionWrappers);
         surveyWrapper.setSurveyName(survey.getSurveyName());
         return surveyWrapper;
-    }
+    }*/
 
-    @RequestMapping(value = "/testJSON2", produces = "application/json")
+    /*@RequestMapping(value = "/testJSON2", produces = "application/json")
     @ResponseBody
     public SurveyDto testJSON2() {
         SurveyDto surveyDto = new SurveyDto();
@@ -106,9 +106,9 @@ public class DefaultController {
         questionDto.setQuestionType(QuestionType.RANGED);
         surveyDto.getQuestions().add(questionDto);
         return surveyDto;
-    }
+    }*/
 
-    @RequestMapping(value = "/test3", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/test3", method = RequestMethod.GET)
     @ResponseBody
     public String test3() {
         SurveyDto surveyDto = new SurveyDto();
@@ -122,7 +122,7 @@ public class DefaultController {
         userCompany.getCompany().setId(1);
         companySurveyService.addSurvey(surveyDto, userCompany);
         return "OK";
-    }
+    }*/
 
     @RequestMapping(value = "/test4", method = RequestMethod.GET)
     @ResponseBody

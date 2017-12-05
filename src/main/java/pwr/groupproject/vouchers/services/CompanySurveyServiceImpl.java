@@ -16,6 +16,7 @@ import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
 import pwr.groupproject.vouchers.bean.form.AnsweredSurveyForm;
 import pwr.groupproject.vouchers.bean.form.VoucherForm;
 import pwr.groupproject.vouchers.bean.model.*;
+import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.dao.CompanySurveyDao;
 import pwr.groupproject.vouchers.dao.VoucherDao;
@@ -208,12 +209,23 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
         company.getCompanysSurveys().add(newSurvey);
         newSurvey.setCreationDate(new Date());
         newSurvey.setSurveyName(surveyDto.getSurveyName());
-        for (QuestionDto questionDto : surveyDto.getQuestions()) {
+        for (ClosedQuestionDto questionDto : surveyDto.getQuestions()) {
             Question question = new Question();
             question.setSurvey(newSurvey);
             question.setQuestionBody(questionDto.getQuestionBody());
             question.setQuestionType(questionDto.getQuestionType());
-            if (questionDto instanceof ClosedQuestionDto) {
+            if(questionDto.getQuestionType() == QuestionType.SINGLE_CHOICE || questionDto.getQuestionType() == QuestionType.MULTIPLE_CHOICE) {
+                PossibleAnswers possibleAnswers = new PossibleAnswers();
+                question.setPossibleAnswers(possibleAnswers);
+
+                PossibleAnswers possibleAnswersInput = questionDto.getPossibleAnswers();
+                possibleAnswers.setPossibleAnswerA(possibleAnswersInput.getPossibleAnswerA());
+                possibleAnswers.setPossibleAnswerB(possibleAnswersInput.getPossibleAnswerB());
+                possibleAnswers.setPossibleAnswerC(possibleAnswersInput.getPossibleAnswerC());
+                possibleAnswers.setPossibleAnswerD(possibleAnswersInput.getPossibleAnswerD());
+            }
+            /*if (questionDto instanceof ClosedQuestionDto) {
+                System.out.println("BYLEM TU");
                 PossibleAnswers possibleAnswers = new PossibleAnswers();
                 question.setPossibleAnswers(possibleAnswers);
 
@@ -222,7 +234,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
                 possibleAnswers.setPossibleAnswerB(possibleAnswersInput.getPossibleAnswerB());
                 possibleAnswers.setPossibleAnswerC(possibleAnswersInput.getPossibleAnswerC());
                 possibleAnswers.setPossibleAnswerD(possibleAnswersInput.getPossibleAnswerD());
-            }
+            }*/
             newSurvey.getQuestions().add(question);
         }
         companySurveyDao.addSurvey(newSurvey);

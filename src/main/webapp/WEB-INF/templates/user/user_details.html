@@ -39,6 +39,7 @@
                                 <div class="float-left">
                                     <label for="ageInput" class="d-inline">Age: </label>
                                     <input class="d-inline" th:field="*{age}"  id="ageInput" type="number" min="13" max="120" step="1" placeholder="Age"/>
+
                                 </div>
                             </div>
                             <div class="form-group row mx-auto">
@@ -149,6 +150,7 @@
                     </div>
                     <input th:field="*{email}" class="form-control form-control-lg mx-auto mt-4" type="text" placeholder="Email"
                            data-toggle="tooltip" data-placement="left" title="We will send you a voucher by e-mail." >
+                    
 
                 <p class="card-text"></p>
                 <button type="submit" name="_eventId" value="Submit" class="btn btn-primary">Receive <i class="fa fa-gift"></i></button>

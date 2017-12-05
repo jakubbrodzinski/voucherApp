@@ -20,13 +20,13 @@
     <view-state id="step1" view="/user/survey.html" model="answeredSurveyForm" validation-hints="'validationGroup1'">
         <transition on="Submit" to="step2">
             <evaluate expression="companySurveyServiceImpl.validateAnsweredSurveyForm(s,answeredSurveyForm,messageContext)" />
-            <evaluate expression="companySurveyServiceImpl.addAnsweredSurvey(answeredSurveyForm, s)" />
         </transition>
         <transition on="cancel" to="cancel" validate="false" bind="false"/>
     </view-state>
 
     <view-state id="step2" view="/user/user_details.html" model="answeredSurveyForm">
         <transition on="Submit" to="success" validate="true">
+            <evaluate expression="companySurveyServiceImpl.addAnsweredSurvey(answeredSurveyForm, s)" />
             <evaluate expression="companySurveyServiceImpl.confirmAnsweringSurvey(s,flowScope.answeredSurveyForm,flowRequestContext)" result="flowScope.voucherCode" result-type="pwr.groupproject.vouchers.bean.dto.VoucherCodeDto" />
         </transition>
         <transition on="cancel" to="cancel" validate="false"/>

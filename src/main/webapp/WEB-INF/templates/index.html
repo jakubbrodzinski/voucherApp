@@ -1,112 +1,153 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-  <head>
+<head>
 
     <meta charset="utf-8">
 
     <title>ANKIETYZACJA</title>
-      <link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
-      <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
-      <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}" />
-      <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
-      <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}"/>
+    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+          integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  </head>
+</head>
 
-  <body class="defaultColor">
+<body class="defaultColor">
 
-    <!-- Navigation -->
-    <nav th:insert="/fragments/dashboard.html :: userDashboard"></nav>
-    <div class="my-5 mx-auto" th:if="${(param.acc != null) and (param.acc[0] == '1')}">
-        <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <strong>Account created successfully!</strong> Check you e-mail to activate your account.
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+<!-- Navigation -->
+<nav th:insert="/fragments/dashboard.html :: userDashboard"></nav>
+<div th:if="${param.acc!=null}">
+    <th:block th:switch="${param.acc[0]}">
+        <div class="my-5 mx-auto" th:case="${'1'}">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Account created successfully!</strong> Check you e-mail to activate your account.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <div class="my-5 mx-auto" th:case="${ '2'}">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Your account is now activated!</strong> You can sign in any time.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <div class="my-5 mx-auto" th:case="${'3'}">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Sorry!</strong> This link was not correct. You should contact us.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+        <div class="my-5 mx-auto" th:case="${'4'}">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong>Sadly your activation link expired.</strong> New link was resent to your e-mail inbox.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </th:block>
+</div>
+
+</div>
+<!-- Header -->
+<div class="container defaultColor">
+    <div class="page-header">
+        <img class="img-fluid" th:src="@{images/logo.png}" alt="" style="width: 20%">
+        <h1 class="text-center text-white"><strong>SUPEROWE ANKIETY</h1>
+        <hr>
+        <p class="text-center text-white">Fill in the poll and get a great discount!</p>
+    </div>
+</div>
+
+<!-- About -->
+<div class="container defaultColor">
+    <h2 class="text-center" style="font-family: CrazyPooch.ttf">benefits!</h2>
+    <div class="row" style="font-family: 'Courier New', Monospace">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-block">
+                    <h3 class="card-title text-center text-dark">Why is it worth creating an account?</h3>
+                    <hr>
+                    <p class="card-text text-center text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                        laborum.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-block">
+                    <h3 class="card-title text-center">Why should you fill out the survey?</h3>
+                    <hr>
+                    <p class="card-text text-center text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+                        laborum..</p>
+                </div>
+            </div>
         </div>
     </div>
-    <!-- Header -->
-    <div class="container defaultColor">
-        <div class="page-header">
-            <img class="img-fluid" th:src="@{images/logo.png}" alt="" style="width: 20%">
-            <h1 class="text-center text-white"><strong>SUPEROWE ANKIETY</h1>
-            <hr>
-            <p class="text-center text-white">Fill in the poll and get a great discount!</p>
+</div>
+
+<!--Footer-->
+<footer class="page-footer blue center-on-small-only bg-dark text-white"
+        style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+    <!--Footer Links-->
+    <div class="container-fluid">
+        <div class="row">
+            <!--First column-->
+            <div class="col-md-6">
+                <h5 class="title">Location</h5>
+                <ul>
+                    <li>voucherapp</li>
+                    <li>ul. xyz</li>
+                    <li>Wrocław, Poland</li>
+                </ul>
+            </div>
+            <!--/.First column-->
+
+            <!--Second column-->
+            <div class="col-md-6">
+                <h5 class="title">Contact</h5>
+                <ul>
+                    <li>voucherapp@gmail.com</li>
+                    <li>facebook.com/voucherapp</li>
+                    <li>tel. 71 4812345</li>
+                </ul>
+            </div>
+            <!--/.Second column-->
         </div>
     </div>
+    <!--/.Footer Links-->
 
-    <!-- About -->
-    <div class="container defaultColor">
-        <h2 class="text-center" style="font-family: CrazyPooch.ttf">benefits!</h2>
-        <div class="row" style="font-family: 'Courier New', Monospace">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-block">
-                        <h3 class="card-title text-center text-dark">Why is it worth creating an account?</h3>
-                        <hr>
-                        <p class="card-text text-center text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-block">
-                        <h3 class="card-title text-center">Why should you fill out the survey?</h3>
-                        <hr>
-                        <p class="card-text text-center text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..</p>
-                    </div>
-                </div>
-            </div>
+    <!--Copyright-->
+    <div class="footer-copyright">
+        <div class="container-fluid text-center">
+            © 2017 Copyright Team Pżemol
         </div>
     </div>
+    <!--/.Copyright-->
 
-    <!--Footer-->
-    <footer class="page-footer blue center-on-small-only bg-dark text-white" style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
-        <!--Footer Links-->
-        <div class="container-fluid">
-            <div class="row">
-                <!--First column-->
-                <div class="col-md-6">
-                    <h5 class="title">Location</h5>
-                    <ul>
-                        <li>voucherapp</li>
-                        <li>ul. xyz</li>
-                        <li>Wrocław, Poland</li>
-                    </ul>
-                </div>
-                <!--/.First column-->
-
-                <!--Second column-->
-                <div class="col-md-6">
-                    <h5 class="title">Contact</h5>
-                    <ul>
-                        <li>voucherapp@gmail.com</li>
-                        <li>facebook.com/voucherapp</li>
-                        <li>tel. 71 4812345</li>
-                    </ul>
-                </div>
-                <!--/.Second column-->
-            </div>
-        </div>
-        <!--/.Footer Links-->
-
-        <!--Copyright-->
-        <div class="footer-copyright">
-            <div class="container-fluid text-center">
-                © 2017 Copyright Team Pżemol
-            </div>
-        </div>
-        <!--/.Copyright-->
-
-    </footer>
-    <!--/.Footer-->
+</footer>
+<!--/.Footer-->
 
 
-
-  </body>
+</body>
 
 </html>
 
@@ -115,6 +156,7 @@
     body {
         height: 100%;
     }
+
     img {
         height: 100%;
         display: flex;
@@ -122,18 +164,22 @@
         align-items: center;
         margin: 10rem auto 5rem;
     }
-    h1{
+
+    h1 {
         font-size: 5rem;
         font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
-    p{
+
+    p {
         font-size: 2rem;
     }
+
     hr {
         border: 0;
         border-top: 3px dashed #8c8c8c;
-        text-align:center;
+        text-align: center;
     }
+
     hr:after {
         content: '\002702';
         display: inline-block;
@@ -143,7 +189,8 @@
         color: #8c8c8c;
         font-size: 3.5rem;
     }
-    h2{
+
+    h2 {
         padding: 8rem 0;
         font-family: "CrazyPooch";
         text-transform: uppercase;
@@ -152,27 +199,34 @@
         color: white;
 
     }
-    .col-sm-6{
+
+    .col-sm-6 {
         padding-bottom: 5rem;
     }
-    .col-md-6{
+
+    .col-md-6 {
         padding-top: 1rem;
         padding-left: 25rem;
     }
-    .footer-copyright{
+
+    .footer-copyright {
         padding-top: 1rem;
     }
-    h3{
+
+    h3 {
         font-size: 1.5rem;
     }
-    p{
+
+    p {
         font-size: 1.6rem;
         padding-top: 1rem;
     }
-    hr .card-block{
+
+    hr .card-block {
         background: white;
     }
-    .page-footer{
+
+    .page-footer {
         background-color: #343a40;
     }
 

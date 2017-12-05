@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pwr.groupproject.vouchers.bean.enums.TokenStatus;
 import pwr.groupproject.vouchers.bean.exceptions.VerificationTokenExpired;
 import pwr.groupproject.vouchers.bean.exceptions.WrongTokenException;
@@ -61,20 +62,21 @@ public class TokenController {
     }
 
     @RequestMapping(value = "/activate_account", method = RequestMethod.GET)
-    public String activateAccount(@RequestParam("t") String token, Model model) {
+    public String activateAccount(@RequestParam("t") String token, Model model, RedirectAttributes redirectAttributes
+    ) {
         try {
             tokenService.activateAccount(token);
-            model.addAttribute("activationResult", TokenStatus.OK);
+            redirectAttributes.addAttribute("acc",2);
         } catch (WrongTokenException e) {
-            model.addAttribute("actiavtionResult", TokenStatus.WRONG);
+            redirectAttributes.addAttribute("acc",3);
         } catch (VerificationTokenExpired e2) {
             UserCompany userCompany = tokenService.getUserCompanyByVerificationToken(token);
             VerificationToken newToken = tokenService.generateNewActivationToken(userCompany);
             mailService.sendVerificationTokenEmail(newToken.getToken(), newToken.getExpirationDate(), userCompany.getUsername());
-            model.addAttribute("activationResult", TokenStatus.EXPIRED);
+            redirectAttributes.addAttribute("acc",4);
         }
 
-        return "token/activate_account.html";
+        return "redirect:"+"/";
     }
 
 

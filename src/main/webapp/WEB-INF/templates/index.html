@@ -6,78 +6,163 @@
     <meta charset="utf-8">
 
     <title>ANKIETYZACJA</title>
-    <link rel="stylesheet" type="text/css" th:href="@{css/style.css}" />
+      <link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
   </head>
 
-  <body id="page-top">
+  <body class="defaultColor">
 
     <!-- Navigation -->
     <nav th:insert="/fragments/dashboard.html :: userDashboard"></nav>
-    <!--<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
-          <ul>
-            <li><a th:href="@{sign_in}">Sign in</a></li>
-            <li><a th:href="@{sign_up}">Sign up</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#home">Home</a></li>
-            <li><a th:href="@{/companies}">Complete Survey</a></li>
-          </ul>
-      </div>
-    </nav>-->
 
     <!-- Header -->
-    <header class="masthead" id="home">
-      <div class="container">
-        <img class="img-fluid" th:src="@{images/logo.png}" alt="">
-        <div class="intro-text">
-          <span class="name">Superowe ankiety</span>
-          <hr>
-          <span class="skills">Wypelnij ankiete i zgarnij znizke</span>
+    <div class="container defaultColor">
+        <div class="page-header">
+            <img class="img-fluid" th:src="@{images/logo.png}" alt="" style="width: 20%">
+            <h1 class="text-center text-white"><strong>SUPEROWE ANKIETY</h1>
+            <hr>
+            <p class="text-center text-white">Fill in the poll and get a great discount!</p>
         </div>
-      </div>
-    </header>
+    </div>
 
     <!-- About -->
-    <section id="about">
-      <h2>+S+a+m+e+p+l+u+s+y+</h2>
-      <div class="container">
-        <div id="about1">
-          <h3>Dlaczego warto założyć u nas konto?</h3>
-          <p>Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum. Integer aliquam purus. Quisque lorem tortor fringilla sed, vestibulum id, eleifend justo vel bibendum sapien massa ac turpis faucibus orci luctus non, consectetuer lobortis quis, varius in, purus. Integer ultrices posuere cubilia Curae, Nulla ipsum dolor lacus, suscipit adipiscing. Cum sociis natoque penatibus et ultrices volutpat. Nullam wisi ultricies a, gravida vitae, dapibus risus ante sodales lectus blandit eu, tempor diam pede cursus vitae, ultricies eu, faucibus quis, porttitor eros cursus lectus, pellentesque eget, bibendum a, gravida ullamcorper quam. Nullam viverra consectetuer. Quisque cursus et, porttitor risus. Aliquam sem. In hendrerit nulla quam nunc, accumsan congue. Lorem ipsum primis in nibh vel risus. Sed vel lectus. Ut sagittis, ipsum dolor quam.</p>        
+    <div class="container defaultColor">
+        <h2 class="text-center" style="font-family: CrazyPooch.ttf">benefits!</h2>
+        <div class="row" style="font-family: 'Courier New', Monospace">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-block">
+                        <h3 class="card-title text-center text-dark">Why is it worth creating an account?</h3>
+                        <hr>
+                        <p class="card-text text-center text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-block">
+                        <h3 class="card-title text-center">Why should you fill out the survey?</h3>
+                        <hr>
+                        <p class="card-text text-center text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum..</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="about2">
-          <h3>Dlaczego warto wypelniac ankiety?</h3>
-          <p>Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum. Integer aliquam purus. Quisque lorem tortor fringilla sed, vestibulum id, eleifend justo vel bibendum sapien massa ac turpis faucibus orci luctus non, consectetuer lobortis quis, varius in, purus. Integer ultrices posuere cubilia Curae, Nulla ipsum dolor lacus, suscipit adipiscing. Cum sociis natoque penatibus et ultrices volutpat. Nullam wisi ultricies a, gravida vitae, dapibus risus ante sodales lectus blandit eu, tempor diam pede cursus vitae, ultricies eu, faucibus quis, porttitor eros cursus lectus, pellentesque eget, bibendum a, gravida ullamcorper quam. Nullam viverra consectetuer. Quisque cursus et, porttitor risus. Aliquam sem. In hendrerit nulla quam nunc, accumsan congue. Lorem ipsum primis in nibh vel risus. Sed vel lectus. Ut sagittis, ipsum dolor quam.</p>
+    </div>
+
+    <!--Footer-->
+    <footer class="page-footer blue center-on-small-only bg-dark text-white" style="font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif">
+        <!--Footer Links-->
+        <div class="container-fluid">
+            <div class="row">
+                <!--First column-->
+                <div class="col-md-6">
+                    <h5 class="title">Location</h5>
+                    <ul>
+                        <li>voucherapp</li>
+                        <li>ul. xyz</li>
+                        <li>Wrocław, Poland</li>
+                    </ul>
+                </div>
+                <!--/.First column-->
+
+                <!--Second column-->
+                <div class="col-md-6">
+                    <h5 class="title">Contact</h5>
+                    <ul>
+                        <li>voucherapp@gmail.com</li>
+                        <li>facebook.com/voucherapp</li>
+                        <li>tel. 71 4812345</li>
+                    </ul>
+                </div>
+                <!--/.Second column-->
+            </div>
         </div>
-      </div>
-    </section>
+        <!--/.Footer Links-->
 
-    <footer id="sticky">
-
-      <div class="container contact">
-        <address>
-          voucherapp</br>
-          ul. xyz</br>
-          Wrocław, Poland</br>
-        </address>
-      </div>
-
-      <div class="container cta">
-        voucherapp@gmail.com</br>
-        facebook.com/voucherapp</br>
-        71 4812345</br>
-      </div>
-
-      <div class="copyrights">
-        <h4>Copyright &copy 2017</h4>
-      </div>
+        <!--Copyright-->
+        <div class="footer-copyright">
+            <div class="container-fluid text-center">
+                © 2017 Copyright Team Pżemol
+            </div>
+        </div>
+        <!--/.Copyright-->
 
     </footer>
+    <!--/.Footer-->
+
 
 
   </body>
 
 </html>
+
+<style>
+    html,
+    body {
+        height: 100%;
+    }
+    img {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10rem auto 5rem;
+    }
+    h1{
+        font-size: 5rem;
+        font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    p{
+        font-size: 2rem;
+    }
+    hr {
+        border: 0;
+        border-top: 3px dashed #8c8c8c;
+        text-align:center;
+    }
+    hr:after {
+        content: '\002702';
+        display: inline-block;
+        position: relative;
+        top: -2.5rem;
+        padding: 0 0;
+        color: #8c8c8c;
+        font-size: 3.5rem;
+    }
+    h2{
+        padding: 8rem 0;
+        font-family: "CrazyPooch";
+        text-transform: uppercase;
+        text-align: center;
+        font-size: 4em;
+        color: white;
+
+    }
+    .col-sm-6{
+        padding-bottom: 5rem;
+    }
+    .col-md-6{
+        padding-top: 1rem;
+        padding-left: 25rem;
+    }
+    .footer-copyright{
+        padding-top: 1rem;
+    }
+    h3{
+        font-size: 1.5rem;
+    }
+    p{
+        font-size: 1.6rem;
+        padding-top: 1rem;
+    }
+    hr .card-block{
+        background: white;
+    }
+    .page-footer{
+        background-color: #343a40;
+    }
+
+</style>

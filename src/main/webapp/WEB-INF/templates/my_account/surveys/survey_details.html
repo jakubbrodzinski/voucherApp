@@ -23,8 +23,8 @@
             </div>
         </div>
 
-        <h3 class="display-3" th:text="${'Survey name: '+survey.surveyName}">Name: surveyName</h3>
-        <p class="lead" th:text="${'Created on: '+survey.creationDate}">1.01.1010 21:37</p>
+        <h3 class="display-3 text-light text-center" th:text="${'Survey name: '+survey.surveyName}">Name: surveyName</h3>
+        <p class="lead text-light" th:text="${'Created on: '+survey.creationDate}">1.01.1010 21:37</p>
         <div th:if="${survey.voucher != null}">
 
                 <div class="alert alert-info">

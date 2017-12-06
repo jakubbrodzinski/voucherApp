@@ -3,10 +3,16 @@ package pwr.groupproject.vouchers.bean.dto;
 import pwr.groupproject.vouchers.bean.model.PossibleAnswers;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 
+import java.util.stream.IntStream;
+
 public class QuestionStatisticsDto {
     private String questionBody;
     private QuestionType questionType;
     private AnswerStatisticsDto[] answers=new AnswerStatisticsDto[4];
+
+    public QuestionStatisticsDto(){
+        IntStream.range(0,answers.length).forEach(u->answers[u]=new AnswerStatisticsDto());
+    }
 
     public String getQuestionBody() {
         return questionBody;

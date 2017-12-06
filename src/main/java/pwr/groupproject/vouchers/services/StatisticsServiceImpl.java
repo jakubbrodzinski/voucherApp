@@ -33,6 +33,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         Collection<AnsweredSurvey> answeredSurveys = companySurveyService.getAllAnsweredSurveys(surveyId);
         Survey survey = companySurveyService.getSurveyByIdWithQuestion(surveyId);
         SurveyStatisticsDto surveyStatisticsDto = new SurveyStatisticsDto();
+        surveyStatisticsDto.setAmmount(answeredSurveys.size());
         surveyStatisticsDto.setSurveyName(survey.getSurveyName());
 
         //average age

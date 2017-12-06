@@ -38,7 +38,7 @@
                             <div class="form-group row mx-auto">
                                 <div class="float-left">
                                     <label for="ageInput" class="d-inline">Age: </label>
-                                    <input class="d-inline" th:field="*{age}"  id="ageInput" type="number" min="15" max="120" step="1" placeholder="Age"/>
+                                    <input class="d-inline" th:field="*{age}"  id="ageInput" type="number" min="0" max="120" step="1" placeholder="Age"/>
                                     <p class="alert alert-danger mt-3" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></p>
                                 </div>
                             </div>

@@ -41,7 +41,7 @@ public class DefaultController {
 
     @RequestMapping("/testmail")
     public String testmail() {
-        /*Survey survey=new Survey();
+        Survey survey=new Survey();
         survey.setSurveyName("SURV_NAME");
         VoucherCode voucherCode = new VoucherCode();
         Voucher voucher=new Voucher();
@@ -52,13 +52,13 @@ public class DefaultController {
         voucher.setSurvey(survey);
         voucherCode.setVoucher(voucher);
         voucherCode.setVoucherCode("codecodecode");
-        mailService.sendVoucherCodeEmail(voucherCode, "jakubby@gmail.com");
+        mailService.sendVoucherCodeEmail(voucherCode, "szymon@swiderscy.com");
         voucher.setDiscountType(DiscountType.OTHER);
-        mailService.sendVoucherCodeEmail(voucherCode, "jakubby@gmail.com");
+        mailService.sendVoucherCodeEmail(voucherCode, "szymon@swiderscy.com");
         voucher.setDiscountType(DiscountType.SUM);
-        mailService.sendVoucherCodeEmail(voucherCode, "jakubby@gmail.com");*/
-        mailService.sendPasswordResetEmail("token", "jakubby@gmail.com");
-        mailService.sendVerificationTokenEmail("token", new Date(), "jakubby@gmail.com");
+        mailService.sendVoucherCodeEmail(voucherCode, "szymon@swiderscy.com");
+        mailService.sendPasswordResetEmail("token", "szymon@swiderscy.comm");
+        mailService.sendVerificationTokenEmail("token", new Date(), "szymon@swiderscy.com");
         return "index";
     }
 

@@ -12,12 +12,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
+import pwr.groupproject.vouchers.bean.dto.SurveyStatisticsDto;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
 import pwr.groupproject.vouchers.bean.form.*;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.enums.DiscountType;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 import pwr.groupproject.vouchers.services.CompanySurveyService;
+import pwr.groupproject.vouchers.services.StatisticsService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 
 import javax.servlet.http.HttpServletResponse;
@@ -31,13 +33,15 @@ public class UserCompanyController {
     private final UserCompanyService userCompanyService;
     private final ShaPasswordEncoder passwordEncoder;
     private final MessageSource messageSource;
+    private final StatisticsService statisticsService;
 
     @Autowired
-    public UserCompanyController(CompanySurveyService companySurveyService, UserCompanyService userCompanyService, ShaPasswordEncoder passwordEncoder, MessageSource messageSource) {
+    public UserCompanyController(CompanySurveyService companySurveyService, UserCompanyService userCompanyService, ShaPasswordEncoder passwordEncoder, MessageSource messageSource, StatisticsService statisticsService) {
         this.companySurveyService = companySurveyService;
         this.userCompanyService = userCompanyService;
         this.passwordEncoder = passwordEncoder;
         this.messageSource = messageSource;
+        this.statisticsService = statisticsService;
     }
 
     //region Home Management
@@ -352,9 +356,22 @@ public class UserCompanyController {
     //endregion
 
     //region Statistics Managment
-    @RequestMapping("/statistics")
-    public String statistics(Model model) {
-        return "my_account/stats/stats_homePage";
+    @RequestMapping("/statistics/{id}")
+    public String statistics(@PathVariable("id") int surveyId, Model model, @AuthenticationPrincipal UserCompany userCompany) {
+        if(!checkForSurveyExistence(surveyId,userCompany)){
+            return "error.html";
+        }
+        /*Survey survey;
+        try {
+            survey = companySurveyService.checkIfSurveyExists(surveyId, userCompany);
+        } catch (WrongSurveyIdException ex) {
+            ex.printStackTrace();
+            return "/error.html"; //I have no idea how to tell spring that error occured properly :( . FIX IT PLZ!
+        }*/
+        SurveyStatisticsDto stats = statisticsService.getSurveysStatistics(surveyId);
+        //model.addAttribute("survey", survey);
+        model.addAttribute("stats", stats);
+        return "my_account/stats/survey_stat.html";
     }
     //endregion
 }

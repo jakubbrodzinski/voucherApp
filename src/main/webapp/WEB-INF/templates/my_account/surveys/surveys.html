@@ -19,6 +19,9 @@
         <div>
             <a th:href="@{${'/my_account/surveys/'+survey.Id}+'/addVoucher'}" th:if="${survey.voucher==null}"><h5 class="text-light" th:text="${'Voucher: None. Add one now!'}"></h5></a>
         </div>
+        <div>
+            <a th:href="@{${'/my_account/statistics/'+survey.Id}}"><h5 class="text-light" th:text="${'Statistics'}"></h5></a>
+        </div>
     <th:block th:if="${survey.isActive()}">
         <div  th:text="${'ACTIVE'}"></div>
     </th:block>

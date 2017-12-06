@@ -1,11 +1,130 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}" />
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-<div th:insert="/fragments/dashboard.html :: dashboard"></div>
-    Stats for a specific survey.
+<body class="defaultColor">
+<nav th:insert="/fragments/dashboard.html :: dashboard"></nav>
+<div class="container my-5 pt-5">
+
+    <h3 class="display-3 text-light text-center mb-3" th:text="${'Survey name: '+stats.surveyName}">Name: surveyName</h3>
+    <!--<p class="lead text-light" th:text="${'Created on: '+survey.creationDate}">1.01.1010 21:37</p>-->
+
+        <div class="alert alert-info">
+                    <span>
+                        <p class="d-inline-block lead"><strong>Survey statistics</strong></p>
+                    </span>
+            <div>
+                <div th:text="${'Surveys Answered: '+stats.ammount}">JD</span></div>
+                <div th:text="${'Average age: '+stats.age}">Jebac disa</div>
+                <div th:text="${'Survey most popular in: '+stats.country}">Orcza grota</div>
+            </div>
+        </div>
+
+
+    <br>
+    <div th:each="q : ${stats.questionWithAnswersList}">
+        <div class="card mx-auto my-5 bg-light border-info" style="width: 50rem;" >
+            <div class="card-body">
+                <p class="lead mb-2" th:text="${q.questionBody}">Test</p>
+                <hr>
+                <div th:switch="${q.questionType}">
+                    <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).OPEN}">
+                        <p class="font-weight-light float-right text-info" th:text="${'Question type: Open'}"></p>
+                        <input class="w-100" disabled type="text" placeholder="Not available now">
+                    </th:block>
+                    <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).MULTIPLE_CHOICE}">
+                        <p class="font-weight-light float-right text-info" th:text="${'Question type: Closed, multiple choice'}"></p>
+                        <div class="custom-controls-stacked ml-2">
+                            <div class="form-check">
+                                <label class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" disabled>
+                                    <span class="custom-control-indicator"></span>
+                                    <span th:text="${q.answers[0].answersBody+': '+q.answers[0].answersStat}" class="custom-control-description">PossibleAnswerA</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" disabled>
+                                    <span class="custom-control-indicator"></span>
+                                    <span th:text="${q.answers[1].answersBody+': '+q.answers[1].answersStat}" class="custom-control-description">PossibleAnswerB</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" disabled>
+                                    <span class="custom-control-indicator"></span>
+                                    <span th:text="${q.answers[2].answersBody+': '+q.answers[2].answersStat}" class="custom-control-description">PossibleAnswerC</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" disabled>
+                                    <span class="custom-control-indicator"></span>
+                                    <span th:text="${q.answers[3].answersBody+': '+q.answers[3].answersStat}" class="custom-control-description">PossibleAnswerD</span>
+                                </label>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).SINGLE_CHOICE}">
+                        <p class="font-weight-light float-right text-info" th:text="${'Question type: Closed, single choice'}"></p>
+                        <div class="custom-controls-stacked ml-2">
+                            <div class="form-check">
+                                <label class="custom-control custom-radio">
+                                    <input disabled class="custom-control-input" type="radio">
+                                    <span class="custom-control-indicator"></span>
+                                    <span th:text="${q.answers[0].answersBody+': '+q.answers[0].answersStat}" class="custom-control-description">PossibleAnswerA</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="custom-control custom-radio">
+                                    <input disabled class="custom-control-input" type="radio">
+                                    <span class="custom-control-indicator"></span>
+                                    <span th:text="${q.answers[1].answersBody+': '+q.answers[1].answersStat}" class="custom-control-description">PossibleAnswerB</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="custom-control custom-radio">
+                                    <input disabled class="custom-control-input" type="radio">
+                                    <span class="custom-control-indicator"></span>
+                                    <span th:text="${q.answers[2].answersBody+': '+q.answers[2].answersStat}" class="custom-control-description">PossibleAnswerC</span>
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="custom-control custom-radio">
+                                    <input disabled class="custom-control-input" type="radio">
+                                    <span class="custom-control-indicator"></span>
+                                    <span th:text="${q.answers[3].answersBody+': '+q.answers[3].answersStat}" class="custom-control-description">PossibleAnswerD</span>
+                                </label>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.QuestionType).RANGED}">
+                        <p class="font-weight-light float-right text-info" th:text="${'Question type: Ranged'}"></p>
+                        <div class="mx-auto text-center">
+                            <i class="fa fa-frown-o fa-lg fa-2x mr-3 text-danger"></i>
+                            <input disabled type="range" min="0" max="10" step="1" th:value="${q.answers[0].answersStat}">
+                            <i class="fa fa-smile-o fa-lg fa-2x ml-3 text-success"></i>
+                        </div>
+                    </th:block>
+                    <th:block th:case="*">SOMETHING WENT HORRIBLY WRONG!</th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

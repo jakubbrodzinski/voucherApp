@@ -1,5 +1,6 @@
 package pwr.groupproject.vouchers.bean.dto;
 
+import pwr.groupproject.vouchers.bean.model.PossibleAnswers;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 
 public class QuestionStatisticsDto {
@@ -29,5 +30,12 @@ public class QuestionStatisticsDto {
 
     public void setAnswers(AnswerStatisticsDto[] answers) {
         this.answers = answers;
+    }
+
+    public void setPossibleAnswers(PossibleAnswers possibleAnswers){
+        answers[0].setAnswersBody(possibleAnswers.getPossibleAnswerA());
+        answers[1].setAnswersBody(possibleAnswers.getPossibleAnswerB());
+        answers[2].setAnswersBody(possibleAnswers.getPossibleAnswerC());
+        answers[3].setAnswersBody(possibleAnswers.getPossibleAnswerD());
     }
 }

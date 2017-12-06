@@ -4,21 +4,25 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-    <div th:text="#{voucher.code.thankyou(${companyName})}"></div>
-    <div th:switch="${voucher.discountType}">
+<body style="background-color: #18BC9C; font-size: medium; font-family: Arial, cursive; font-style: italic; text-align: center;">
+    <div style="color: white; font-size: medium; font-family: Arial, cursive; font-style: italic;" th:text="#{voucher.code.thankyou(${companyName})}"></div>
+    <div style="color: white; font-size: medium" th:switch="${voucher.discountType}">
         <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.DiscountType).SUM}" th:remove="tag">
-            <div th:utext="#{voucher.code.details(${voucher.discountAmount},'PLN',${voucher.startDate},${voucher.endDate})}"></div>
+            <div style="color: white; font-size: medium" th:utext="#{voucher.code.details(${voucher.discountAmount},'PLN',${voucher.startDate},${voucher.endDate})}"></div>
         </th:block>
         <th:block th:case="${T(pwr.groupproject.vouchers.bean.model.enums.DiscountType).PERCENTEGE}" th:remove="tag">
-            <div th:utext="#{voucher.code.details(${voucher.discountAmount},'%',${voucher.startDate},${voucher.endDate})}"></div>
+            <div style="color: white; font-size: medium" th:utext="#{voucher.code.details(${voucher.discountAmount},'%',${voucher.startDate},${voucher.endDate})}"></div>
         </th:block>
         <th:block th:case="*" th:remove="tag">
-            <div th:utext="#{voucher.code.details(${voucher.discountAmount},'',${voucher.startDate},${voucher.endDate})}"></div>
+            <div style="color: white; font-size: medium" th:utext="#{voucher.code.details(${voucher.discountAmount},'',${voucher.startDate},${voucher.endDate})}"></div>
         </th:block>
     </div>
-    <div th:utext="#{voucher.code.desc}"></div>
-    <div th:utext="${voucher.voucherDescription}"></div>
-    <div th:utext="#{voucher.code.voucher(${voucherCode})}"></div>
+    <div style="color: white" th:utext="#{voucher.code.desc}"></div>
+    <div style="color: white" th:utext="${voucher.voucherDescription}"></div>
+    <div style="color: white" th:utext="#{voucher.code.voucher(${voucherCode})}"></div>
+    <hr style="width: 50%; text-align: center;">
+    <footer>
+        <p style="color: white; text-align: center; padding-botton: 5px">Message generated automatically, please do not reply to it.</p>
+    </footer>
 </body>
 </html>

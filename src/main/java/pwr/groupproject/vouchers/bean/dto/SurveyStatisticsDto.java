@@ -7,6 +7,7 @@ public class SurveyStatisticsDto {
     private String surveyName;
     private final List<QuestionStatisticsDto> questionWithAnswersList=new ArrayList<>();
     private String country=null;
+    private int ammount=0;
     private double age=0;
 
     public String getSurveyName() {
@@ -35,5 +36,13 @@ public class SurveyStatisticsDto {
 
     public List<QuestionStatisticsDto> getQuestionWithAnswersList() {
         return questionWithAnswersList;
+    }
+
+    public int getAmmount() {
+        return ammount;
+    }
+
+    public void setAmmount(int ammount) {
+        this.ammount = ammount;
     }
 }

@@ -13,17 +13,21 @@
 <body class="defaultColor">
 <nav th:insert="/fragments/dashboard.html :: userDashboard"></nav>
     <div class="container">
+
         <h2 class="display-2 text-light text-center mt-5" th:text="${survey.surveyName}">Template survey description</h2>
+
         <form th:action="${flowExecutionUrl}" th:object="${answeredSurveyForm}"  method="post">
             <div th:each="question, iter : ${survey.questionsDto}">
                 <div th:insert="/fragments/survey_question.html :: inputQuestion(${question}, *{answers})"></div>
             </div>
 
             <div class="row">
-                <input class="btn btn-lg btn-primary mx-auto col-md-4 offset-md-4 text-center my-5" type="submit" name="_eventId"  value="Submit">
+                <input class="btn btn-lg btn-primary mx-auto col-md-4 offset-md-4 text-center mt-5" type="submit" name="_eventId"  value="Submit">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             </div>
-
+            <div class="row">
+                <button class="btn btn-lg btn-primary mx-auto col-md-4 offset-md-4 text-center mt-2 mb-5" type="submit" name="_eventId" value="cancel">Cancel</button>
+            </div>
 
         </form>
     </div>

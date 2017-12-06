@@ -34,16 +34,7 @@ public class SurveyController {
     }
 
     @RequestMapping(value = "/companies")
-    public String getActiveCompanies(Model model, @RequestParam(value = "err", required = false) Integer errCode) {
-        Collection<Company> companies = companySurveyService.getAllActiveCompanies();
-        model.addAttribute("companies", companies);
-        if (errCode != null)
-            model.addAttribute("err", messageSource.getMessage("companies.error" + errCode, null, LocaleContextHolder.getLocale()));
-        return "/user/companies_list.html";
-    }
-
-    @RequestMapping(value = "/comps_surveys",method = RequestMethod.GET)
-    public String voucherList(@RequestParam(name = "companyId") Integer companyId,@RequestParam(name="unblock",required = false)Integer unBlockParam, Model model, RedirectAttributes redirectAttributes,HttpServletRequest httpServletRequest) {
+    public String getActiveCompanies(Model model, @RequestParam(value = "err", required = false) Integer errCode, @RequestParam(name="unblock",required = false)Integer unBlockParam,HttpServletRequest httpServletRequest) {
         if(unBlockParam!=null && unBlockParam==1){
             Integer vCodeId=(Integer) httpServletRequest.getSession(false).getAttribute("vCode");
             if(vCodeId!=null){
@@ -52,6 +43,15 @@ public class SurveyController {
                 //httpServletRequest.getSession(false).setAttribute("vCode",null);
             }
         }
+        Collection<Company> companies = companySurveyService.getAllActiveCompanies();
+        model.addAttribute("companies", companies);
+        if (errCode != null)
+            model.addAttribute("err", messageSource.getMessage("companies.error" + errCode, null, LocaleContextHolder.getLocale()));
+        return "/user/companies_list.html";
+    }
+
+    @RequestMapping(value = "/comps_surveys",method = RequestMethod.GET)
+    public String voucherList(@RequestParam(name = "companyId") Integer companyId, Model model, RedirectAttributes redirectAttributes) {
         Collection<Survey> surveys;
         try {
             surveys = companySurveyService.getAllActiveSurveys(companyId);

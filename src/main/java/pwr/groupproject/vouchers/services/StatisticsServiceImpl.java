@@ -53,13 +53,14 @@ public class StatisticsServiceImpl implements StatisticsService {
         List<QuestionStatisticsDto> questionStatisticsDtoList=surveyStatisticsDto.getQuestionWithAnswersList();
         while(qIterator.hasNext()){
             Question q=qIterator.next();
+            QuestionType qType=q.getQuestionType();
             QuestionStatisticsDto questionStatisticsDto=new QuestionStatisticsDto();
             questionStatisticsDto.setQuestionBody(q.getQuestionBody());
-            questionStatisticsDto.setQuestionType(q.getQuestionType());
+            questionStatisticsDto.setQuestionType(qType);
 
-            if(q.getQuestionType()== QuestionType.OPEN){
+            if(qType== QuestionType.OPEN){
                 questionStatisticsDto.setAnswers(null);
-            }else if(q.getQuestionType()==QuestionType.RANGED){
+            }else if(qType==QuestionType.RANGED){
                 double average=Arrays.stream(aIteratorArray).mapToInt(i-> Integer.parseInt(i.next().getAnswer())).average().orElse(0);
                 questionStatisticsDto.getAnswers()[0].setAnswersStat(Double.toString(average));
             }else {

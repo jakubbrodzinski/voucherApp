@@ -14,7 +14,7 @@
     <th:block th:each="survey : ${surveys}">
         <form th:action="@{/comps_surveys/survey}" method="get">
             <input type="hidden" class="btn btn-lg btn-outline-light btn-block mt-4" name="s" th:value ="${survey.Id}">
-            <input type="submit" class="btn btn-lg btn-outline-light btn-block mt-4" th:value="${survey.surveyName} + ' ' + ${survey.voucher.voucherDescription}">
+            <input type="submit" class="btn btn-lg btn-outline-light btn-block mt-4" th:value="${survey.surveyName} + ' (' + ${survey.voucher.voucherDescription + ')'}">
         </form>
     </th:block>
 </div>

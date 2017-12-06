@@ -60,10 +60,15 @@ public class StatisticsServiceImpl implements StatisticsService {
             questionStatisticsDto.setQuestionType(qType);
 
             if(qType== QuestionType.OPEN){
+                Arrays.stream(aIteratorArray).forEach(Iterator::next);
                 questionStatisticsDto.setAnswers(null);
             }else if(qType==QuestionType.RANGED){
-                double average=Arrays.stream(aIteratorArray).mapToInt(i-> Integer.parseInt(i.next().getAnswer())).average().orElse(0);
-                questionStatisticsDto.getAnswers()[0].setAnswersStat(Double.toString(average));
+                double average=0;
+                for(int i=0;i<aIteratorArray.length;i++){
+                    String temp=aIteratorArray[i].next().getAnswer();
+                    average+=Double.parseDouble(temp);
+                }
+                questionStatisticsDto.getAnswers()[0].setAnswersStat(Double.toString(average/answersSize));
             }else {
                 double[] apperances=new double[4];
                 for (int i = 0; i < aIteratorArray.length; i++) {

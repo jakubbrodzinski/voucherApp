@@ -34,7 +34,7 @@
     </view-state>
 
     <end-state id="success" view="/user/voucher_confirmation" />
-    <end-state id="cancel" view="externalRedirect:/" />
+    <end-state id="cancel" view="externalRedirect:/companies?unblock=1" />
     <end-state id="error" view="externalRedirect:/companies?err=2" />
 
 </flow>

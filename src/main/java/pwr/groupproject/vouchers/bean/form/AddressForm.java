@@ -11,7 +11,7 @@ public class AddressForm {
     @Pattern(regexp = "[\\p{L}|\\pL]*")
     private String city;
     @NotBlank
-    @Pattern(regexp = "[\\pL-A-Za-z0-9 ,.]*")
+    @Pattern(regexp = "[\\pL-A-Za-z0-9\\-/ ,.]*")
     private String addressDetails;
 
     public String getPostalCode() {

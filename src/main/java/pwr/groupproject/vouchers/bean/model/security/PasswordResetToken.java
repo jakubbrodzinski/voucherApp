@@ -12,7 +12,7 @@ public class PasswordResetToken {
     @Column(unique = true)
     private String token;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER,optional = true)
     @JoinColumn(name="userId")
     private UserCompany userCompany;
 

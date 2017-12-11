@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyStatisticsDto;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
@@ -22,7 +23,9 @@ import pwr.groupproject.vouchers.services.CompanySurveyService;
 import pwr.groupproject.vouchers.services.StatisticsService;
 import pwr.groupproject.vouchers.services.UserCompanyService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping(UserCompanyController.ROOT_MAPPING)
@@ -53,7 +56,10 @@ public class UserCompanyController {
 
     //region Account Management
     @RequestMapping(value = "/account_panel",method = RequestMethod.GET)
-    public String accountPanel(Model model, @AuthenticationPrincipal UserCompany userCompany) {
+    public String accountPanel(Model model, @AuthenticationPrincipal UserCompany userCompany,@RequestParam(required = false,name = "dAcc")Integer triedToDeleteAcc) {
+        if(triedToDeleteAcc!=null && triedToDeleteAcc==1){
+            model.addAttribute("error",messageSource.getMessage("account.delete", null, LocaleContextHolder.getLocale()));
+        }
         Company company= companySurveyService.getUsersCompany(userCompany);
         prepareAccountPanelModel(model,company);
         return "my_account/account_panel.html";
@@ -132,13 +138,19 @@ public class UserCompanyController {
         return "my_account/account_panel.html";
     }
 
-
-
-
     @RequestMapping(value = "/account_panel/delete", method = RequestMethod.POST)
-    public String deleteAccount(@AuthenticationPrincipal UserCompany userCompany, Model model) {
-        companySurveyService.deleteCompany(userCompany.getCompany().getId());
+    public String deleteAccount(@AuthenticationPrincipal UserCompany userCompany, Model model, RedirectAttributes redirectAttributes, HttpServletRequest httpServletRequest) {
+        if(companySurveyService.getCompanyWithSurveys(userCompany).getCompanysSurveys().size()!=0){
+            redirectAttributes.addAttribute("dAcc","1");
+            return "redirect:/"+"my_account/account_panel";
+        }else{
+            HttpSession session=httpServletRequest.getSession(false);
+            if(session!=null)
+                session.invalidate();
+        }
+        userCompanyService.deleteUserCompany(userCompany.getId());
         return "redirect:/";
+
     }
 
     private void prepareAccountPanelModel(Model model,Company company){

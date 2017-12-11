@@ -191,6 +191,12 @@ public class UserCompanyController {
             return "/error.html"; //I have no idea how to tell spring that error occured properly :( . FIX IT PLZ!
         }
     }
+    @RequestMapping(value = "/surveys/del/{id}", method = RequestMethod.POST)
+    public String deleteSurvey(@PathVariable("id") int surveyId, Model model, @AuthenticationPrincipal UserCompany userCompany) throws WrongSurveyIdException {
+        Survey survey = companySurveyService.checkIfSurveyExists(surveyId, userCompany);
+        companySurveyService.deleteSurvey(survey.getId());
+        return "redirect:/"+"my_account/surveys";
+    }
     //endregion
 
     //region Adding Survey

@@ -8,10 +8,10 @@ public class AddressForm {
     @Pattern(regexp = "\\d\\d-\\d\\d\\d")
     private String postalCode;
     @NotBlank
-    @Pattern(regexp = "\\p{L}*")
+    @Pattern(regexp = "[\\p{L}|\\pL]*")
     private String city;
     @NotBlank
-    @Pattern(regexp = "[-A-Za-z0-9 ,.]*")
+    @Pattern(regexp = "[\\pL-A-Za-z0-9 ,.]*")
     private String addressDetails;
 
     public String getPostalCode() {

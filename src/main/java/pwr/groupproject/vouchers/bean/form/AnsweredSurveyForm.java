@@ -19,7 +19,7 @@ public class AnsweredSurveyForm implements Serializable {
     @Email
     @NotBlank
     private String email;
-    @Pattern(regexp = "[a-zA-Z]+")
+    @Pattern(regexp = "[\\pLa-zA-Z]+")
     private String country;
     @Min(value = 15)
     private int age;

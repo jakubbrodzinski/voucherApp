@@ -5,7 +5,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Pattern;
 
 public class VoucherCodeForm {
-    @Pattern(regexp = "[0-9a-zA-Z -.]*")
+    @Pattern(regexp = "[\\pL0-9a-zA-Z -.]*")
     @NotBlank
     private String voucherCode;
     @DecimalMin("0")

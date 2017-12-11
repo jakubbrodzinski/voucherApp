@@ -21,14 +21,14 @@ public class NewUserCompanyForm implements Serializable {
     @NotBlank(groups = ValidationGroup1.class)
     private String repeatedPassword;
     @NotBlank(groups = ValidationGroup1.class)
-    @Pattern(regexp = "[0-9a-zA-Z/ \\-.]*",message = "{constraint.company.name}",groups = ValidationGroup1.class)
+    @Pattern(regexp = "[\\pL0-9a-zA-Z/ \\-.]*",message = "{constraint.company.name}",groups = ValidationGroup1.class)
     private String companyName;
 
     @Pattern(regexp = "\\d\\d-\\d\\d\\d", groups = ValidationGroup2.class)
     private String postalCode;
-    @Pattern(regexp = "\\p{L}*", groups = ValidationGroup2.class)
+    @Pattern(regexp = "[\\p{L}|\\pL]*", groups = ValidationGroup2.class)
     private String city;
-    @Pattern(regexp = "[-A-Za-z0-9\\-/ ,.]*", groups = ValidationGroup2.class)
+    @Pattern(regexp = "[\\pL-A-Za-z0-9\\-/ ,.]*", groups = ValidationGroup2.class)
     private String addressDetails;
 
     public static long getSerialVersionUID() {

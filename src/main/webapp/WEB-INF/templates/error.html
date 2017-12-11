@@ -56,7 +56,7 @@
     </th:block>
 </div>
 <div class="container defaultColor">
-    <img class ="img-fluid" src="../../images/phone.png" style="width: 35%">
+    <img class ="img-fluid" th:src="@{/images/phone.png}" style="width: 35%">
     <h1 class="text-center text-dark" style="font-family: 'Courier New';">Unexpected error occurred, please contact us.</h1>
     <th:block th:if="${errDetails != null}">
         <div th:text="${errDetails}"></div>

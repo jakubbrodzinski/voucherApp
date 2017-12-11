@@ -55,10 +55,10 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     @Override
     public Survey checkIfSurveyExists(int surveyId, @AuthenticationPrincipal UserCompany userCompany) throws WrongSurveyIdException {
         Survey survey = companySurveyDao.getSurveyById(surveyId);
-        if (survey.getCompany().getId() == userCompany.getCompany().getId())
-            return survey;
-        else
+        if (survey==null || survey.getCompany().getId() != userCompany.getCompany().getId())
             throw new WrongSurveyIdException();
+        else
+            return survey;
     }
 
     @Override

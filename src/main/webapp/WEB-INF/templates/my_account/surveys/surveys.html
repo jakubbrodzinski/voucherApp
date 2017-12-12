@@ -55,10 +55,10 @@
                         <small class="text-danger lead" th:unless="${survey.isActive()}" th:text="${'Inactive'}">Activity</small>
                     </div>
                     <div class="col">
-                        <button class="btn btn-outline-danger float-right" data-toggle="modal" data-target="#deleteSurveyModal" name="submit">
+                        <button class="btn btn-outline-danger float-right" data-toggle="modal" data-target="#deleteSurveyModal">
                             Delete survey
                         </button>
-                        <form method="post" name="deleteSurvey" th:action="@{${'/my_account/surveys/del/'+survey.Id}}">
+                        <form method="post" id="deleteSurvey" th:action="@{${'/my_account/surveys/del/'+survey.Id}}">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         </form>
                     </div>
@@ -84,7 +84,7 @@
                 <p>Do you really want to delete the survey? You <span class="text-danger"><strong>will not</strong></span>  be able to revert this change.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="document.deleteSurvey.submit()">Delete</button>
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('deleteSurvey').submit()">Delete</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>

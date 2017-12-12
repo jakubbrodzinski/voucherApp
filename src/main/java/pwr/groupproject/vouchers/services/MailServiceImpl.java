@@ -10,7 +10,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import pwr.groupproject.vouchers.bean.model.User;
 import pwr.groupproject.vouchers.bean.model.VoucherCode;
 
 import javax.mail.MessagingException;
@@ -23,14 +22,12 @@ public class MailServiceImpl implements MailService {
     private String APP_URL;
     private final JavaMailSender mailSender;
     private final TemplateEngine htmlTemplateEngine;
-    private final TemplateEngine textTemplateEngine;
     private final MessageSource messageSource;
 
     @Autowired
-    public MailServiceImpl(JavaMailSender mailSender, TemplateEngine htmlTemplateEngine, TemplateEngine textTemplateEngine, @Qualifier("mailMessageSource") MessageSource messageSource) {
+    public MailServiceImpl(JavaMailSender mailSender,@Qualifier("mailTemplateEngine") TemplateEngine htmlTemplateEngine, @Qualifier("mailMessageSource") MessageSource messageSource) {
         this.mailSender = mailSender;
         this.htmlTemplateEngine = htmlTemplateEngine;
-        this.textTemplateEngine = textTemplateEngine;
         this.messageSource = messageSource;
     }
 

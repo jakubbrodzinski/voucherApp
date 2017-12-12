@@ -22,7 +22,6 @@ public class SpringBootConfiguration {
     public EmbeddedServletContainerFactory servletContainer() {
         TomcatEmbeddedServletContainerFactory tomcat =
                 new TomcatEmbeddedServletContainerFactory() {
-
                     @Override
                     protected void postProcessContext(Context context) {
                         SecurityConstraint securityConstraint = new SecurityConstraint();

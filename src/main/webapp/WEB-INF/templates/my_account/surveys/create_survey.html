@@ -371,9 +371,15 @@
     }
 
     function deleteQuestion(caller) {
-        var index = $(caller).closest('li').attr('id');
-        questions.splice(index, 1);
-        $(caller).closest('li').remove();
+        if(questions.length === 1) {
+            $(caller).closest('li').remove();
+            questions.pop();
+        }
+        else {
+            var index = $(caller).closest('li').attr('id');
+            questions.splice(index, 1);
+            $(caller).closest('li').remove();
+        }
     }
 
     function moveUpQuestion(caller) {

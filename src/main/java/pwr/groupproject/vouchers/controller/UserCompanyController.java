@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyStatisticsDto;
+import pwr.groupproject.vouchers.bean.dto.answered.AnsweredSurveyDto;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
 import pwr.groupproject.vouchers.bean.form.*;
 import pwr.groupproject.vouchers.bean.model.*;
@@ -26,6 +27,7 @@ import pwr.groupproject.vouchers.services.UserCompanyService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Collection;
 
 @Controller
 @RequestMapping(UserCompanyController.ROOT_MAPPING)
@@ -369,23 +371,25 @@ public class UserCompanyController {
 
     //region Statistics Managment
     @RequestMapping("/statistics/{id}")
-    public String statistics(@PathVariable("id") int surveyId, Model model, @AuthenticationPrincipal UserCompany userCompany) {
+    public String singleSurveysStats(@PathVariable("id") int surveyId, Model model, @AuthenticationPrincipal UserCompany userCompany) {
         if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
         }
-        /*Survey survey;
-        try {
-            survey = companySurveyService.checkIfSurveyExists(surveyId, userCompany);
-        } catch (WrongSurveyIdException ex) {
-            ex.printStackTrace();
-            return "/error.html"; //I have no idea how to tell spring that error occured properly :( . FIX IT PLZ!
-        }*/
         SurveyStatisticsDto stats = statisticsService.getSurveysStatistics(surveyId);
-        //model.addAttribute("survey", survey);
         model.addAttribute("stats", stats);
         return "my_account/stats/survey_stat.html";
     }
     //endregion
+
+    @RequestMapping("/statistics/{id}/answers")
+    public String getListOfAnswers(@PathVariable("id") int surveyId,Model model,@AuthenticationPrincipal UserCompany userCompany){
+        if(!checkForSurveyExistence(surveyId,userCompany)){
+            return "error.html";
+        }
+        Collection<AnsweredSurveyDto> stats = statisticsService.getAllAnsweredSurveys(surveyId);
+        model.addAttribute("stats", stats);
+        return "my_account/stats/survey_stat.html";
+    }
 }
 
 

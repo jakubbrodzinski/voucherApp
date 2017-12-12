@@ -16,7 +16,7 @@ public class AnsweredSurvey {
     private Survey survey;
     @Embedded
     private User user;
-    @OneToMany(mappedBy = "answeredSurvey",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "answeredSurvey",cascade = CascadeType.ALL)
     private Collection<Answer> answersList=new ArrayList<>();
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;

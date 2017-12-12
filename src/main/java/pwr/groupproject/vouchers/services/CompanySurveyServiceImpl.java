@@ -55,7 +55,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     @Override
     public Survey checkIfSurveyExists(int surveyId, @AuthenticationPrincipal UserCompany userCompany) throws WrongSurveyIdException {
         Survey survey = companySurveyDao.getSurveyById(surveyId);
-        if (survey==null || survey.getCompany().getId() != userCompany.getCompany().getId())
+        if (survey == null || survey.getCompany().getId() != userCompany.getCompany().getId())
             throw new WrongSurveyIdException();
         else
             return survey;
@@ -153,40 +153,40 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public Event validateAnsweredSurveyForm(int surveyId, AnsweredSurveyForm answeredSurveyForm, MessageContext messageContext){
+    public Event validateAnsweredSurveyForm(int surveyId, AnsweredSurveyForm answeredSurveyForm, MessageContext messageContext) {
         MessageBuilder error = new MessageBuilder().error();
 
-        Collection<Question> questions=getSurveyByIdWithQuestion(surveyId).getQuestions();
-        AnswerDto[] answers=answeredSurveyForm.getAnswers();
+        Collection<Question> questions = getSurveyByIdWithQuestion(surveyId).getQuestions();
+        AnswerDto[] answers = answeredSurveyForm.getAnswers();
 
-        Iterator<Question> questionIterator=questions.iterator();
-        for(int i=0;questionIterator.hasNext();i++){
-            Question question=questionIterator.next();
-            String answer=answers[i].getAnswerBody();
-            switch(question.getQuestionType()){
+        Iterator<Question> questionIterator = questions.iterator();
+        for (int i = 0; questionIterator.hasNext(); i++) {
+            Question question = questionIterator.next();
+            String answer = answers[i].getAnswerBody();
+            switch (question.getQuestionType()) {
                 case OPEN:
-                    if(answer.matches(".*[#;'/\\\\{}].*")){
-                        error.source("answers["+i+"].answerBody").defaultText("It shouldnt contains characters like #;'/\\{} .");
+                    if (answer.matches(".*[#;'/\\\\{}].*")) {
+                        error.source("answers[" + i + "].answerBody").defaultText("It shouldnt contains characters like #;'/\\{} .");
                         messageContext.addMessage(error.build());
                     }
                     break;
                 case RANGED:
-                    if(Integer.parseInt(answer)<0 || Integer.parseInt(answer)>10 ) {
-                        error.source("answers["+i+"].answerBody").defaultText("Range should be between 0 and 10");
+                    if (Integer.parseInt(answer) < 0 || Integer.parseInt(answer) > 10) {
+                        error.source("answers[" + i + "].answerBody").defaultText("Range should be between 0 and 10");
                         messageContext.addMessage(error.build());
                     }
                     break;
                 case SINGLE_CHOICE:
-                    if(!(answer.equals("A") || answer.equals("B") || answer.equals("C") || answer.equals("D"))){
-                        error.source("answers["+i+"].answerBody").defaultText("Pick only one from answers given above/below.");
+                    if (!(answer.equals("A") || answer.equals("B") || answer.equals("C") || answer.equals("D"))) {
+                        error.source("answers[" + i + "].answerBody").defaultText("Pick only one from answers given above/below.");
                         messageContext.addMessage(error.build());
                     }
                     break;
                 case MULTIPLE_CHOICE:
-                    String[] ansSplitted=answer.split(",");
-                    long count=Arrays.stream(ansSplitted).filter(a -> !(a.equals("A") || a.equals("B") || a.equals("C") || a.equals("D"))).count();
-                    if(count!=0){
-                        error.source("answers["+i+"].answerBody").defaultText("Pick only one from answers given above/below.");
+                    String[] ansSplitted = answer.split(",");
+                    long count = Arrays.stream(ansSplitted).filter(a -> !(a.equals("A") || a.equals("B") || a.equals("C") || a.equals("D"))).count();
+                    if (count != 0) {
+                        error.source("answers[" + i + "].answerBody").defaultText("Pick only one from answers given above/below.");
                         messageContext.addMessage(error.build());
                     }
             }
@@ -219,7 +219,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
             question.setSurvey(newSurvey);
             question.setQuestionBody(questionDto.getQuestionBody());
             question.setQuestionType(questionDto.getQuestionType());
-            if(questionDto.getQuestionType() == QuestionType.SINGLE_CHOICE || questionDto.getQuestionType() == QuestionType.MULTIPLE_CHOICE) {
+            if (questionDto.getQuestionType() == QuestionType.SINGLE_CHOICE || questionDto.getQuestionType() == QuestionType.MULTIPLE_CHOICE) {
                 PossibleAnswers possibleAnswers = new PossibleAnswers();
                 question.setPossibleAnswers(possibleAnswers);
 
@@ -305,13 +305,8 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public Collection<AnsweredSurvey> getAllAnsweredSurveys(int surveyId) {
-        return companySurveyDao.getAllResultsOfSurvey(surveyId);
-    }
-
-    @Override
     public AnsweredSurvey getResultDetails(int answeredSurveyId) {
-        return companySurveyDao.getAnsweredSurveyById(answeredSurveyId);
+        return companySurveyDao.getAnsweredSurveyWithAnswers(answeredSurveyId);
     }
 
     @Override
@@ -322,12 +317,6 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     @Override
     public Company getUsersCompany(UserCompany userCompany) {
         return companySurveyDao.getUsersCompany(userCompany.getId());
-    }
-
-
-    @Override
-    public Company getCompanyWithSurveysAndQuestions(Company company) {
-        return companySurveyDao.getCompanyWithSurveysAndQuestions(company.getId());
     }
 
     @Override

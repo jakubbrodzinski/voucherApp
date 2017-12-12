@@ -63,17 +63,12 @@ public interface CompanySurveyService {
     Company updateCompany(Company company);
 
     @PreAuthorize("hasRole('COMPANY')")
-    Collection<AnsweredSurvey> getAllAnsweredSurveys(int surveyId);
-
-    @PreAuthorize("hasRole('COMPANY')")
     AnsweredSurvey getResultDetails(int answeredSurveyId);
 
     @PreAuthorize("hasRole('COMPANY')")
     Company getUsersCompany(UserCompany userCompany);
 
     Company getCompanyWithSurveys(UserCompany userCompany);
-
-    Company getCompanyWithSurveysAndQuestions(Company company);
 
     Collection<Survey> getAllActiveSurveys(int companyId) throws WrongCompanyIdException;
 

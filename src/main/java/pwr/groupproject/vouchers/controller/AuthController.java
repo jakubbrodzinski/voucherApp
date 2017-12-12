@@ -62,7 +62,7 @@ public class AuthController {
                 model.addAttribute("errorCode", ErrorCode.getCodeByStatus(errorCode));
             return "auth/sign_in.html";
         } else {
-            return "redirect:" + "/my_account/home";
+            return "redirect:" + "/my_account/";
         }
     }
 

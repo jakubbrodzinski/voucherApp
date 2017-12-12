@@ -14,7 +14,7 @@
 <nav th:insert="/fragments/dashboard.html :: dashboard"></nav>
 <div class="container my-5 pt-5">
 
-    <h3 class="display-3 text-light text-center mb-3" th:text="${'Survey name: '+stats.surveyName}">Name: surveyName</h3>
+    <h3 class="display-3 text-light text-center mb-3" th:utext="${'Survey name: <b>'+stats.surveyName+'</b>'}">Name: surveyName</h3>
     <!--<p class="lead text-light" th:text="${'Created on: '+survey.creationDate}">1.01.1010 21:37</p>-->
 
         <div class="alert alert-info">
@@ -22,9 +22,9 @@
                         <p class="d-inline-block lead"><strong>Survey statistics</strong></p>
                     </span>
             <div>
-                <div th:text="${'Surveys Answered: '+stats.ammount}">JD</span></div>
-                <div th:text="${'Average age: '+#numbers.formatDecimal(stats.age, 1, 'COMMA', 2, 'POINT')}">Pawel D. lubi disa</div>
-                <div th:text="${'Survey most popular in: '+stats.country[0]+', '+stats.country[1]+' and '+stats.country[2]}">Orcza grota</div>
+                <div th:utext="${'Surveys filled <b>'+stats.ammount}+'</b> times.'">JD</span></div>
+                <div th:utext="${'Average age is <b>'+#numbers.formatDecimal(stats.age, 1, 'COMMA', 2, 'POINT')}+'</b>'">Pawel D. lubi disa</div>
+                <div th:utext="${'Survey most popular in: <b>'+stats.country[0]+'</b>, <b>'+stats.country[1]+'</b> and <b>'+stats.country[2]}+'</b>'">Orcza grota</div>
             </div>
         </div>
 

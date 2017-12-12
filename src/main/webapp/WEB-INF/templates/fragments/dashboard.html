@@ -13,9 +13,8 @@
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         </form>
         <!--<a class="navbar-brand" th:href="@{/my_account/statistics}">Statistics</a>-->
-        <a class="navbar-brand" th:href="@{/my_account/surveys}">Manage surveys</a>
+        <a class="navbar-brand" th:href="@{/my_account/}">Manage surveys</a>
         <a class="navbar-brand" th:href="@{/my_account/account_panel}">Account Panel</a>
-        <a class="navbar-brand" th:href="@{/my_account/home}">Home</a>
     </nav>
     <nav th:fragment="userDashboard" class="navbar fixed-top navbar-expand-md navbar-dark bg-dark d-flex flex-row-reverse">
         <a class="navbar-brand" th:href="@{/sign_in}">Sign in</a>

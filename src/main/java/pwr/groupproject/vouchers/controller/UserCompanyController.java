@@ -47,13 +47,6 @@ public class UserCompanyController {
         this.statisticsService = statisticsService;
     }
 
-    //region Home Management
-    @RequestMapping("/home")
-    public String homePage(Model model) {
-        return "my_account/home_page.html";
-    }
-    //endregion
-
     //region Account Management
     @RequestMapping(value = "/account_panel",method = RequestMethod.GET)
     public String accountPanel(Model model, @AuthenticationPrincipal UserCompany userCompany,@RequestParam(required = false,name = "dAcc")Integer triedToDeleteAcc) {
@@ -174,7 +167,7 @@ public class UserCompanyController {
 
     //region Survey Management
     //region Viewing Surveys
-    @RequestMapping(value = "/surveys", method = RequestMethod.GET)
+    @RequestMapping(value = {"/","/home"}, method = RequestMethod.GET)
     public String surveys(Model model, @AuthenticationPrincipal UserCompany userCompany) {
         Company companyWithSurveys = companySurveyService.getCompanyWithSurveys(userCompany);
         model.addAttribute("surveyList", companyWithSurveys.getCompanysSurveys());

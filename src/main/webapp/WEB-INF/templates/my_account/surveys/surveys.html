@@ -14,7 +14,12 @@
 <body class="defaultColor">
 <div th:insert="/fragments/dashboard.html :: dashboard"></div>
 <div class="container my-5 pt-5">
-    <a class="btn btn-outline-light btn-lg float-right" th:href="@{/my_account/surveys/add}">Add survey</a>
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-outline-light btn-lg float-right" th:href="@{/my_account/surveys/add}">Add survey</a>
+        </div>
+    </div>
+
     <div th:each="survey : ${surveyList}">
         <div class="card mx-auto my-5 bg-light border-info" style="width: 50rem;" th:classappend="${survey.voucher == null} ? inactive">
             <div class="card-body">
@@ -37,7 +42,9 @@
                         <a class="lead d-inline" th:text="${survey.voucher.voucherDescription}" th:href="@{${'/my_account/surveys/'+survey.Id}+'/voucher'}"></a>
                     </div>
                     <div class="col">
-
+                        <div th:unless="${survey.isActive()}">
+                            <a class="btn btn-outline-success float-right" th:href="@{${'/my_account/surveys/'+survey.Id}+'/voucher'}">Add voucher code</a>
+                        </div>
                     </div>
                 </div>
                 <div class="row my-1" th:if="${survey.voucher == null}">
@@ -84,7 +91,7 @@
                 <p>Do you really want to delete the survey? You <span class="text-danger"><strong>will not</strong></span>  be able to revert this change.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="document.getElementById('deleteSurvey').submit()">Delete</button>
+                <button type="button" class="btn btn-primary" onclick="deleteSurvey()">Delete</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -101,7 +108,21 @@
 </style>
 
 <script>
+    var invoker = null;
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     });
+
+    $('#deleteSurveyModal').on('show.bs.modal', function (e) {
+        invoker = $(e.relatedTarget);
+    });
+
+    function deleteSurvey() {
+        if(invoker == null) {
+            console.log("Error");
+        }
+        else {
+            $(invoker).siblings('form').submit();
+        }
+    }
 </script>

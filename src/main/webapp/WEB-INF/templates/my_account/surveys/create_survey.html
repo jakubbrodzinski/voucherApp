@@ -192,6 +192,7 @@
     var questions = [];
 
     function addQuestion() {
+        var validatedProperly = false;
         switch (activeTab) {
             case "single_choice_tab":
                 var $activePane = $('.tab-pane.active');
@@ -207,6 +208,7 @@
                     console.log(JSON.stringify(closedQuestion));
                     questions.push(closedQuestion);
                     $('#previewListGroup').append(previewClosedQuestion(closedQuestion, 'Single choice', questions.length - 1));
+                    validatedProperly = true;
                 }
                 break;
             case "multiple_choice_tab":
@@ -223,6 +225,7 @@
                     console.log(JSON.stringify(closedQuestion));
                     questions.push(closedQuestion);
                     $('#previewListGroup').append(previewClosedQuestion(closedQuestion, 'Multiple choice', questions.length - 1));
+                    validatedProperly = true;
                 }
                 break;
             case "open_tab":
@@ -234,6 +237,7 @@
                     console.log(JSON.stringify(question));
                     questions.push(question);
                     $('#previewListGroup').append(previewQuestion(question, 'Open', questions.length - 1));
+                    validatedProperly = true;
                 }
                 break;
             case "ranged_tab":
@@ -245,12 +249,15 @@
                     console.log(JSON.stringify(question));
                     questions.push(question);
                     $('#previewListGroup').append(previewQuestion(question, 'Ranged', questions.length - 1));
+                    validatedProperly = true;
                 }
                 break;
         }
-        $(".clear-me").map(function() {
-            $(this).val("");
-        });
+        if(validatedProperly) {
+            $(".clear-me").map(function () {
+                $(this).val("");
+            });
+        }
     }
 
     function addSurvey() {

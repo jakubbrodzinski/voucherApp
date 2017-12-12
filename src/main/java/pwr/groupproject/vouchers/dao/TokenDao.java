@@ -16,11 +16,15 @@ public interface TokenDao {
 
     VerificationToken getVerificationTokenById(int tokenId);
 
-    void deletVerificationToken(VerificationToken verificationToken);
+    void deleteVerificationToken(VerificationToken verificationToken);
 
     void addVerificationToken(VerificationToken verificationToken);
 
     void deleteUsersResetTokens(String userName);
 
     void deleteUsersVerificationTokens(String userName);
+
+    void deleteUsersResetTokens(int userCompanyId);
+
+    void deleteUsersVerificationTokens(int userCompanyId);
 }

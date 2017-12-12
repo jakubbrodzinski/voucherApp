@@ -13,7 +13,7 @@ public class VerificationToken {
     @GeneratedValue
     private int Id;
 
-    @OneToOne(fetch = FetchType.EAGER,orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private UserCompany userCompany;
     @Column(unique = true)

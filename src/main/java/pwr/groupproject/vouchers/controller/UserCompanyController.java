@@ -149,6 +149,7 @@ public class UserCompanyController {
                 session.invalidate();
         }
         userCompanyService.deleteUserCompany(userCompany.getId());
+        redirectAttributes.addAttribute("acc","6");
         return "redirect:/";
 
     }

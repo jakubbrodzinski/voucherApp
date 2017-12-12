@@ -50,7 +50,7 @@ public class TokenDaoImpl implements TokenDao {
     }
 
     @Override
-    public void deletVerificationToken(VerificationToken verificationToken) {
+    public void deleteVerificationToken(VerificationToken verificationToken) {
         entityManager.remove(verificationToken);
     }
 
@@ -68,6 +68,23 @@ public class TokenDaoImpl implements TokenDao {
     @Override
     public void deleteUsersVerificationTokens(String userName) {
         List<VerificationToken> resultList = entityManager.createQuery("SELECT  v FROM " + VerificationToken.class.getName() + " v JOIN " + UserCompany.class.getName() + " u ON v.userCompany=u.Id WHERE u.userName='" + userName + "'", VerificationToken.class).getResultList();
-        resultList.forEach(this::deletVerificationToken);
+        resultList.forEach(this::deleteVerificationToken);
+    }
+
+    @Override
+    public void deleteUsersResetTokens(int userCompanyId) {
+        try {
+            List<PasswordResetToken> resetTokens = entityManager.createQuery("FROM " + PasswordResetToken.class.getName() + " WHERE userCompany=" + userCompanyId, PasswordResetToken.class).getResultList();
+            resetTokens.forEach(this::deleteResetToken);
+        }catch(NoResultException e){
+        }
+    }
+
+    @Override
+    public void deleteUsersVerificationTokens(int userCompanyId) {
+        try{
+            List<VerificationToken> resultList=entityManager.createQuery("FROM "+VerificationToken.class.getName()+" WHERE userCompany="+userCompanyId,VerificationToken.class).getResultList();
+            resultList.forEach(this::deleteVerificationToken);
+        }catch(NoResultException e){}
     }
 }

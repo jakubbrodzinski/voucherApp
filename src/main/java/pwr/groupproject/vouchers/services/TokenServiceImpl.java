@@ -40,7 +40,7 @@ public class TokenServiceImpl implements TokenService {
             UserCompany userCompany = verificationToken.getUserCompany();
             userCompany.setEnabled(true);
             userCompanyDao.editUser(userCompany);
-            tokenDao.deletVerificationToken(verificationToken);
+            tokenDao.deleteVerificationToken(verificationToken);
         } else {
             throw new VerificationTokenExpired();
         }
@@ -92,6 +92,12 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public UserCompany getUserCompanyByVerificationToken(String verificationToken) {
         return tokenDao.getVerificationTokenByToken(verificationToken).getUserCompany();
+    }
+
+    @Override
+    public void deleteAccountsTokens(UserCompany userCompany) {
+        tokenDao.deleteUsersResetTokens(userCompany.getId());
+        tokenDao.deleteUsersVerificationTokens(userCompany.getId());
     }
 
 

@@ -22,6 +22,6 @@ public interface TokenService {
 
     UserCompany getUserCompanyByVerificationToken(String verificationToken);
 
-    void deleteAccountsTokens(UserCompany userCompany);
+    void deleteAccountsTokens(int userCompanyId);
 
 }

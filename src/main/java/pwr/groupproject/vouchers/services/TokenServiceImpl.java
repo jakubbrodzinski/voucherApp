@@ -95,9 +95,9 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public void deleteAccountsTokens(UserCompany userCompany) {
-        tokenDao.deleteUsersResetTokens(userCompany.getId());
-        tokenDao.deleteUsersVerificationTokens(userCompany.getId());
+    public void deleteAccountsTokens(int userCompanyId) {
+        tokenDao.deleteUsersResetTokens(userCompanyId);
+        tokenDao.deleteUsersVerificationTokens(userCompanyId);
     }
 
 

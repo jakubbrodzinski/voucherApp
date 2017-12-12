@@ -84,6 +84,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
 
     @Override
     public void deleteUserCompany(int userCompanyId) {
+        tokenService.deleteAccountsTokens(userCompanyId);
         UserCompany userCompany = userCompanyDao.getUserCompany(userCompanyId);
         userCompanyDao.deleteUserCompany(userCompany);
     }

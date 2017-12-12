@@ -16,6 +16,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -41,8 +42,10 @@ public class StatisticsServiceImpl implements StatisticsService {
         averageAge.ifPresent(surveyStatisticsDto::setAge);
 
         //average country
-        Optional<Map.Entry<String, Long>> country = answeredSurveys.stream().map(a -> a.getUser().getCountry()).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream().max(Comparator.comparingLong(Map.Entry::getValue));
-        country.ifPresent(c -> surveyStatisticsDto.setCountry(c.getKey()));
+        List<String> countries = answeredSurveys.stream().map(a -> a.getUser().getCountry()).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream().sorted(Comparator.comparingLong(Map.Entry::getValue)).limit(3).map(Map.Entry::getKey).collect(Collectors.toList());
+        while(countries.size()!=3)
+            countries.add("N/A");
+        surveyStatisticsDto.setCountry(countries.toArray(new String[3]));
 
         //initialaizing iterators
         Iterator<AnsweredSurvey> answeredSurveyIterator=answeredSurveys.iterator();

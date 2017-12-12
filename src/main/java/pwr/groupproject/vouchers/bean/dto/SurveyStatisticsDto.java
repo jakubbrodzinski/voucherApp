@@ -6,7 +6,7 @@ import java.util.List;
 public class SurveyStatisticsDto {
     private String surveyName;
     private final List<QuestionStatisticsDto> questionWithAnswersList=new ArrayList<>();
-    private String country=null;
+    private String[] country=new String[3];
     private int ammount=0;
     private double age=0;
 
@@ -18,11 +18,11 @@ public class SurveyStatisticsDto {
         this.surveyName = surveyName;
     }
 
-    public String getCountry() {
+    public String[] getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(String[] country) {
         this.country = country;
     }
 

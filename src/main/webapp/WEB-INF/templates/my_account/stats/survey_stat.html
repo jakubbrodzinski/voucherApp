@@ -23,8 +23,8 @@
                     </span>
             <div>
                 <div th:text="${'Surveys Answered: '+stats.ammount}">JD</span></div>
-                <div th:text="${'Average age: '+stats.age}">Jebac disa</div>
-                <div th:text="${'Survey most popular in: '+stats.country}">Orcza grota</div>
+                <div th:text="${'Average age: '+#numbers.formatDecimal(stats.age, 1, 'COMMA', 2, 'POINT')}">Pawel D. lubi disa</div>
+                <div th:text="${'Survey most popular in: '+stats.country[0]+', '+stats.country[1]+' and '+stats.country[2]}">Orcza grota</div>
             </div>
         </div>
 
@@ -47,7 +47,7 @@
                                 <label class="custom-control custom-checkbox">
                                     <input class="custom-control-input" type="checkbox" disabled>
                                     <span class="custom-control-indicator"></span>
-                                    <span th:text="${q.answers[0].answersBody+': '+q.answers[0].answersStat + '%'}" class="custom-control-description">PossibleAnswerA</span>
+                                    <span th:text="${q.answers[0].answersBody+': '+#numbers.formatDecimal(q.answers[0].answersStat, 1, 'COMMA', 2, 'POINT')+ '%'}" class="custom-control-description">PossibleAnswerA</span>
                                 </label>
                             </div>
 
@@ -55,7 +55,7 @@
                                 <label class="custom-control custom-checkbox">
                                     <input class="custom-control-input" type="checkbox" disabled>
                                     <span class="custom-control-indicator"></span>
-                                    <span th:text="${q.answers[1].answersBody+': '+q.answers[1].answersStat + '%'}" class="custom-control-description">PossibleAnswerB</span>
+                                    <span th:text="${q.answers[1].answersBody+': '+#numbers.formatDecimal(q.answers[1].answersStat, 1, 'COMMA', 2, 'POINT')+ '%'}" class="custom-control-description">PossibleAnswerB</span>
                                 </label>
                             </div>
 
@@ -63,7 +63,7 @@
                                 <label class="custom-control custom-checkbox">
                                     <input class="custom-control-input" type="checkbox" disabled>
                                     <span class="custom-control-indicator"></span>
-                                    <span th:text="${q.answers[2].answersBody+': '+q.answers[2].answersStat + '%'}" class="custom-control-description">PossibleAnswerC</span>
+                                    <span th:text="${q.answers[2].answersBody+': '+#numbers.formatDecimal(q.answers[2].answersStat, 1, 'COMMA', 2, 'POINT') + '%'}" class="custom-control-description">PossibleAnswerC</span>
                                 </label>
                             </div>
 
@@ -71,7 +71,7 @@
                                 <label class="custom-control custom-checkbox">
                                     <input class="custom-control-input" type="checkbox" disabled>
                                     <span class="custom-control-indicator"></span>
-                                    <span th:text="${q.answers[3].answersBody+': '+q.answers[3].answersStat +'%'}" class="custom-control-description">PossibleAnswerD</span>
+                                    <span th:text="${q.answers[3].answersBody+': '+#numbers.formatDecimal(q.answers[3].answersStat, 1, 'COMMA', 2, 'POINT') +'%'}" class="custom-control-description">PossibleAnswerD</span>
                                 </label>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                                 <label class="custom-control custom-radio">
                                     <input disabled class="custom-control-input" type="radio">
                                     <span class="custom-control-indicator"></span>
-                                    <span th:text="${q.answers[0].answersBody+': '+q.answers[0].answersStat +'%'}" class="custom-control-description">PossibleAnswerA</span>
+                                    <span th:text="${q.answers[0].answersBody+': '+#numbers.formatDecimal(q.answers[0].answersStat, 1, 'COMMA', 2, 'POINT') +'%'}" class="custom-control-description">PossibleAnswerA</span>
                                 </label>
                             </div>
 
@@ -91,7 +91,7 @@
                                 <label class="custom-control custom-radio">
                                     <input disabled class="custom-control-input" type="radio">
                                     <span class="custom-control-indicator"></span>
-                                    <span th:text="${q.answers[1].answersBody+': '+q.answers[1].answersStat+'%'}" class="custom-control-description">PossibleAnswerB</span>
+                                    <span th:text="${q.answers[1].answersBody+': '+#numbers.formatDecimal(q.answers[1].answersStat, 1, 'COMMA', 2, 'POINT')+'%'}" class="custom-control-description">PossibleAnswerB</span>
                                 </label>
                             </div>
 
@@ -99,7 +99,7 @@
                                 <label class="custom-control custom-radio">
                                     <input disabled class="custom-control-input" type="radio">
                                     <span class="custom-control-indicator"></span>
-                                    <span th:text="${q.answers[2].answersBody+': '+q.answers[2].answersStat+'%'}" class="custom-control-description">PossibleAnswerC</span>
+                                    <span th:text="${q.answers[2].answersBody+': '+#numbers.formatDecimal(q.answers[2].answersStat, 1, 'COMMA', 2, 'POINT')+'%'}" class="custom-control-description">PossibleAnswerC</span>
                                 </label>
                             </div>
 
@@ -107,7 +107,7 @@
                                 <label class="custom-control custom-radio">
                                     <input disabled class="custom-control-input" type="radio">
                                     <span class="custom-control-indicator"></span>
-                                    <span th:text="${q.answers[3].answersBody+': '+q.answers[3].answersStat+'%'}" class="custom-control-description">PossibleAnswerD</span>
+                                    <span th:text="${q.answers[3].answersBody+': '+#numbers.formatDecimal(q.answers[3].answersStat, 1, 'COMMA', 2, 'POINT')+'%'}" class="custom-control-description">PossibleAnswerD</span>
                                 </label>
                             </div>
                         </div>

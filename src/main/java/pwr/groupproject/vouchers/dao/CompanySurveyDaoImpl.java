@@ -35,14 +35,6 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
     }
 
     @Override
-    public Company getCompanyWithSurveysAndQuestions(int id) {
-        Company company = entityManager.find(Company.class, id);
-        Hibernate.initialize(company.getCompanysSurveys());
-        company.getCompanysSurveys().stream().map(Survey::getQuestions).forEach(Hibernate::initialize);
-        return company;
-    }
-
-    @Override
     public Survey getSurveyById(int id) {
         return entityManager.find(Survey.class, id);
     }
@@ -52,11 +44,6 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
         Survey survey = entityManager.find(Survey.class, id);
         Hibernate.initialize(survey.getQuestions());
         return survey;
-    }
-
-    @Override
-    public AnsweredSurvey getAnsweredSurveyById(int id) {
-        return entityManager.find(AnsweredSurvey.class, id);
     }
 
     @Override
@@ -70,6 +57,17 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
     @Override
     public Collection<AnsweredSurvey> getCompanysAllAnsweredSurveys(int companyId) {
         return entityManager.createQuery("SELECT ans FROM " + AnsweredSurvey.class.getName() + " ans JOIN " + Survey.class.getName() + " s ON ans.survey=s.Id WHERE s.company='" + companyId + "'", AnsweredSurvey.class).getResultList();
+    }
+
+    @Override
+    public Collection<AnsweredSurvey> getAllResultsOfSurveyWithDetails(int surveyId) {
+        try {
+            Collection<AnsweredSurvey> result= entityManager.createQuery("FROM " + AnsweredSurvey.class.getName() + " WHERE survey='" + surveyId + "'", AnsweredSurvey.class).getResultList();
+            result.forEach(u->Hibernate.initialize(u.getAnswersList()));
+            return  result;
+        }catch(NoResultException e){
+            return new ArrayList<>();
+        }
     }
 
     @Override

@@ -10,15 +10,14 @@ public interface CompanySurveyDao {
     Company getUsersCompany(int userCompanyId);
     Company getCompanyById(int id);
     Company getCompanyWithSurveys(Company company);
-    Company getCompanyWithSurveysAndQuestions(int id);
 
     Survey getSurveyById(int id);
     Survey getSurveyWithQuestions(int id);
 
-    AnsweredSurvey getAnsweredSurveyById(int id);
     AnsweredSurvey getAnsweredSurveyWithAnswers(int id);
 
     Collection<AnsweredSurvey> getCompanysAllAnsweredSurveys(int companyId);
+    Collection<AnsweredSurvey> getAllResultsOfSurveyWithDetails(int surveyId);
     Collection<AnsweredSurvey> getAllResultsOfSurvey(int surveyId);
 
     Collection<Survey> getCompanysAllSurveys(int companyId);

@@ -30,6 +30,11 @@
 
 
     <br>
+    <div th:if="${#lists.size(stats.questionWithAnswersList)==0}">
+        <div class="alert alert-info">
+            <div class="text-center" th:utext="${'Your survey hasn''t been filled yet.'}"></div>
+        </div>
+    </div>
     <div th:each="q : ${stats.questionWithAnswersList}">
         <div class="card mx-auto my-5 bg-light border-info" style="width: 50rem;" >
             <div class="card-body">

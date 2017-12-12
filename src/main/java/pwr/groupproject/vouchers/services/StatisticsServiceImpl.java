@@ -38,14 +38,17 @@ public class StatisticsServiceImpl implements StatisticsService {
         surveyStatisticsDto.setSurveyName(survey.getSurveyName());
 
         //average age
-        OptionalDouble averageAge = answeredSurveys.stream().mapToInt(a -> a.getUser().getAge()).average();
-        averageAge.ifPresent(surveyStatisticsDto::setAge);
+        double averageAge = answeredSurveys.stream().mapToInt(a -> a.getUser().getAge()).average().orElse(0.0);
+        surveyStatisticsDto.setAge(averageAge);
 
         //average country
         List<String> countries = answeredSurveys.stream().map(a -> a.getUser().getCountry()).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).entrySet().stream().sorted(Comparator.comparingLong(Map.Entry::getValue)).limit(3).map(Map.Entry::getKey).collect(Collectors.toList());
         while(countries.size()!=3)
             countries.add("N/A");
         surveyStatisticsDto.setCountry(countries.toArray(new String[3]));
+
+        if(answeredSurveys.size()==0)
+            return surveyStatisticsDto;
 
         //initialaizing iterators
         Iterator<AnsweredSurvey> answeredSurveyIterator=answeredSurveys.iterator();

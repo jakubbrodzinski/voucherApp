@@ -6,8 +6,10 @@ import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Component
@@ -72,7 +74,11 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
 
     @Override
     public Collection<AnsweredSurvey> getAllResultsOfSurvey(int surveyId) {
-        return entityManager.createQuery("FROM " + AnsweredSurvey.class.getName() + " WHERE survey='" + surveyId + "'", AnsweredSurvey.class).getResultList();
+        try {
+            return entityManager.createQuery("FROM " + AnsweredSurvey.class.getName() + " WHERE survey='" + surveyId + "'", AnsweredSurvey.class).getResultList();
+        }catch(NoResultException e){
+            return new ArrayList<>();
+        }
     }
 
     @Override

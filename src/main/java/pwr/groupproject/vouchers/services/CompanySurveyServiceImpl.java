@@ -305,11 +305,6 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
     }
 
     @Override
-    public AnsweredSurvey getResultDetails(int answeredSurveyId) {
-        return companySurveyDao.getAnsweredSurveyWithAnswers(answeredSurveyId);
-    }
-
-    @Override
     public Company getCompanyWithSurveys(UserCompany userCompany) {
         return companySurveyDao.getCompanyWithSurveys(getUsersCompany(userCompany));
     }

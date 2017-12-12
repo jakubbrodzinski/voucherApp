@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyStatisticsDto;
 import pwr.groupproject.vouchers.bean.dto.answered.AnsweredSurveyDto;
+import pwr.groupproject.vouchers.bean.exceptions.WrongAnsweredSurveyIdException;
 import pwr.groupproject.vouchers.bean.exceptions.WrongSurveyIdException;
 import pwr.groupproject.vouchers.bean.form.*;
 import pwr.groupproject.vouchers.bean.model.*;
@@ -370,7 +371,7 @@ public class UserCompanyController {
     //endregion
 
     //region Statistics Managment
-    @RequestMapping("/statistics/{id}")
+    @RequestMapping(value = "/statistics/{id}",method = RequestMethod.GET)
     public String singleSurveysStats(@PathVariable("id") int surveyId, Model model, @AuthenticationPrincipal UserCompany userCompany) {
         if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
@@ -381,14 +382,29 @@ public class UserCompanyController {
     }
     //endregion
 
-    @RequestMapping("/statistics/{id}/answers")
+    @RequestMapping(value = "/statistics/{id}/list",method = RequestMethod.GET)
     public String getListOfAnswers(@PathVariable("id") int surveyId,Model model,@AuthenticationPrincipal UserCompany userCompany){
         if(!checkForSurveyExistence(surveyId,userCompany)){
             return "error.html";
         }
-        Collection<AnsweredSurveyDto> stats = statisticsService.getAllAnsweredSurveys(surveyId);
-        model.addAttribute("stats", stats);
-        return "my_account/stats/survey_stat.html";
+        Collection<AnsweredSurveyDto> listAns = statisticsService.getAllAnsweredSurveys(surveyId);
+        model.addAttribute("list", listAns);
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = "/statistics/{id}/answers",method = RequestMethod.GET)
+    public String getSingleAnswerDetails(@PathVariable("id") int surveyId,Model model,@AuthenticationPrincipal UserCompany userCompany,@RequestParam(name="as")Integer ansSurveyId){
+        if(!checkForSurveyExistence(surveyId,userCompany)){
+            return "error.html";
+        }
+        AnsweredSurveyDto answeredSurveyDto;
+        try {
+            answeredSurveyDto = statisticsService.getResultDetails(ansSurveyId);
+        }catch(WrongAnsweredSurveyIdException e){
+            return "redirect:/";
+        }
+        model.addAttribute("details",answeredSurveyDto);
+        return  "redirect:/";
     }
 }
 

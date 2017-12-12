@@ -63,9 +63,6 @@ public interface CompanySurveyService {
     Company updateCompany(Company company);
 
     @PreAuthorize("hasRole('COMPANY')")
-    AnsweredSurvey getResultDetails(int answeredSurveyId);
-
-    @PreAuthorize("hasRole('COMPANY')")
     Company getUsersCompany(UserCompany userCompany);
 
     Company getCompanyWithSurveys(UserCompany userCompany);

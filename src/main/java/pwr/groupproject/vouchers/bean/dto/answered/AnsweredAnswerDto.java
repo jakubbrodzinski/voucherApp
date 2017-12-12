@@ -2,7 +2,7 @@ package pwr.groupproject.vouchers.bean.dto.answered;
 
 public class AnsweredAnswerDto {
     private String answersBody;
-    private boolean wasPicked;
+    private boolean wasPicked = false;
 
     public String getAnswersBody() {
         return answersBody;

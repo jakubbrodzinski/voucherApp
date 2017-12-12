@@ -1,5 +1,6 @@
 package pwr.groupproject.vouchers.dao;
 
+import pwr.groupproject.vouchers.bean.exceptions.WrongAnsweredSurveyIdException;
 import pwr.groupproject.vouchers.bean.model.AnsweredSurvey;
 import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.Survey;
@@ -14,7 +15,7 @@ public interface CompanySurveyDao {
     Survey getSurveyById(int id);
     Survey getSurveyWithQuestions(int id);
 
-    AnsweredSurvey getAnsweredSurveyWithAnswers(int id);
+    AnsweredSurvey getAnsweredSurveyWithAnswers(int id) throws WrongAnsweredSurveyIdException;
 
     Collection<AnsweredSurvey> getCompanysAllAnsweredSurveys(int companyId);
     Collection<AnsweredSurvey> getAllResultsOfSurveyWithDetails(int surveyId);

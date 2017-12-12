@@ -1,6 +1,7 @@
 package pwr.groupproject.vouchers.bean.dto.answered;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -11,17 +12,25 @@ public class AnsweredSurveyDto implements Serializable {
     private int Id;
     private int age;
     private String country;
-    private Collection<AnsweredQuestionDto> answersList;
+    private final Collection<AnsweredQuestionDto> answersList = new ArrayList<>();
     private Date date;
 
     public AnsweredSurveyDto() {
     }
 
-    public AnsweredSurveyDto(int Id,int age, String country, Date date) {
-        this.Id=Id;
+    public AnsweredSurveyDto(int Id, int age, String country, Date date) {
+        this.Id = Id;
         this.age = age;
         this.country = country;
         this.date = date;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public int getAge() {
@@ -42,10 +51,6 @@ public class AnsweredSurveyDto implements Serializable {
 
     public Collection<AnsweredQuestionDto> getAnswersList() {
         return answersList;
-    }
-
-    public void setAnswersList(Collection<AnsweredQuestionDto> answersList) {
-        this.answersList = answersList;
     }
 
     public Date getDate() {

@@ -2,6 +2,7 @@ package pwr.groupproject.vouchers.dao;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Component;
+import pwr.groupproject.vouchers.bean.exceptions.WrongAnsweredSurveyIdException;
 import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
@@ -47,8 +48,10 @@ public class CompanySurveyDaoImpl implements CompanySurveyDao {
     }
 
     @Override
-    public AnsweredSurvey getAnsweredSurveyWithAnswers(int id) {
+    public AnsweredSurvey getAnsweredSurveyWithAnswers(int id) throws WrongAnsweredSurveyIdException {
         AnsweredSurvey answeredSurvey = entityManager.find(AnsweredSurvey.class, id);
+        if(answeredSurvey==null)
+            throw new WrongAnsweredSurveyIdException();
         Hibernate.initialize(answeredSurvey.getAnswersList());
         Hibernate.initialize(answeredSurvey.getSurvey().getQuestions());
         return answeredSurvey;

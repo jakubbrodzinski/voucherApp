@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pwr.groupproject.vouchers.bean.dto.QuestionStatisticsDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyStatisticsDto;
+import pwr.groupproject.vouchers.bean.dto.answered.AnsweredAnswerDto;
+import pwr.groupproject.vouchers.bean.dto.answered.AnsweredQuestionDto;
 import pwr.groupproject.vouchers.bean.dto.answered.AnsweredSurveyDto;
-import pwr.groupproject.vouchers.bean.model.Answer;
-import pwr.groupproject.vouchers.bean.model.AnsweredSurvey;
-import pwr.groupproject.vouchers.bean.model.Question;
-import pwr.groupproject.vouchers.bean.model.Survey;
+import pwr.groupproject.vouchers.bean.exceptions.WrongAnsweredSurveyIdException;
+import pwr.groupproject.vouchers.bean.model.*;
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 import pwr.groupproject.vouchers.dao.CompanySurveyDao;
 
@@ -73,15 +73,15 @@ public class StatisticsServiceImpl implements StatisticsService {
                 questionStatisticsDto.setAnswers(null);
             } else if (qType == QuestionType.RANGED) {
                 double average = 0;
-                for (int i = 0; i < aIteratorArray.length; i++) {
-                    String temp = aIteratorArray[i].next().getAnswer();
+                for (Iterator<Answer> anAIteratorArray : aIteratorArray) {
+                    String temp = anAIteratorArray.next().getAnswer();
                     average += Double.parseDouble(temp);
                 }
                 questionStatisticsDto.getAnswers()[0].setAnswersStat(Double.toString(average / answersSize));
             } else {
                 double[] apperances = new double[4];
-                for (int i = 0; i < aIteratorArray.length; i++) {
-                    Answer a = aIteratorArray[i].next();
+                for (Iterator<Answer> anAIteratorArray : aIteratorArray) {
+                    Answer a = anAIteratorArray.next();
                     String[] splited = a.getAnswer().split(",");
                     for (String s : splited) {
                         switch (s) {
@@ -110,12 +110,67 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<AnsweredSurvey> getAllAnsweredSurveysWithDetails(int surveyId) {
         return companySurveyDao.getAllResultsOfSurveyWithDetails(surveyId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Collection<AnsweredSurveyDto> getAllAnsweredSurveys(int surveyId) {
         return companySurveyDao.getAllResultsOfSurvey(surveyId).stream().map(r->new AnsweredSurveyDto(r.getId(),r.getUser().getAge(),r.getUser().getCountry(),r.getDate())).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public AnsweredSurvey getSingleAnsweredSurveyById(int answeredSurveyId) throws WrongAnsweredSurveyIdException {
+        return  companySurveyDao.getAnsweredSurveyWithAnswers(answeredSurveyId);
+    }
+
+    @Override
+    public AnsweredSurveyDto getResultDetails(int answeredSurveyId) throws WrongAnsweredSurveyIdException {
+        //TRANSCATIONAL
+        AnsweredSurvey ansSur= getSingleAnsweredSurveyById(answeredSurveyId);
+        Collection<Answer> a=ansSur.getAnswersList();
+        Collection<Question> q=ansSur.getSurvey().getQuestions();
+
+        AnsweredSurveyDto resultDto=new AnsweredSurveyDto(answeredSurveyId,ansSur.getUser().getAge(),ansSur.getUser().getCountry(),ansSur.getDate());
+
+        Iterator<Question> qIterator=q.iterator();
+        Iterator<Answer> aIterator=a.iterator();
+        while(qIterator.hasNext() && aIterator.hasNext()){
+            AnsweredQuestionDto aqDto=new AnsweredQuestionDto();
+
+            Question question=qIterator.next();
+            Answer answer=aIterator.next();
+
+            aqDto.setQuestionBody(question.getQuestionBody());
+            aqDto.setQuestionType(question.getQuestionType());
+
+            if(question.getQuestionType()==QuestionType.OPEN || question.getQuestionType()==QuestionType.RANGED){
+                AnsweredAnswerDto aaDto=new AnsweredAnswerDto();
+                aaDto.setAnswersBody(answer.getAnswer());
+                aqDto.getAnswerDtos()[0]=aaDto;
+            }else{
+                PossibleAnswers psAns=question.getPossibleAnswers();
+                AnsweredAnswerDto aaDto0=new AnsweredAnswerDto();
+                aaDto0.setAnswersBody(psAns.getPossibleAnswerA());
+                AnsweredAnswerDto aaDto1=new AnsweredAnswerDto();
+                aaDto1.setAnswersBody(psAns.getPossibleAnswerA());
+                AnsweredAnswerDto aaDto2=new AnsweredAnswerDto();
+                aaDto2.setAnswersBody(psAns.getPossibleAnswerA());
+                AnsweredAnswerDto aaDto3=new AnsweredAnswerDto();
+                aaDto3.setAnswersBody(psAns.getPossibleAnswerA());
+                aqDto.getAnswerDtos()[0]=aaDto0;
+                aqDto.getAnswerDtos()[1]=aaDto1;
+                aqDto.getAnswerDtos()[2]=aaDto2;
+                aqDto.getAnswerDtos()[3]=aaDto3;
+
+                String[] answers=answer.getAnswer().split(",");
+                Arrays.stream(answers).forEach(u->aqDto.getAnswerDtos()[u.charAt(0)-'A'].setWasPicked(true));
+            }
+
+            resultDto.getAnswersList().add(aqDto);
+        }
+        return resultDto;
     }
 }

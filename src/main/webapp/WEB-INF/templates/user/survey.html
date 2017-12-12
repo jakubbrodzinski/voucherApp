@@ -14,7 +14,7 @@
 <nav th:insert="/fragments/dashboard.html :: userDashboard"></nav>
     <div class="container">
 
-        <h2 class="display-2 text-light text-center mt-5" th:text="${survey.surveyName}">Template survey description</h2>
+        <h2 class="display-2 text-light text-center mt-5 pt-5" th:text="${survey.surveyName}">Template survey description</h2>
 
         <form th:action="${flowExecutionUrl}" th:object="${answeredSurveyForm}"  method="post">
             <div th:each="question, iter : ${survey.questionsDto}">
@@ -57,4 +57,10 @@
         }
     }
 </style>
+
+<script>
+    function changeRangeIndicator(element, value) {
+        $(element).siblings('p').text(value);
+    }
+</script>
 

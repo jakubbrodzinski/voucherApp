@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import pwr.groupproject.vouchers.configuration.handlers.CustomLoginFailureHandler;
 
 @EnableWebSecurity
@@ -35,7 +36,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/my_account/**").hasRole("COMPANY")
                 .and()
                 .formLogin().loginPage("/sign_in").usernameParameter("username").passwordParameter("password")
-                .failureHandler(authenticationFailureHandler()).successForwardUrl("/my_account/home")
+                .failureHandler(authenticationFailureHandler()).successHandler(new SimpleUrlAuthenticationSuccessHandler("/my_account/"))
                 .and()
                 .logout().logoutUrl("/my_account/logout").logoutSuccessUrl("/")
                 .and()

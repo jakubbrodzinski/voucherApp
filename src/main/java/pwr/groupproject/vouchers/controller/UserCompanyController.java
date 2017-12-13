@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,12 +37,12 @@ public class UserCompanyController {
     static final String ROOT_MAPPING = "/my_account";
     private final CompanySurveyService companySurveyService;
     private final UserCompanyService userCompanyService;
-    private final ShaPasswordEncoder passwordEncoder;
+    private final Pbkdf2PasswordEncoder passwordEncoder;
     private final MessageSource messageSource;
     private final StatisticsService statisticsService;
 
     @Autowired
-    public UserCompanyController(CompanySurveyService companySurveyService, UserCompanyService userCompanyService, ShaPasswordEncoder passwordEncoder, MessageSource messageSource, StatisticsService statisticsService) {
+    public UserCompanyController(CompanySurveyService companySurveyService, UserCompanyService userCompanyService, Pbkdf2PasswordEncoder passwordEncoder, MessageSource messageSource, StatisticsService statisticsService) {
         this.companySurveyService = companySurveyService;
         this.userCompanyService = userCompanyService;
         this.passwordEncoder = passwordEncoder;
@@ -109,9 +109,8 @@ public class UserCompanyController {
     @RequestMapping(value = "/account_panel/password", method = RequestMethod.POST)
     public String changePassword(Model model, @AuthenticationPrincipal UserCompany userCompany, @ModelAttribute(name="companyForm") CompanyDetailsForm companyDetailsForm, @ModelAttribute(name="addressForm") AddressForm addressForm, @Validated @ModelAttribute(name="passwordForm") PasswordForm passwordForm,BindingResult bindingResult) {
         Company company = companySurveyService.getUsersCompany(userCompany);
-
-        String hashedOldPassword=passwordEncoder.encodePassword(passwordForm.getOldPassword(),null);
-        if(!bindingResult.hasErrors() && !hashedOldPassword.equals(userCompany.getPassword())){
+        boolean doesOldPwMatch=passwordEncoder.matches(passwordForm.getOldPassword(),userCompany.getPassword());
+        if(!bindingResult.hasErrors() && !doesOldPwMatch){
             bindingResult.rejectValue("oldPassword", "wrong.old.password", messageSource.getMessage("message.wrong.old.password", null, LocaleContextHolder.getLocale()));
         }
         if(bindingResult.hasErrors()){
@@ -127,7 +126,7 @@ public class UserCompanyController {
             return "my_account/account_panel.html";
         }
 
-        String hashedNewPassword=passwordEncoder.encodePassword(passwordForm.getPassword(),null);
+        String hashedNewPassword=passwordEncoder.encode(passwordForm.getPassword());
         userCompanyService.changePassword(userCompany.getUsername(),hashedNewPassword);
 
         prepareAccountPanelModel(model,company);

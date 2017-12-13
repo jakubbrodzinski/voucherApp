@@ -5,7 +5,7 @@ import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.webflow.action.EventFactorySupport;
@@ -26,16 +26,16 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     private final int TOKEN_LENGTH = 50;
     private final UserCompanyDao userCompanyDao;
     private final MessageSource messageSource;
-    private final ShaPasswordEncoder shaPasswordEncoder;
+    private final Pbkdf2PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
     private final MailService mailService;
     private final CompanySurveyDao companySurveyDao;
 
     @Autowired
-    public UserCompanyServiceImpl(UserCompanyDao userCompanyDao, MessageSource messageSource, ShaPasswordEncoder shaPasswordEncoder, TokenService tokenService, MailService mailService, CompanySurveyDao companySurveyDao) {
+    public UserCompanyServiceImpl(UserCompanyDao userCompanyDao, MessageSource messageSource, Pbkdf2PasswordEncoder passwordEncoder, TokenService tokenService, MailService mailService, CompanySurveyDao companySurveyDao) {
         this.userCompanyDao = userCompanyDao;
         this.messageSource = messageSource;
-        this.shaPasswordEncoder = shaPasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
         this.mailService = mailService;
         this.companySurveyDao = companySurveyDao;
@@ -56,7 +56,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
         UserProfile companyAuthority = userCompanyDao.getUserProfileByName("COMPANY");
         userCompany.getUserProfiles().add(companyAuthority);
         userCompany.setUsername(newUserCompanyForm.getUserName());
-        userCompany.setPassword(shaPasswordEncoder.encodePassword(newUserCompanyForm.getPassword(), null));
+        userCompany.setPassword(passwordEncoder.encode(newUserCompanyForm.getPassword()));
         userCompany.setCompany(company);
         this.userCompanyDao.addUserCompany(userCompany);
         companySurveyDao.addCompany(userCompany.getCompany());
@@ -100,7 +100,7 @@ public class UserCompanyServiceImpl implements UserCompanyService {
     @Override
     public void changePassword(ResetPasswordForm resetPasswordForm) {
         UserCompany userCompany = tokenService.getUserCompanyByPasswordResetToken(resetPasswordForm.getResetPasswordToken());
-        userCompany.setPassword(shaPasswordEncoder.encodePassword(resetPasswordForm.getPassword(), null));
+        userCompany.setPassword(passwordEncoder.encode(resetPasswordForm.getPassword()));
         userCompanyDao.editUser(userCompany);
         tokenService.confirmResetingPassword(resetPasswordForm.getResetPasswordToken());
     }

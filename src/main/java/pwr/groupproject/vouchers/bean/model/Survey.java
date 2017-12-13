@@ -13,6 +13,7 @@ public class Survey {
     private int Id;
     @Column(length = 50)
     private String surveyName;
+    private String surveyDescription;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     private Collection<Question> questions = new ArrayList<>();
     @OneToOne(mappedBy = "survey", cascade = {CascadeType.REMOVE,CascadeType.MERGE,CascadeType.DETACH},orphanRemoval = true, optional = true,fetch = FetchType.EAGER)
@@ -39,6 +40,14 @@ public class Survey {
 
     public void setSurveyName(String surveyName) {
         this.surveyName = surveyName;
+    }
+
+    public String getSurveyDescription() {
+        return surveyDescription;
+    }
+
+    public void setSurveyDescription(String surveyDescription) {
+        this.surveyDescription = surveyDescription;
     }
 
     public Collection<Question> getQuestions() {

@@ -14,6 +14,7 @@ public class SurveyDto implements Serializable {
     private static final long serialVersionUID = 1822452225511114741L;
 
     private String surveyName;
+    private String surveyDescription;
     private Collection<QuestionDto> questions = new ArrayList<>();
 
     public SurveyDto() {
@@ -44,6 +45,14 @@ public class SurveyDto implements Serializable {
 
     public void setSurveyName(String surveyName) {
         this.surveyName = surveyName;
+    }
+
+    public String getSurveyDescription() {
+        return surveyDescription;
+    }
+
+    public void setSurveyDescription(String surveyDescription) {
+        this.surveyDescription = surveyDescription;
     }
 
     public Collection<QuestionDto> getQuestions() {

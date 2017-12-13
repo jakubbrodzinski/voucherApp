@@ -208,6 +208,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
         Company company = companySurveyDao.getCompanyById(userCcompany.getCompany().getId());
         Survey newSurvey = new Survey();
         newSurvey.setCompany(company);
+        newSurvey.setSurveyDescription(surveyDto.getSurveyDescription());
         company.getCompanysSurveys().add(newSurvey);
         newSurvey.setCreationDate(new Date());
         newSurvey.setSurveyName(surveyDto.getSurveyName());

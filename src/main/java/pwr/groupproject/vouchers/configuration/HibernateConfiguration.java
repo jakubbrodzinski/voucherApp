@@ -26,14 +26,18 @@ import java.util.Properties;
 @PropertySource(value = "classpath:app_properties/jdbc.properties")
 @EnableTransactionManagement
 public class HibernateConfiguration {
+    private final Environment environment;
+
     @Autowired
-    private Environment environment;
+    public HibernateConfiguration(Environment environment) {
+        this.environment = environment;
+    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         final LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
-        em.setPackagesToScan(new String[]{"pwr.groupproject.vouchers.bean"});
+        em.setPackagesToScan("pwr.groupproject.vouchers.bean");
 
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);

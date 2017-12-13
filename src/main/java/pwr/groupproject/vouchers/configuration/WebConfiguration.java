@@ -25,10 +25,8 @@ import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
-import pwr.groupproject.vouchers.bean.model.VoucherCode;
 import pwr.groupproject.vouchers.configuration.filter.VoucherCodeFilter;
 
-import javax.servlet.Filter;
 import java.util.Locale;
 
 @Configuration

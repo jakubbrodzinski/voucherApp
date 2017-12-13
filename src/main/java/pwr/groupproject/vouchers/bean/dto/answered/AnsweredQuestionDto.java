@@ -2,8 +2,6 @@ package pwr.groupproject.vouchers.bean.dto.answered;
 
 import pwr.groupproject.vouchers.bean.model.enums.QuestionType;
 
-import java.util.Arrays;
-
 public class AnsweredQuestionDto {
     private String questionBody;
     private QuestionType questionType;

@@ -28,7 +28,7 @@ public class NewUserCompanyForm implements Serializable {
     private String postalCode;
     @Pattern(regexp = "[\\p{L}|\\pL]*", groups = ValidationGroup2.class)
     private String city;
-    @Pattern(regexp = "[\\pL-A-Za-z0-9\\-/ ,.]*", groups = ValidationGroup2.class)
+    @Pattern(regexp = "[\\pLA-Za-z0-9\\-/ ,.]*", groups = ValidationGroup2.class)
     private String addressDetails;
 
     public static long getSerialVersionUID() {

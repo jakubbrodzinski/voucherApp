@@ -1,7 +1,7 @@
 package pwr.groupproject.vouchers.bean.model.enums;
 
 public enum DiscountType {
-    SUM(0), PERCENTEGE(1),OTHER(2);
+    SUM(0), PERCENTEGE(1), OTHER(2);
 
     private int type;
 

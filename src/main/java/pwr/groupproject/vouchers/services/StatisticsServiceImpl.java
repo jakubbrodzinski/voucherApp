@@ -68,40 +68,44 @@ public class StatisticsServiceImpl implements StatisticsService {
             questionStatisticsDto.setQuestionBody(q.getQuestionBody());
             questionStatisticsDto.setQuestionType(qType);
 
-            if (qType == QuestionType.OPEN) {
-                Arrays.stream(aIteratorArray).forEach(Iterator::next);
-                questionStatisticsDto.setAnswers(null);
-            } else if (qType == QuestionType.RANGED) {
-                double average = 0;
-                for (Iterator<Answer> anAIteratorArray : aIteratorArray) {
-                    String temp = anAIteratorArray.next().getAnswer();
-                    average += Double.parseDouble(temp);
-                }
-                questionStatisticsDto.getAnswers()[0].setAnswersStat(Double.toString(average / answersSize));
-            } else {
-                double[] apperances = new double[4];
-                for (Iterator<Answer> anAIteratorArray : aIteratorArray) {
-                    Answer a = anAIteratorArray.next();
-                    String[] splited = a.getAnswer().split(",");
-                    for (String s : splited) {
-                        switch (s) {
-                            case "A":
-                                apperances[0]++;
-                                break;
-                            case "B":
-                                apperances[1]++;
-                                break;
-                            case "C":
-                                apperances[2]++;
-                                break;
-                            case "D":
-                                apperances[3]++;
-                        }
-
+            switch (qType) {
+                case OPEN:
+                    Arrays.stream(aIteratorArray).forEach(Iterator::next);
+                    questionStatisticsDto.setAnswers(null);
+                    break;
+                case RANGED:
+                    double average = 0;
+                    for (Iterator<Answer> anAIteratorArray : aIteratorArray) {
+                        String temp = anAIteratorArray.next().getAnswer();
+                        average += Double.parseDouble(temp);
                     }
-                }
-                IntStream.range(0, apperances.length).forEach(a -> questionStatisticsDto.getAnswers()[a].setAnswersStat(Double.toString(100 * apperances[a] / answersSize)));
-                questionStatisticsDto.setPossibleAnswers(q.getPossibleAnswers());
+                    questionStatisticsDto.getAnswers()[0].setAnswersStat(Double.toString(average / answersSize));
+                    break;
+                default:
+                    double[] apperances = new double[4];
+                    for (Iterator<Answer> anAIteratorArray : aIteratorArray) {
+                        Answer a = anAIteratorArray.next();
+                        String[] splited = a.getAnswer().split(",");
+                        for (String s : splited) {
+                            switch (s) {
+                                case "A":
+                                    apperances[0]++;
+                                    break;
+                                case "B":
+                                    apperances[1]++;
+                                    break;
+                                case "C":
+                                    apperances[2]++;
+                                    break;
+                                case "D":
+                                    apperances[3]++;
+                            }
+
+                        }
+                    }
+                    IntStream.range(0, apperances.length).forEach(a -> questionStatisticsDto.getAnswers()[a].setAnswersStat(Double.toString(100 * apperances[a] / answersSize)));
+                    questionStatisticsDto.setPossibleAnswers(q.getPossibleAnswers());
+                    break;
             }
 
             questionStatisticsDtoList.add(questionStatisticsDto);

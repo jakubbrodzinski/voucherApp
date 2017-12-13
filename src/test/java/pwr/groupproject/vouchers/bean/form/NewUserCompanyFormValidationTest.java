@@ -87,7 +87,9 @@ public class NewUserCompanyFormValidationTest {
 
         try {
             userCompanyService.validateUserCompany(userCompanyForm, messageContext);
-            throw new Throwable() {};
+            throw new Throwable() {
+                private static final long serialVersionUID = -3531946547020220558L;
+            };
         }catch(NoSuchMessageException ex){
             ex.printStackTrace();
         }

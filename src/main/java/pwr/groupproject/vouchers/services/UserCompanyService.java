@@ -5,7 +5,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.webflow.execution.Event;
 import pwr.groupproject.vouchers.bean.form.NewUserCompanyForm;
 import pwr.groupproject.vouchers.bean.form.ResetPasswordForm;
-import pwr.groupproject.vouchers.bean.model.Company;
 import pwr.groupproject.vouchers.bean.model.security.UserCompany;
 
 

@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "USER_PROFILE")
 public class UserProfile implements GrantedAuthority {
+    private static final long serialVersionUID = -3672243800617905316L;
     @javax.persistence.Id
     @GeneratedValue
     private int Id;
@@ -38,8 +39,7 @@ public class UserProfile implements GrantedAuthority {
 
         UserProfile that = (UserProfile) o;
 
-        if (Id != that.Id) return false;
-        return type == that.type;
+        return Id == that.Id && type == that.type;
     }
 
     @Override

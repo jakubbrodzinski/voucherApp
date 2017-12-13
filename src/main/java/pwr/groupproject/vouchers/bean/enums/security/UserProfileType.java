@@ -1,7 +1,7 @@
 package pwr.groupproject.vouchers.bean.enums.security;
 
 public enum UserProfileType {
-    COMPANY("COMPANY"),ADMIN("ADMIN");
+    COMPANY("COMPANY"), ADMIN("ADMIN");
 
     private String profileType;
 
@@ -11,6 +11,6 @@ public enum UserProfileType {
 
     @Override
     public String toString() {
-        return "ROLE_"+profileType;
+        return "ROLE_" + profileType;
     }
 }

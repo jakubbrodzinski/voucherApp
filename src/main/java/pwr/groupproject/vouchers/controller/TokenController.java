@@ -33,7 +33,7 @@ public class TokenController {
     }
 
     @RequestMapping(value = "/reset_password", method = RequestMethod.GET)
-    public String resetPassowrd(@RequestParam("t") String token, Model model) {
+    public String resetPassword(@RequestParam("t") String token, Model model) {
         try {
             tokenService.validatePasswordResetToken(token);
             ResetPasswordForm form = new ResetPasswordForm();
@@ -47,7 +47,7 @@ public class TokenController {
     }
 
     @RequestMapping(value = "/reset_password", method = RequestMethod.POST)
-    public String resetPassowrd(@ModelAttribute @Validated ResetPasswordForm resetPasswordForm, BindingResult bindingResult, Model model) {
+    public String resetPassword(@ModelAttribute @Validated ResetPasswordForm resetPasswordForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             try {
                 tokenService.validatePasswordResetToken(resetPasswordForm.getResetPasswordToken());

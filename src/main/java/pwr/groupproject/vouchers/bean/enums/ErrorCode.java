@@ -1,7 +1,7 @@
 package pwr.groupproject.vouchers.bean.enums;
 
 public enum ErrorCode {
-    WRONG_USERNAME(0),NOT_ACTIVATED(1),WRONG_PASSWORD(2);
+    WRONG_USERNAME(0), NOT_ACTIVATED(1), WRONG_PASSWORD(2);
 
     private int status;
 
@@ -13,8 +13,8 @@ public enum ErrorCode {
         return status;
     }
 
-    public static ErrorCode getCodeByStatus(int status){
-        switch (status){
+    public static ErrorCode getCodeByStatus(int status) {
+        switch (status) {
             case 0:
                 return WRONG_USERNAME;
             case 1:

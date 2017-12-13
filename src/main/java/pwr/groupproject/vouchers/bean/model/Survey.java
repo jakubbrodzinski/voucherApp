@@ -82,8 +82,6 @@ public class Survey {
     }
 
     public boolean isActive() {
-        if (voucher == null)
-            return false;
-        return voucher.getCodes().stream().filter(voucherCode -> voucherCode.getAmmountOfUses() > 0).count() > 0;
+        return voucher != null && voucher.getCodes().stream().anyMatch(vc -> vc.getAmmountOfUses() > 0);
     }
 }

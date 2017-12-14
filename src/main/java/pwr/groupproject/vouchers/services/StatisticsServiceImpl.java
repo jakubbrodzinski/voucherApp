@@ -1,6 +1,7 @@
 package pwr.groupproject.vouchers.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         this.companySurveyDao=companySurveyDao;
     }
 
+    @Cacheable("surveyStat")
     @Override
     public SurveyStatisticsDto getSurveysStatistics(int surveyId) {
         Collection<AnsweredSurvey> answeredSurveys = getAllAnsweredSurveysWithDetails(surveyId);
@@ -113,14 +115,15 @@ public class StatisticsServiceImpl implements StatisticsService {
         return surveyStatisticsDto;
     }
 
-    @Override
     @Transactional(readOnly = true)
+    @Override
     public Collection<AnsweredSurvey> getAllAnsweredSurveysWithDetails(int surveyId) {
         return companySurveyDao.getAllResultsOfSurveyWithDetails(surveyId);
     }
 
-    @Override
+    @Cacheable("ansList")
     @Transactional(readOnly = true)
+    @Override
     public Collection<AnsweredSurveyDto> getAllAnsweredSurveys(int surveyId) {
         return companySurveyDao.getAllResultsOfSurvey(surveyId).stream().map(r->new AnsweredSurveyDto(r.getId(),r.getUser().getAge(),r.getUser().getCountry(),r.getDate())).collect(Collectors.toList());
     }

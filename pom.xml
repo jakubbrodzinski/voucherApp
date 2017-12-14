@@ -20,6 +20,7 @@
         <common.codecs>1.11</common.codecs>
         <jackson.version>2.9.2</jackson.version>
         <caffeine.cache.version>2.6.0</caffeine.cache.version>
+        <tomcat.embed.core>9.0.2</tomcat.embed.core>
     </properties>
 
     <groupId>pwr.groupproject.vouchers</groupId>
@@ -186,7 +187,7 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-el</artifactId>
-            <version>9.0.1</version>
+            <version>${tomcat.embed.core}</version>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>

@@ -20,7 +20,7 @@ public class CacheConfiguration {
 
     @Bean
     public CaffeineSpec caffeineSpec(){
-        CaffeineSpec caffeineSpec=CaffeineSpec.parse("expireAfterAccess=2m");
+        CaffeineSpec caffeineSpec=CaffeineSpec.parse("expireAfterAccess=5m");
         return caffeineSpec;
     }
 }

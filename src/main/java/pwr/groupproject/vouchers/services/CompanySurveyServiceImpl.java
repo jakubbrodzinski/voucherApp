@@ -3,6 +3,7 @@ package pwr.groupproject.vouchers.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.message.MessageBuilder;
 import org.springframework.binding.message.MessageContext;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -191,7 +192,7 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
         return messageContext.hasErrorMessages() ? new EventFactorySupport().error(this) : new EventFactorySupport().success(this);
     }
 
-    //TO-DO
+    @CacheEvict(value = {"surveyStat","ansList"},key = "#surveyId")
     @Override
     public VoucherCodeDto confirmAnsweringSurvey(Integer surveyId, AnsweredSurveyForm answeredSurveyForm, RequestContext requestContext) {
         HttpSession httpSession = ((HttpServletRequest) requestContext.getExternalContext().getNativeRequest()).getSession(true);

@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pwr.groupproject.vouchers.bean.dto.QuestionDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyStatisticsDto;
 import pwr.groupproject.vouchers.bean.dto.answered.AnsweredSurveyDto;
@@ -200,7 +201,7 @@ public class UserCompanyController {
     @ResponseBody
     public String newSurvey(@RequestBody SurveyDto surveyDto, @AuthenticationPrincipal UserCompany userCompany, HttpServletResponse httpServletResponse) {
         try {
-            if(surveyDto.getSurveyName().length()==0 || surveyDto.getQuestions().stream().anyMatch(u->u.getQuestionBody().length()==0)){
+            if(surveyDto.getSurveyName() == null || surveyDto.getSurveyName().isEmpty() || surveyDto.getQuestions().stream().map(QuestionDto::getQuestionBody).anyMatch(u->u==null || u.isEmpty())){
                 httpServletResponse.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
                 return "NOT";
             }

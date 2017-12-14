@@ -200,6 +200,10 @@ public class UserCompanyController {
     @ResponseBody
     public String newSurvey(@RequestBody SurveyDto surveyDto, @AuthenticationPrincipal UserCompany userCompany, HttpServletResponse httpServletResponse) {
         try {
+            if(surveyDto.getSurveyName().length()==0 || surveyDto.getQuestions().stream().anyMatch(u->u.getQuestionBody().length()==0)){
+                httpServletResponse.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+                return "NOT";
+            }
             companySurveyService.addSurvey(surveyDto, userCompany);
             httpServletResponse.setStatus(HttpServletResponse.SC_CREATED);
             return "OK";

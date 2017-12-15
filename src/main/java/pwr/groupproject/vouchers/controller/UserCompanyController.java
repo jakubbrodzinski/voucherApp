@@ -369,7 +369,7 @@ public class UserCompanyController {
         voucher.setStartDate(voucherForm.getStartDate());
         voucher.setEndDate(voucherForm.getEndDate());
         companySurveyService.addVoucher(voucher, surveyId);
-        return "redirect:/my_account/surveys";
+        return "redirect:/my_account";
     }
     //endregion
     //endregion

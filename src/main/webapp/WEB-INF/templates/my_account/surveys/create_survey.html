@@ -27,6 +27,7 @@
                         <h3 class="mx-auto mt-2 display-3">Survey creation</h3>
                         <hr>
                         <input id="survey_name" class="form-control form-control-lg mx-auto mt-3 mb-3" type="text" placeholder="Enter the survey name">
+                        <input id="survey_description" class="form-control form-control-lg mx-auto mt-3 mb-3" type="text" placeholder="Enter the survey description">
                         <h4 class="display-4">Add question</h4>
                         <hr>
                         <!-- Nav tabs -->
@@ -116,6 +117,9 @@
                     </div>
                     <div class="card-body">
                         <h3 id="previewSurveyName" class="text-center text-light my-3 mx-auto"></h3>
+                        <div class="card-body" style="background-color: #007D65">
+                            <h4 id="previewSurveyDescription" class="text-light lead text-center"></h4>
+                        </div>
                         <ul id="previewListGroup" class="list-group">
 
                         </ul>
@@ -156,6 +160,9 @@
         $("#survey_name").change(function() {
             $('#previewSurveyName').html($("#survey_name").val());
         });
+        $("#survey_description").change(function() {
+            $('#previewSurveyDescription').html($("#survey_description").val());
+        });
     });
 
     $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
@@ -166,8 +173,9 @@
         });
     });
 
-    function Survey(surveyName, questions) {
+    function Survey(surveyName, surveyDescription, questions) {
         this.surveyName = surveyName;
+        this.surveyDescription = surveyDescription;
         this.questions = questions;
     }
 
@@ -262,7 +270,8 @@
 
     function addSurvey() {
         var surveyName = $('#survey_name').val();
-        var survey = new Survey(surveyName, questions);
+        var surveyDescription = $('#survey_description').val();
+        var survey = new Survey(surveyName, surveyDescription, questions);
         if(validateInput(survey)) {
             console.log(JSON.stringify(survey));
             var xhr = new XMLHttpRequest();
@@ -272,7 +281,7 @@
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == XMLHttpRequest.DONE) {
                     if(xhr.responseText === "OK") {
-                        window.location.replace("/my_account/home?success=1");
+                        window.location.replace("/my_account?success=1");
                     }
                     else {
                         $('#warningModalBody').html('Adding survey not successful. Try again.');
@@ -292,6 +301,11 @@
     function validateInput(survey) {
         if(survey.surveyName === "") {
             $('#warningModalBody').html('Survey\'s name is not specified.');
+            $('#warningModal').modal('show');
+            return false;
+        }
+        if(survey.surveyDescription === "") {
+            $('#warningModalBody').html('Survey\'s description is not specified.');
             $('#warningModal').modal('show');
             return false;
         }

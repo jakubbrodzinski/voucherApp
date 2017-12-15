@@ -14,6 +14,13 @@
 <body class="defaultColor">
 <div th:insert="/fragments/dashboard.html :: dashboard"></div>
 <div class="container my-5 pt-5">
+
+    <div class="alert alert-success alert-dismissible fade show my-5 mx-auto" role="alert" th:if="${(param.success != null) and (param.success[0] == '1')}">
+        <strong>Survey added successfully!</strong> You should add a Voucher to it right now.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
     <div class="row">
         <div class="col">
             <a class="btn btn-outline-light btn-lg float-right" th:href="@{/my_account/surveys/add}">Add survey</a>

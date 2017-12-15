@@ -11,11 +11,10 @@
     <title>Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body class="defaultColor text-light text-center">
+<body class="defaultColor text-center">
 <nav th:insert="/fragments/dashboard.html :: dashboard"></nav>
-<h1 class="display-1 mt-5">Witaj!</h1>
 <div class="container">
-    <div class="my-5 mx-auto" th:if="${(param.success != null) and (param.success[0] == '1')}">
+    <div class="my-5 mx-auto text-light " th:if="${(param.success != null) and (param.success[0] == '1')}">
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <strong>Survey added successfully!</strong> You should add a Voucher to it right now.
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -23,6 +22,42 @@
             </button>
         </div>
     </div>
+
+    <div class="mx-auto my-5 pt-5 block-center">
+        <div class="row">
+            <div class="col mx-auto m-2">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col mx-auto m-2">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mx-auto m-2">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col mx-auto m-2">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 </body>

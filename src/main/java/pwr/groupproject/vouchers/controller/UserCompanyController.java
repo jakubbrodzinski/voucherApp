@@ -170,7 +170,7 @@ public class UserCompanyController {
 
     //region Survey Management
     //region Viewing Surveys
-    @RequestMapping(value = {"/","/home"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/","/home", ""}, method = RequestMethod.GET)
     public String surveys(Model model, @AuthenticationPrincipal UserCompany userCompany) {
         Company companyWithSurveys = companySurveyService.getCompanyWithSurveys(userCompany);
         model.addAttribute("surveyList", companyWithSurveys.getCompanysSurveys());
@@ -192,7 +192,7 @@ public class UserCompanyController {
     public String deleteSurvey(@PathVariable("id") int surveyId, Model model, @AuthenticationPrincipal UserCompany userCompany) throws WrongSurveyIdException {
         Survey survey = companySurveyService.checkIfSurveyExists(surveyId, userCompany);
         companySurveyService.deleteSurvey(survey.getId());
-        return "redirect:/"+"my_account/surveys";
+        return "redirect:/"+"my_account/";
     }
     //endregion
 

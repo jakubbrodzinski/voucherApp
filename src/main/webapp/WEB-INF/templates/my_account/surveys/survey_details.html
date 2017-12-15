@@ -24,6 +24,9 @@
         </div>
 
         <h3 class="display-3 text-light text-center" th:text="${'Survey name: '+survey.surveyName}">Name: surveyName</h3>
+        <div class="card-body">
+            <p class="lead text-center text-light" th:text="${'Survey description: ' +survey.surveyDescription}">xyz</p>
+        </div>
         <p class="lead text-light" th:text="${'Created on: '+survey.creationDate}">1.01.1010 21:37</p>
 
         <div th:if="${survey.voucher != null}">
@@ -46,14 +49,7 @@
                         <div th:text="${'Additional info: '+survey.voucher.voucherDescription}">Additional data here</div>
                     </div>
                 </div>
-                <div class="alert alert-info">
-                    <span>
-                        <p class="d-inline-block lead"><strong>Survey description</strong></p>
-                         <div class="collapse show" >
-                             <span th:text="${survey.surveyDescription}">xyz</span>
-                         </div>
-                    </span>
-                </div>
+        </div>
         <br>
         <div th:each="q : ${survey.questions}">
             <div class="card mx-auto my-5 bg-light border-info" style="width: 50rem;" >

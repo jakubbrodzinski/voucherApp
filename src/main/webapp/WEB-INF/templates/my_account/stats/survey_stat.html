@@ -14,7 +14,8 @@
 <nav th:insert="/fragments/dashboard.html :: dashboard"></nav>
 <div class="container my-5 pt-5">
 
-    <h3 class="display-3 text-light text-center mb-3" th:utext="${'Survey name: <b>'+stats.surveyName+'</b>'}">Name: surveyName</h3>
+    <h3 class="display-3 text-light text-center mb-3" th:text="${'Survey name: '+stats.surveyName}">Name: surveyName</h3>
+
     <!--<p class="lead text-light" th:text="${'Created on: '+survey.creationDate}">1.01.1010 21:37</p>-->
 
         <div class="alert alert-info">

@@ -20,10 +20,15 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h3 class="float-left font-weight-light text-dark" th:text="${'Answered survey ' + answeredSurvey.Id}">SurveyID</h3>
+                            <i class="fa fa-pencil-square-o text-primary fa-2x"></i>
                         </div>
                         <div class="col">
                             <p class="text-muted float-right" th:text="${'Answered on: ' + answeredSurvey.date}">Date</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="text-center font-weight-light text-dark">Survey answered by:</h3>
                         </div>
                     </div>
                     <hr>

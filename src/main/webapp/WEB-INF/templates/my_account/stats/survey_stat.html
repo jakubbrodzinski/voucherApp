@@ -29,7 +29,11 @@
             </div>
         </div>
 
-    <a class="btn btn-primary mx-auto" th:href="@{${'/my_account/statistics/'+surveyId}+'/list'}">See all answered surveys</a>
+    <div class="row mt-5">
+        <div class="col text-center">
+            <a class="btn btn-primary btn-lg" th:href="@{${'/my_account/statistics/'+surveyId}+'/list'}">See all answered surveys</a>
+        </div>
+    </div>
 
     <br>
     <div th:if="${#lists.size(stats.questionWithAnswersList)==0}">

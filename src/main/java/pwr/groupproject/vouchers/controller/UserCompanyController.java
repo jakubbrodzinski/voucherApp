@@ -382,6 +382,7 @@ public class UserCompanyController {
         }
         SurveyStatisticsDto stats = statisticsService.getSurveysStatistics(surveyId);
         model.addAttribute("stats", stats);
+        model.addAttribute("surveyId", surveyId);
         return "my_account/stats/survey_stat.html";
     }
     //endregion
@@ -393,7 +394,7 @@ public class UserCompanyController {
         }
         Collection<AnsweredSurveyDto> listAns = statisticsService.getAllAnsweredSurveys(surveyId);
         model.addAttribute("list", listAns);
-        return "redirect:/";
+        return "my_account/stats/answered_surveys_list.html";
     }
 
     @RequestMapping(value = "/statistics/{id}/answers",method = RequestMethod.GET)

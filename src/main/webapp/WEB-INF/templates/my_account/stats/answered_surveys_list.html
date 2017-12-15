@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}" />
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<head>
+    <meta charset="UTF-8">
+    <title>Answered surveys</title>
+</head>
+<body class="defaultColor">
+<nav th:insert="/fragments/dashboard.html :: dashboard"></nav>
+    <div class="container">
+        <h3 class="display-3 text-center text-light my-5 pt-5">Answered surveys:</h3>
+        <div th:each="answeredSurvey : ${list}">
+            <a th:href="@{${'/my_account/statistics/'+answeredSurvey.Id}+'/answers'}">
+            <div class="card mx-auto my-5 bg-light border-infos hoverable">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="float-left font-weight-light text-dark" th:text="${'Answered survey ' + answeredSurvey.Id}">SurveyID</h3>
+                        </div>
+                        <div class="col">
+                            <p class="text-muted float-right" th:text="${'Answered on: ' + answeredSurvey.date}">Date</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col">
+                            <div class="float-right">
+                                <p class="lead d-inline text-dark">Age: </p>
+                                <p class="lead d-inline font-weight-bold text-primary" th:text="${answeredSurvey.age}">Age</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="float-left">
+                                <p class="lead d-inline text-dark">Country: </p>
+                                <p class="lead d-inline font-weight-bold text-primary" th:text="${answeredSurvey.country}">Country</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<style>
+    .hoverable {
+        -webkit-transition: 0.5s;
+    }
+
+    .hoverable:hover {
+        webkit-transform: scale(1.05);
+        -ms-transform: scale(1.05);
+        transform: scale(1.05);
+    }
+</style>

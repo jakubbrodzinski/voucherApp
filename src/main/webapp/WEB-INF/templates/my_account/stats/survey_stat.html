@@ -23,12 +23,13 @@
                         <p class="d-inline-block lead"><strong>Survey statistics</strong></p>
                     </span>
             <div>
-                <div th:utext="${'Surveys filled <b>'+stats.ammount}+'</b> times.'">JD</span></div>
-                <div th:utext="${'Average age is <b>'+#numbers.formatDecimal(stats.age, 1, 'COMMA', 2, 'POINT')}+'</b>'">Pawel D. lubi disa</div>
-                <div th:utext="${'Survey most popular in: <b>'+stats.country[0]+'</b>, <b>'+stats.country[1]+'</b> and <b>'+stats.country[2]}+'</b>'">Orcza grota</div>
+                <div th:text="${'Surveys filled '+stats.ammount}+' times.'">JD</span></div>
+                <div th:text="${'Average age is '+#numbers.formatDecimal(stats.age, 1, 'COMMA', 2, 'POINT')}">Pawel D. lubi disa</div>
+                <div th:text="${'Survey most popular in: '+stats.country[0]+', '+stats.country[1]+' and '+stats.country[2]}">Orcza grota</div>
             </div>
         </div>
 
+    <a class="btn btn-primary mx-auto" th:href="@{${'/my_account/statistics/'+surveyId}+'/list'}">See all answered surveys</a>
 
     <br>
     <div th:if="${#lists.size(stats.questionWithAnswersList)==0}">

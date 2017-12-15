@@ -394,6 +394,7 @@ public class UserCompanyController {
         }
         Collection<AnsweredSurveyDto> listAns = statisticsService.getAllAnsweredSurveys(surveyId);
         model.addAttribute("list", listAns);
+        model.addAttribute("surveyId", surveyId);
         return "my_account/stats/answered_surveys_list.html";
     }
 
@@ -409,7 +410,7 @@ public class UserCompanyController {
             return "redirect:/";
         }
         model.addAttribute("details",answeredSurveyDto);
-        return  "redirect:/";
+        return  "my_account/stats/answered_survey_details.html";
     }
 }
 

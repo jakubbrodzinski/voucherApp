@@ -15,7 +15,7 @@
     <div class="container">
         <h3 class="display-3 text-center text-light my-5 pt-5">Answered surveys:</h3>
         <div th:each="answeredSurvey : ${list}">
-            <a th:href="@{${'/my_account/statistics/'+answeredSurvey.Id}+'/answers'}">
+            <a th:href="@{${'/my_account/statistics/'+surveyId}+'/answers?as=' + ${answeredSurvey.Id}}">
             <div class="card mx-auto my-5 bg-light border-infos hoverable">
                 <div class="card-body">
                     <div class="row">

@@ -17,21 +17,21 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarLogged">
-                <ul class="navbar-nav ml-auto w-100 justify-content-end">
+                <ul class="navbar-nav mx-auto w-100 justify-content-end">
 
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{/my_account/account_panel}">Account panel</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" th:href="@{/my_account/}">Manage surveys</a>
                     </li>
-
-
+                    <li class="nav-item active">
+                        <form class="form-inline my-2 my-lg-0 mx-auto" method="post" th:action="@{/my_account/logout}">
+                            <a class="nav-link active" href="#" onclick="this.parentNode.submit();">Logout</a>
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        </form>
+                    </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0" method="post" th:action="@{/my_account/logout}">
-                    <a class="navbar-brand" href="#" onclick="this.parentNode.submit();">Logout</a>
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                </form>
             </div>
         </div>
         <div sec:authorize="!hasRole('COMPANY')" class="d-flex w-100">
@@ -43,13 +43,13 @@
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{/}">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" th:href="@{/companies}">Complete survey</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" th:href="@{/sign_up}">Sign up</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" th:href="@{/sign_in}">Sign in</a>
                     </li>
 

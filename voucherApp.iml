@@ -43,9 +43,6 @@
     <orderEntry type="library" name="org.thymeleaf:thymeleaf:Release1" level="project" />
     <orderEntry type="library" name="org.thymeleaf:thymeleaf:Release2" level="project" />
     <orderEntry type="library" name="org.thymeleaf:thymeleaf:Release3" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-cache:1.5.9.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-el:9.0.2" level="project" />
-    <orderEntry type="library" name="Maven: com.github.ben-manes.caffeine:caffeine:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:1.5.9.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:1.5.9.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.5.9.RELEASE" level="project" />

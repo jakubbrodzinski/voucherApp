@@ -15,12 +15,10 @@ import java.util.Date;
 public class VoucherForm {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
     private Date startDate;
     @NotNull
     @Future
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
     private Date endDate;
     @NotNull
     private DiscountType discountType;

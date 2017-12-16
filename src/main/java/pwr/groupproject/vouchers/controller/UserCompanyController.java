@@ -1,6 +1,7 @@
 package pwr.groupproject.vouchers.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,10 +10,10 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pwr.groupproject.vouchers.bean.dto.QuestionDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyDto;
 import pwr.groupproject.vouchers.bean.dto.SurveyStatisticsDto;
 import pwr.groupproject.vouchers.bean.dto.answered.AnsweredSurveyDto;
@@ -41,14 +42,16 @@ public class UserCompanyController {
     private final Pbkdf2PasswordEncoder passwordEncoder;
     private final MessageSource messageSource;
     private final StatisticsService statisticsService;
+    private final Validator validator;
 
     @Autowired
-    public UserCompanyController(CompanySurveyService companySurveyService, UserCompanyService userCompanyService, Pbkdf2PasswordEncoder passwordEncoder, MessageSource messageSource, StatisticsService statisticsService) {
+    public UserCompanyController(CompanySurveyService companySurveyService, UserCompanyService userCompanyService, Pbkdf2PasswordEncoder passwordEncoder, MessageSource messageSource, StatisticsService statisticsService,@Qualifier("localValidatorFactoryBean") Validator validator) {
         this.companySurveyService = companySurveyService;
         this.userCompanyService = userCompanyService;
         this.passwordEncoder = passwordEncoder;
         this.messageSource = messageSource;
         this.statisticsService = statisticsService;
+        this.validator=validator;
     }
 
     //region Account Management
@@ -199,9 +202,9 @@ public class UserCompanyController {
     //region Adding Survey
     @RequestMapping(value = "/surveys/add", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public String newSurvey(@RequestBody SurveyDto surveyDto, @AuthenticationPrincipal UserCompany userCompany, HttpServletResponse httpServletResponse) {
+    public String newSurvey(@Validated @RequestBody SurveyDto surveyDto,BindingResult bindingResult, @AuthenticationPrincipal UserCompany userCompany, HttpServletResponse httpServletResponse) {
         try {
-            if(surveyDto.getSurveyName() == null || surveyDto.getSurveyName().isEmpty() || surveyDto.getQuestions().stream().map(QuestionDto::getQuestionBody).anyMatch(u->u==null || u.isEmpty())){
+            if(bindingResult.hasErrors()){
                 httpServletResponse.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
                 return "NOT";
             }

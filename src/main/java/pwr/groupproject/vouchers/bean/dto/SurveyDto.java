@@ -4,6 +4,8 @@ import pwr.groupproject.vouchers.bean.model.PossibleAnswers;
 import pwr.groupproject.vouchers.bean.model.Question;
 import pwr.groupproject.vouchers.bean.model.Survey;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,7 +15,11 @@ public class SurveyDto implements Serializable {
 
     private static final long serialVersionUID = 1822452225511114741L;
 
+    @Pattern(regexp = "[\\pLA-Za-z0-9\\-/ ,.!?:]*")
+    @NotBlank
     private String surveyName;
+    @Pattern(regexp = "[\\pLA-Za-z0-9\\-/ ,.!?:]*")
+    @NotBlank
     private String surveyDescription;
     private Collection<QuestionDto> questions = new ArrayList<>();
 

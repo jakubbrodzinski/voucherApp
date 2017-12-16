@@ -23,9 +23,31 @@
                         <p class="d-inline-block lead"><strong>Survey statistics</strong></p>
                     </span>
             <div>
-                <div th:text="${'Surveys filled '+stats.ammount}+' times.'">JD</span></div>
-                <div th:text="${'Average age is '+#numbers.formatDecimal(stats.age, 1, 'COMMA', 2, 'POINT')}">Pawel D. lubi disa</div>
-                <div th:text="${'Survey most popular in: '+stats.country[0]+', '+stats.country[1]+' and '+stats.country[2]}">Orcza grota</div>
+                <div class="row">
+                    <div class="col">
+                        <div class="d-inline">Surveys filled </div>
+                        <div class="d-inline font-weight-bold" th:text="${stats.ammount}">amount of fills</div>
+                        <div class="d-inline"> times.</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="d-inline">Average age is </div>
+                        <div class="lead d-inline font-weight-bold" th:text="${#numbers.formatDecimal(stats.age, 1, 'COMMA', 2, 'POINT')}">Average age</div>
+                        <div class="d-inline">.</div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="d-inline">Survey most popular in: </div>
+                        <div class="d-inline font-weight-bold" th:text="${stats.country[0]}">country 1</div>
+                        <div class="d-inline">, </div>
+                        <div class="d-inline font-weight-bold" th:text="${stats.country[1]}">country 2</div>
+                        <div class="d-inline"> and </div>
+                        <div class="d-inline font-weight-bold" th:text="${stats.country[2]}">country 3</div>
+                        <div class="d-inline">.</div>
+                    </div>
+                </div>
             </div>
         </div>
 

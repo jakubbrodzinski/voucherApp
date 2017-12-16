@@ -1,26 +1,62 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
+<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}" />
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+       <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <nav th:fragment="dashboard" class="navbar fixed-top navbar-expand-md navbar-dark bg-dark d-flex flex-row-reverse">
-        <form method="post" th:action="@{/my_account/logout}">
-            <a class="navbar-brand" href="#" onclick="this.parentNode.submit();">Logout</a>
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        </form>
-        <!--<a class="navbar-brand" th:href="@{/my_account/statistics}">Statistics</a>-->
-        <a class="navbar-brand" th:href="@{/my_account/}">Manage surveys</a>
-        <a class="navbar-brand" th:href="@{/my_account/account_panel}">Account Panel</a>
+    <nav th:fragment="dashboard" class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark ">
+        <div sec:authorize="hasRole('COMPANY')" class="d-flex w-100">
+            <a class="navbar-brand fa fa-arrow-left fa-lg float-left text-light my-auto" onclick="history.go(-1);"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarLogged" aria-controls="navbarLogged" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarLogged">
+                <ul class="navbar-nav ml-auto w-100 justify-content-end">
+
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/my_account/account_panel}">Account panel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/my_account/}">Manage surveys</a>
+                    </li>
+
+
+                </ul>
+                <form class="form-inline my-2 my-lg-0" method="post" th:action="@{/my_account/logout}">
+                    <a class="navbar-brand" href="#" onclick="this.parentNode.submit();">Logout</a>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                </form>
+            </div>
+        </div>
+        <div sec:authorize="!hasRole('COMPANY')" class="d-flex w-100">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNotLogged" aria-controls="navbarNotLogged" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNotLogged">
+                <ul class="navbar-nav ml-auto w-100 justify-content-end">
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/companies}">Complete survey</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/sign_up}">Sign up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/sign_in}">Sign in</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
     </nav>
-    <nav th:fragment="userDashboard" class="navbar fixed-top navbar-expand-md navbar-dark bg-dark d-flex flex-row-reverse">
-        <a class="navbar-brand" th:href="@{/sign_in}">Sign in</a>
-        <a class="navbar-brand" th:href="@{/sign_up}">Sign up</a>
-        <a class="navbar-brand" th:href="@{/}">Home</a>
-        <a class="navbar-brand" th:href="@{/companies}">Complete Survey</a>
-    </nav>
+
 </body>
 </html>

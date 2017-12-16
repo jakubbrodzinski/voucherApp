@@ -20,6 +20,7 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.webflow.mvc.servlet.FlowHandlerAdapter;
 import org.springframework.webflow.mvc.servlet.FlowHandlerMapping;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -27,6 +28,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import pwr.groupproject.vouchers.configuration.filter.VoucherCodeFilter;
 
+import java.util.Collections;
 import java.util.Locale;
 
 @Configuration
@@ -58,10 +60,15 @@ public class WebConfiguration implements WebMvcConfigurer, ApplicationContextAwa
 
     private SpringTemplateEngine templateEngine() {
         SpringTemplateEngine engine = new SpringTemplateEngine();
+        engine.setAdditionalDialects(Collections.singleton(springSecurityDialect()));
         engine.setEnableSpringELCompiler(true);
         engine.setTemplateResolver(templateResolver());
         engine.setMessageSource(messageSource());
         return engine;
+    }
+
+    private SpringSecurityDialect springSecurityDialect(){
+        return new SpringSecurityDialect();
     }
 
     private ITemplateResolver templateResolver() {

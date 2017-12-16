@@ -18,7 +18,7 @@
 
 <html>
 <body class="defaultColor">
-<nav th:insert="/fragments/dashboard.html :: userDashboard"></nav>
+<nav th:insert="/fragments/dashboard.html :: dashboard"></nav>
 <div th:if="${param.acc!=null}">
     <th:block th:switch="${param.acc[0]}">
         <div class="my-5 mx-auto" th:case="${'1'}">

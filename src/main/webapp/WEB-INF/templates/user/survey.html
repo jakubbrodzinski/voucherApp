@@ -11,7 +11,7 @@
     <title th:text="'Survey ' + ${survey.surveyName}">Survey title</title>
 </head>
 <body class="defaultColor">
-<nav th:insert="/fragments/dashboard.html :: userDashboard"></nav>
+<nav th:insert="/fragments/dashboard.html :: dashboard"></nav>
     <div class="container">
 
         <h2 class="display-2 text-light text-center mt-5 pt-5" th:text="${survey.surveyName}">Template survey description</h2>

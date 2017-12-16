@@ -200,7 +200,10 @@ public class CompanySurveyServiceImpl implements CompanySurveyService {
         httpSession.removeAttribute("vCode");
         //httpSession.setAttribute("vCode", null);
         VoucherCode voucherCode = deployVoucherCode(vCodeId);
-        mailService.sendVoucherCodeEmail(voucherCode, answeredSurveyForm.getEmail());
+        String email = answeredSurveyForm.getEmail();
+        if(email != null && !email.equals("")) {
+            mailService.sendVoucherCodeEmail(voucherCode, email);
+        }
         return new VoucherCodeDto(voucherCode);
     }
 

@@ -149,8 +149,8 @@
                                 <p class="alert alert-danger mt-3" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></p>
                             </div>
                     </div>
-                    <input th:field="*{email}" class="form-control form-control-lg mx-auto mt-4" type="text" placeholder="Email"
-                           data-toggle="tooltip" data-placement="left" title="We will send you a voucher by e-mail." >
+                    <input th:field="*{email}" class="form-control form-control-lg mx-auto mt-4" type="text" placeholder="Email (optional)"
+                           data-toggle="tooltip" data-placement="left" title="Email is optional! We won't store it or give it away to a third party. If you supply it, it will be only used to send you a voucher." >
                     <p class="alert alert-danger mt-3" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 
                 <p class="card-text"></p>

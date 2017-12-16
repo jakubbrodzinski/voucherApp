@@ -17,7 +17,6 @@ public class AnsweredSurveyForm implements Serializable {
     @Valid
     private AnswerDto[] answers;
     @Email
-    @NotBlank
     private String email;
     @Pattern(regexp = "[\\pLa-zA-Z]+")
     private String country;

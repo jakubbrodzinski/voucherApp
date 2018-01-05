@@ -5,12 +5,10 @@
 
     <meta charset="utf-8">
 
-    <title>ANKIETYZACJA</title>
+    <title>Vouchers for everyone!</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/globalStyle.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}"/>
-    <script th:src="@{/js/jquery-3.2.1.min.js}"></script>
-    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -75,27 +73,27 @@
 <!-- Header -->
 <div class="container defaultColor">
     <div class="page-header">
-        <img class="img-fluid" th:src="@{images/logo.png}" alt="" style="width: 30%">
-        <h1 class="text-center text-white"><strong>SURVEYS</h1>
+        <img class="img-fluid" th:src="@{images/logo.png}" alt="" style="width: 20%">
+        <h1 class="text-center text-white title-text"><strong>SURVEYS</strong></h1>
         <hr>
-        <p class="text-center text-white">Place where u always get a reward after giving feedback.</p>
+        <h1 class="text-center text-white font-weight-light">Place where u always get a reward after giving feedback.</h1>
     </div>
 </div>
 
 <!-- About -->
 <div class="defaultColor">
-    <h2 class="text-center" style="font-family: CrazyPooch.ttf">benefits!</h2>
+    <h2 class="text-center benefits" style="font-family: CrazyPooch.ttf">benefits!</h2>
     <div class="row" style="font-family: 'Courier New', Monospace">
         <div class="col-sm-6">
-            <div class="card" style="height: 60vh">
+            <div class="card" style="height: 45vh">
                 <div class="card-block p-5">
-                    <h4 class="card-title text-center text-dark display-4">Why is it worth creating an account?</h4>
+                    <h1 class="card-title text-center text-dark font-weight-light">Why is it worth creating an account?</h1>
                     <hr>
                     <p class="card-text text-center lead">
 
                         <blockquote class="blockquote text-right mt-2">
                             <small class="mb-0">That's a great way to learn what your customer expects from you.</small>
-                            <footer class="blockquote-footer">Przemysław from the other team</footer>
+                            <footer class="blockquote-footer">Guy from the other team</footer>
                         </blockquote>
 
 
@@ -111,9 +109,9 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <div class="card" style="height: 60vh">
+            <div class="card" style="height: 45vh">
                 <div class="card-block p-5">
-                    <h4 class="card-title text-center display-4">Why should you fill out the survey?</h4>
+                    <h1 class="card-title text-center font-weight-lights">Why should you fill out the survey?</h1>
                     <hr>
                     <p class="card-text text-center lead">
                         <blockquote class="blockquote text-right mt-2">
@@ -125,7 +123,7 @@
 
                     </p>
 
-                    <div class="text-center">
+                    <div class="text-center mt-5">
                         <a th:href="@{/companies}" class="btn btn-primary btn-lg">
                             Complete a survey
                         </a>
@@ -147,7 +145,6 @@
                 <h5 class="title">Location</h5>
                 <ul>
                     <li>voucherapp</li>
-                    <li>ul. xyz</li>
                     <li>Wrocław, Poland</li>
                 </ul>
             </div>
@@ -158,8 +155,7 @@
                 <h5 class="title">Contact</h5>
                 <ul>
                     <li>voucherapp@gmail.com</li>
-                    <li>facebook.com/voucherapp</li>
-                    <li>tel. 71 4812345</li>
+                    <li>github.com/...</li>
                 </ul>
             </div>
             <!--/.Second column-->
@@ -167,20 +163,14 @@
     </div>
     <!--/.Footer Links-->
 
-    <!--Copyright-->
-    <div class="footer-copyright">
-        <div class="container-fluid text-center">
-            © 2017 Copyright Team Pżemol
-        </div>
-    </div>
-    <!--/.Copyright-->
 
 </footer>
 <!--/.Footer-->
 
 
 </body>
-
+<script th:src="@{/js/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </html>
 
 <style>
@@ -197,7 +187,7 @@
         margin: 10rem auto 5rem;
     }
 
-    h1 {
+    .title-text {
         font-size: 6rem;
         font-family: "CRAZY RAS";
     }
@@ -222,12 +212,12 @@
         font-size: 3.5rem;
     }
 
-    h2 {
-        padding: 8rem 0 3rem;
+    .benefits {
+        padding: 3rem 0 3rem;
         font-family: "CrazyPooch";
         text-transform: uppercase;
         text-align: center;
-        font-size: 5em;
+        font-size: 3.5em;
         color: white;
 
     }

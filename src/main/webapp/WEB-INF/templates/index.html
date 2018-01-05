@@ -18,6 +18,7 @@
 
 <!-- Navigation -->
 <nav th:insert="/fragments/dashboard.html :: dashboard"></nav>
+<div class="container pt-5">
 <div th:if="${param.acc!=null}">
     <th:block th:switch="${param.acc[0]}">
         <div class="my-5 mx-auto" th:case="${'1'}">
@@ -69,6 +70,7 @@
             </div>
         </div>
     </th:block>
+</div>
 </div>
 <!-- Header -->
 <div class="container defaultColor">

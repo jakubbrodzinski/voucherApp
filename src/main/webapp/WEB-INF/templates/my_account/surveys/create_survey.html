@@ -158,10 +158,10 @@
     $(document).ready(function() {
         activeTab = $('#single_choice_tab').attr("id");
         $("#survey_name").change(function() {
-            $('#previewSurveyName').html($("#survey_name").val());
+            $('#previewSurveyName').text($("#survey_name").val());
         });
         $("#survey_description").change(function() {
-            $('#previewSurveyDescription').html($("#survey_description").val());
+            $('#previewSurveyDescription').text($("#survey_description").val());
         });
     });
 

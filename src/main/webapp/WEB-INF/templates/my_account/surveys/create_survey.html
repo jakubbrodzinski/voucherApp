@@ -342,8 +342,18 @@
     }
 
     function previewClosedQuestion(question, questionType, id) {
-        var questionName = question.questionBody;
-        var possibleAnswers = question.possibleAnswers;
+        var questionName = question.questionBody.toString();
+        questionName = questionName.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27')
+                .replace(/>/g, '&gt').replace(/\//g, '&#x2F');
+        var possibleAnswerA = question.possibleAnswers.possibleAnswerA.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27')
+            .replace(/>/g, '&gt').replace(/\//g, '&#x2F') ;
+        var possibleAnswerB = question.possibleAnswers.possibleAnswerB.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27')
+            .replace(/>/g, '&gt').replace(/\//g, '&#x2F') ;
+        var possibleAnswerC = question.possibleAnswers.possibleAnswerC.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27')
+            .replace(/>/g, '&gt').replace(/\//g, '&#x2F') ;
+        var possibleAnswerD = question.possibleAnswers.possibleAnswerD.toString().replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27')
+            .replace(/>/g, '&gt').replace(/\//g, '&#x2F') ;
+
         return '<li id="' + id +'" class="list-group-item list-group-item-action flex-column align-items-start mx-auto">' +
                 '<i class="fa fa-times float-right mb-3 text-danger" onclick="deleteQuestion(this)"></i>' +
                 '<i class="fa fa-arrow-down float-right mb-3 text-danger mr-3" onclick="moveDownQuestion(this)"></i>' +
@@ -354,18 +364,18 @@
                 '</div>' +
                 '<div class="row">\n' +
                 '    <div class="col-sm-6">\n' +
-                '      <p>' + possibleAnswers.possibleAnswerA + '</p>\n' +
+                '      <p>' + possibleAnswerA + '</p>\n' +
                 '    </div>\n' +
                 '    <div class="col-sm-6">\n' +
-                '      <p>' + possibleAnswers.possibleAnswerB + '</p>\n' +
+                '      <p>' + possibleAnswerB + '</p>\n' +
                 '    </div>\n' +
             '    </div>' +
                 '<div class="row">\n' +
                 '    <div class="col-sm-6">\n' +
-                '      <p>' + possibleAnswers.possibleAnswerC + '</p>\n' +
+                '      <p>' + possibleAnswerC + '</p>\n' +
                 '    </div>\n' +
                 '    <div class="col-sm-6">\n' +
-                '      <p>' + possibleAnswers.possibleAnswerD + '</p>\n' +
+                '      <p>' + possibleAnswerD + '</p>\n' +
                 '    </div>\n' +
             '    </div>' +
                 '</li>';

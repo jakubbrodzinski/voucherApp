@@ -1,0 +1,62 @@
+\documentclass[a4paper]{report}
+
+\usepackage[T1]{fontenc}
+\usepackage{titling}
+\usepackage[polish]{babel}
+\selectlanguage{polish}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{framed}
+\usepackage{enumerate}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\graphicspath{ {UML/} }
+\usepackage{listings}
+\lstset
+{ 
+    basicstyle=\small,
+    numbers=left,
+    stepnumber=1,
+    showstringspaces=false,
+    tabsize=1,
+    breaklines=true,
+    tabsize=2,
+    frame=single,
+}
+
+\usepackage{textcomp}
+\usepackage{float}
+\usepackage{gensymb}
+\usepackage{tabularx,ragged2e,booktabs,caption}
+\usepackage{subfigure}
+\usepackage{multicol,tabularx,capt-of}
+\usepackage{multirow}
+\usepackage{enumerate}
+
+\setlength{\droptitle}{+10em}
+\title{\huge
+  Projekt zespołowy \\
+  \large Aplikacja z kuponami}
+\author{Jakub Brodziński
+		\and
+		Arkadiusz Ziobrowski
+		\and
+		Paweł Drozdowski
+		\and
+		Przemysław Wypchał
+		\and
+		Szymon Świderski}
+\date{}
+
+\begin{document}
+\maketitle
+\input{wstep}
+
+\input{analizaproblemu}
+
+\input{projekt}
+
+\input{dokumentacjakodu}
+
+\end{document}

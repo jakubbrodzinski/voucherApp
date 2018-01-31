@@ -56,7 +56,7 @@
         </form>
         <form th:action="@{/my_account/surveys/} + ${surveyId} +@{/voucher/deleteCode}" method="post">
             <input type="hidden" name="codeId" th:value ="${code.getId()}">
-            <input class="form-control mt-2 mb-5" type="submit" value="iksik">
+            <input class="form-control mt-2 mb-5" type="submit" value="Remove">
         </form>
     </div>
         </div>

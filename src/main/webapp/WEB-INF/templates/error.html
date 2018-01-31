@@ -57,6 +57,10 @@
 <div class="container defaultColor">
     <img class ="img-fluid" th:src="@{/images/phone.png}" style="width: 35%">
     <h1 class="text-center text-dark" style="font-family: 'Courier New';">Unexpected error occurred, please contact us.</h1>
+    <div class="text-center">
+        <a class="btn btn-primary mx-auto" th:href="@{/}">Go to home page</a>
+    </div>
+
     <th:block th:if="${errDetails != null}">
         <div th:text="${errDetails}"></div>
     </th:block>

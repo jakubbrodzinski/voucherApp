@@ -9,4 +9,3 @@ Projekt powstał w Javie przy użyciu frameworka Spring, Hibernate i kilku innyc
 * [Jakub Brodziński](https://github.com/jakubbrodzinski)
 * [Arkadiusz Ziobrowski](https://github.com/arekziobrowski)
 * [Paweł Drozdowski](https://github.com/grubyghozt)
-* [Szymon Świderski](https://github.com/szymonn7)
